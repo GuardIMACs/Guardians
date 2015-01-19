@@ -13,11 +13,6 @@ ABaseUnit::ABaseUnit(const class FPostConstructInitializeProperties& PCIP)
 		Defense.Add(0.5f);
 }
 
-ABaseUnit* ABaseUnit::spawn(UWorld* world, const FVector& vec, const FRotator rot)
-{
-	return nullptr;
-}
-
 void ABaseUnit::Tick(float DeltaSeconds)
 {
 	if (CurrentLife <= 0)
@@ -30,9 +25,4 @@ void ABaseUnit::Tick(float DeltaSeconds)
 		Behavior->Tick(DeltaSeconds);
 	for (auto& atk : Attack)
 		atk->Tick(DeltaSeconds);
-}
-
-void ABaseUnit::OnDestroy()
-{
-
 }

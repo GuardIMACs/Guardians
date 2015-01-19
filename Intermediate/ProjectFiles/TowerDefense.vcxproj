@@ -43,8 +43,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Source\TowerDefense\Units\Voidling.cpp" />
-    <ClInclude Include="..\..\Source\TowerDefense\Units\Voidling.h" />
     <None Include="..\..\TowerDefense.uproject" />
     <None Include="..\..\Source\TowerDefense.Target.cs" />
     <None Include="..\..\Source\TowerDefenseEditor.Target.cs" />
@@ -63,10 +61,7 @@
     <ClInclude Include="..\..\Source\TowerDefense\Effects\BaseEffect.h" />
     <ClCompile Include="..\..\Source\TowerDefense\Effects\StandardEffect.cpp" />
     <ClInclude Include="..\..\Source\TowerDefense\Effects\StandardEffect.h" />
-    <ClCompile Include="..\..\Source\TowerDefense\Managers\MonsterManager.cpp" />
-    <ClCompile Include="..\..\Source\TowerDefense\Managers\TowerManager.cpp" />
-    <ClInclude Include="..\..\Source\TowerDefense\Managers\MonsterManager.h" />
-    <ClInclude Include="..\..\Source\TowerDefense\Managers\TowerManager.h" />
+    <ClCompile Include="..\..\Source\TowerDefense\Managers\UnitManager.cpp" />
     <ClCompile Include="..\..\Source\TowerDefense\Private\BaseAttack.cpp" />
     <ClCompile Include="..\..\Source\TowerDefense\Private\BaseUnit.cpp" />
     <ClCompile Include="..\..\Source\TowerDefense\Private\Defines.cpp" />
@@ -75,6 +70,7 @@
     <ClCompile Include="..\..\Source\TowerDefense\Private\TowerDefenseGameMode.cpp" />
     <ClCompile Include="..\..\Source\TowerDefense\Private\TowerDefenseHUD.cpp" />
     <ClCompile Include="..\..\Source\TowerDefense\Private\TowerDefenseProjectile.cpp" />
+    <ClInclude Include="..\..\Source\TowerDefense\Managers\UnitManager.h" />
     <ClInclude Include="..\..\Source\TowerDefense\Public\BaseAttack.h" />
     <ClInclude Include="..\..\Source\TowerDefense\Public\BaseUnit.h" />
     <ClInclude Include="..\..\Source\TowerDefense\Public\Defines.h" />
@@ -85,8 +81,14 @@
     <ClInclude Include="..\..\Source\TowerDefense\Public\TowerDefenseProjectile.h" />
     <None Include="..\..\Source\TowerDefense\Resources\Windows\TowerDefense.ico" />
     <ResourceCompile Include="..\..\Source\TowerDefense\Resources\Windows\TowerDefense.rc" />
+    <ClCompile Include="..\..\Source\TowerDefense\Units\Monster.cpp" />
     <ClCompile Include="..\..\Source\TowerDefense\Units\Gatling.cpp" />
+    <ClInclude Include="..\..\Source\TowerDefense\Units\Monster.h" />
     <ClInclude Include="..\..\Source\TowerDefense\Units\Gatling.h" />
+    <ClCompile Include="..\..\Source\TowerDefense\Units\Tower.cpp" />
+    <ClCompile Include="..\..\Source\TowerDefense\Units\Voidling.cpp" />
+    <ClInclude Include="..\..\Source\TowerDefense\Units\Tower.h" />
+    <ClInclude Include="..\..\Source\TowerDefense\Units\Voidling.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{AA5A5213-83A4-4C22-BC50-B1A8B225C8BD}</ProjectGuid>

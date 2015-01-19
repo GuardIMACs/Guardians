@@ -24,7 +24,7 @@ public:
 
 	void SearchTarget()
 	{
-		SearchFromArray(GameMode->Monsters.SpawnedMonsters);
+		//SearchFromArray(GameMode->Monsters.SpawnedMonsters);
 	}
 };
 
@@ -32,7 +32,6 @@ AGatling::AGatling(const class FPostConstructInitializeProperties& PCIP)
 	: Super(PCIP)
 {
 	Name = "Gatling";
-	Type = EUnitType::Defender;
 	MaxLife = 100;
 	CurrentLife = MaxLife;
 	Speed = 0.f;
@@ -60,10 +59,4 @@ AGatling::AGatling(const class FPostConstructInitializeProperties& PCIP)
 AGatling* AGatling::spawn(UWorld* world, const FVector& vec, const FRotator rot)
 {
 	return world->SpawnActor<AGatling>(vec, rot);
-}
-
-void AGatling::OnDestroy()
-{
-	auto* mode = GetWorld()->GetAuthGameMode<ATowerDefenseGameMode>();
-	mode->Towers.SpawnedTowers.Remove(this);
 }

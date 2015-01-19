@@ -15,6 +15,6 @@ ATowerDefenseGameMode::ATowerDefenseGameMode(const class FPostConstructInitializ
 	// use our custom HUD class
 	HUDClass = ATowerDefenseHUD::StaticClass();
 
-	Towers.Initialize(GetWorld());
-	Monsters.Initialize(nullptr);
+	//Towers.Initialize(GetWorld());
+	//Monsters.Initialize(nullptr);
 }

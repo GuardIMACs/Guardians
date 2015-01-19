@@ -13,14 +13,14 @@
  */
 
 template <typename T>
-class Spawnable {
+class ISpawnable {
 public:
-	virtual ~Spawnable() {}
+	virtual ~ISpawnable() {}
 	virtual T* spawn(UWorld* world, const FVector& vec, const FRotator rot) = 0;
 };
 
 UCLASS()
-class TOWERDEFENSE_API ABaseUnit : public ACharacter, public Spawnable<ABaseUnit>
+class TOWERDEFENSE_API ABaseUnit : public ACharacter
 {
 public:
 	GENERATED_UCLASS_BODY()
@@ -55,9 +55,7 @@ public:
 	/** Unit behavior. Updated each frame */
 	TSharedPtr<UnitBehavior> Behavior;
 
-	virtual ABaseUnit* spawn(UWorld* world, const FVector& vec, const FRotator rot);
-
 	virtual void Tick(float DeltaSeconds) override;
 
-	virtual void OnDestroy();
+	virtual void OnDestroy() {};
 };

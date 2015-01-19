@@ -54,10 +54,3 @@ AVoidling* AVoidling::spawn(UWorld* world, const FVector& vec, const FRotator ro
 {
 	return world->SpawnActor<AVoidling>(vec, rot);
 }
-
-void AVoidling::OnDestroy()
-{
-	auto* mode = GetWorld()->GetAuthGameMode<ATowerDefenseGameMode>();
-	mode->Monsters.SpawnedMonsters.Remove(this);
-	UE_LOG(LogTemp, Warning, TEXT("voidling died"));
-}
