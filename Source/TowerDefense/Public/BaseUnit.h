@@ -16,25 +16,25 @@ template <typename T>
 class ISpawnable {
 public:
 	virtual ~ISpawnable() {}
-	virtual T* spawn(UWorld* world, const FVector& vec, const FRotator rot) = 0;
+	virtual T* Spawn(UWorld* world, const FVector& vec, const FRotator rot) = 0;
 };
 
 UCLASS()
-class TOWERDEFENSE_API ABaseUnit : public ACharacter
+class TOWERDEFENSE_API ABaseUnit : public ACharacter, public ISpawnable<ABaseUnit>
 {
 public:
 	GENERATED_UCLASS_BODY()
 
 	/** Name of the unit */
-	UPROPERTY(EditAnyWhere, BlueprintReadWrite, Category = "Unit Info")
+	UPROPERTY(Replicated, EditAnyWhere, BlueprintReadWrite, Category = "Unit Info")
 		FString Name;
 
 	/** Attacker or defender */
-	UPROPERTY(EditAnyWhere, BlueprintReadWrite, Category = "Unit Info")
+	UPROPERTY(Replicated, EditAnyWhere, BlueprintReadWrite, Category = "Unit Info")
 		EUnitType Type;
 
 	/** Maximum life of the unit */
-	UPROPERTY(EditAnyWhere, BlueprintReadWrite, Category = "Unit Stats")
+	UPROPERTY(Replicated, EditAnyWhere, BlueprintReadWrite, Category = "Unit Stats")
 		int32 MaxLife;
 
 	/** Current life of the unit */
@@ -42,12 +42,16 @@ public:
 		int32 CurrentLife;
 
 	/** Unit speed in m/s */
-	UPROPERTY(EditAnyWhere, BlueprintReadWrite, Category = "Unit Stats")
+	UPROPERTY(Replicated, EditAnyWhere, BlueprintReadWrite, Category = "Unit Stats")
 		float Speed;
 
 	/** Damage reduction of the unit. Each index is an EElement */
-	UPROPERTY(EditAnyWhere, BlueprintReadWrite, Category = "Unit Stats")
+	UPROPERTY(Replicated, EditAnyWhere, BlueprintReadWrite, Category = "Unit Stats")
 		TArray<float> Defense;
+
+	/** How many units are locking this unit for attack */
+	UPROPERTY(Replicated, EditAnyWhere, BlueprintReadWrite, Category = "Unit Stats")
+		uint32 Locks;
 
 	/** Attacks of the unit */
 	TArray<TSharedPtr<BaseAttack>> Attack;
@@ -58,4 +62,9 @@ public:
 	virtual void Tick(float DeltaSeconds) override;
 
 	virtual void OnDestroy() {};
+
+	virtual ABaseUnit* Spawn(UWorld* world, const FVector& vec, const FRotator rot) { return nullptr; }
+
+	virtual void AddLock();
+	virtual void RemoveLock();
 };

@@ -50,7 +50,7 @@ AVoidling::AVoidling(const class FPostConstructInitializeProperties& PCIP)
 	CapsuleComponent->SetCapsuleHalfHeight(150);
 }
 
-AVoidling* AVoidling::spawn(UWorld* world, const FVector& vec, const FRotator rot)
+AVoidling* AVoidling::Spawn(UWorld* world, const FVector& vec, const FRotator rot)
 {
 	return world->SpawnActor<AVoidling>(vec, rot);
 }

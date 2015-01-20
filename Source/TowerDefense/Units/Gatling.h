@@ -12,5 +12,5 @@ class TOWERDEFENSE_API AGatling : public ATower
 public:
 	GENERATED_UCLASS_BODY()
 
-	AGatling* spawn(UWorld* world, const FVector& vec, const FRotator rot);
+	AGatling* Spawn(UWorld* world, const FVector& vec, const FRotator rot);
 };

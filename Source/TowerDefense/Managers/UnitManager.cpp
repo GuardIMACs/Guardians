@@ -41,10 +41,11 @@ void CUnitManager::registerLoot(ALoot* loot, EMonster monsterId, int32 probabili
 
 AMonster* CUnitManager::instanciateMonster(EMonster id, UWorld* World, const FVector& SpawnLocation, const FRotator& SpawnRotation)
 {
-	if (!MonstersInfo[static_cast<uint8>(id)].Monster)
+	uint8 index = static_cast<uint8>(id);
+	if (!MonstersInfo[index].Monster)
 		return nullptr;
 
-	AMonster* ptr = MonstersInfo[static_cast<uint8>(id)].Monster->spawn(World, SpawnLocation, SpawnRotation);
+	AMonster* ptr = MonstersInfo[index].Monster->Spawn(World, SpawnLocation, SpawnRotation);
 	if (ptr)
 		Monsters.Add(ptr);
 	return ptr;
@@ -52,10 +53,11 @@ AMonster* CUnitManager::instanciateMonster(EMonster id, UWorld* World, const FVe
 
 ATower* CUnitManager::instanciateTower(ETower id, UWorld* World, const FVector& SpawnLocation, const FRotator& SpawnRotation)
 {
-	if (!TowersInfo[static_cast<uint8>(id)].Tower)
+	uint8 index = static_cast<uint8>(id);
+	if (!TowersInfo[index].Tower)
 		return nullptr;
 
-	ATower* ptr = TowersInfo[static_cast<uint8>(id)].Tower->spawn(World, SpawnLocation, SpawnRotation);
+	ATower* ptr = TowersInfo[index].Tower->Spawn(World, SpawnLocation, SpawnRotation);
 	if (ptr)
 		Towers.Add(ptr);
 	return ptr;

@@ -6,6 +6,8 @@
 #include "TowerDefenseGameMode.h"
 #include "Effects/BaseEffect.h"
 
+#include "DrawDebugHelpers.h"
+
 void BaseAttack::Tick(float elapsed)
 {
 	// Not ready to fire
@@ -13,7 +15,7 @@ void BaseAttack::Tick(float elapsed)
 		CurrentCooldown -= elapsed;
 	else
 	{
-		if (!IsTargetInRange())
+		if (!IsTargetInRange() || !Target->IsAlive())
 			SearchTarget();
 		else
 			Fire();
@@ -22,6 +24,8 @@ void BaseAttack::Tick(float elapsed)
 
 void BaseAttack::SearchFromArray(TArray<ABaseUnit*>& units)
 {
+	if (Target)
+		Target->removeLock();
 	Target = nullptr;
 	// Todo look for target between RangeMin et RangeMax
 
@@ -48,6 +52,7 @@ void BaseAttack::SearchFromArray(TArray<ABaseUnit*>& units)
 	if (target)
 	{
 		Target = target;
+		Target->addLock();
 		UE_LOG(LogTemp, Warning, TEXT("Target Locked"));
 	}
 }
@@ -59,6 +64,7 @@ void BaseAttack::Fire()
 	CurrentCooldown = Cooldown;
 	for (auto& e : EffectsApply)
 		e->OnHit(Target, getRandomFloat(MinDamages, MaxDamages));
+	DrawDebugLine(Target->GetWorld(), Parent->GetActorLocation(), Target->GetActorLocation(), FColor::Blue, false, 10.f);
 }
 
 bool BaseAttack::IsTargetInRange()

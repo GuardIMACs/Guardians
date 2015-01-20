@@ -4,12 +4,12 @@
 #include "Tower.generated.h"
 
 UCLASS()
-class TOWERDEFENSE_API ATower : public ABaseUnit, public ISpawnable < ATower >
+class TOWERDEFENSE_API ATower : public ABaseUnit
 {
 public:
 	GENERATED_UCLASS_BODY()
 
-	virtual ATower* spawn(UWorld* world, const FVector& vec, const FRotator rot) { return nullptr; };
+	virtual ATower* Spawn(UWorld* world, const FVector& vec, const FRotator rot) { return nullptr; }
 	virtual void OnDestroy();
 };
 

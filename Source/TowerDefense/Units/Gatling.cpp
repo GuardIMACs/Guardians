@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "TowerDefense.h"
+#include "Monster.h"
 #include "Gatling.h"
 #include "Behaviors/StaticBehavior.h"
 #include "Effects/StandardEffect.h"
@@ -24,7 +25,12 @@ public:
 
 	void SearchTarget()
 	{
-		//SearchFromArray(GameMode->Monsters.SpawnedMonsters);
+		auto& monsters = GameMode->Units.getMonstersAlive();
+		TArray<ABaseUnit*> m;
+		for (AMonster* u : monsters)
+			m.Add(u);
+
+		SearchFromArray(m);
 	}
 };
 
@@ -56,7 +62,7 @@ AGatling::AGatling(const class FPostConstructInitializeProperties& PCIP)
 	CapsuleComponent->SetCapsuleHalfHeight(150);
 }
 
-AGatling* AGatling::spawn(UWorld* world, const FVector& vec, const FRotator rot)
+AGatling* AGatling::Spawn(UWorld* world, const FVector& vec, const FRotator rot)
 {
 	return world->SpawnActor<AGatling>(vec, rot);
 }

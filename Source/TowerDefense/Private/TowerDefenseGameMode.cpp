@@ -4,6 +4,9 @@
 #include "TowerDefenseGameMode.h"
 #include "TowerDefenseHUD.h"
 #include "TowerDefenseCharacter.h"
+#include "Units/Gatling.h"
+#include "Units/Voidling.h"
+#include "Defines.h"
 
 ATowerDefenseGameMode::ATowerDefenseGameMode(const class FPostConstructInitializeProperties& PCIP)
 	: Super(PCIP)
@@ -17,4 +20,7 @@ ATowerDefenseGameMode::ATowerDefenseGameMode(const class FPostConstructInitializ
 
 	//Towers.Initialize(GetWorld());
 	//Monsters.Initialize(nullptr);
+	Units.registerTower(SpawnActor<AGatling>(), ETower::Gatling, 100, 1.f, 1);
+
+	Units.registerMonster(SpawnActor<AVoidling>(), EMonster::Voidling, 100, 1.f, 1);
 }

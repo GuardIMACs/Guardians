@@ -5,7 +5,7 @@
 
 
 ABaseUnit::ABaseUnit(const class FPostConstructInitializeProperties& PCIP)
-	: Super(PCIP), Type(EUnitType::Neutral)
+	: Super(PCIP), Type(EUnitType::Neutral), Locks(0)
 {
 	uint8 max = static_cast<uint8>(EElement::Max);
 	Defense.Reserve(max);
@@ -25,4 +25,14 @@ void ABaseUnit::Tick(float DeltaSeconds)
 		Behavior->Tick(DeltaSeconds);
 	for (auto& atk : Attack)
 		atk->Tick(DeltaSeconds);
+}
+
+void ABaseUnit::AddLock()
+{
+	Locks++;
+}
+
+void ABaseUnit::removeLock()
+{
+	Locks--;
 }
