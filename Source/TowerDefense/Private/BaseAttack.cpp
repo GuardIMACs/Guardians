@@ -25,7 +25,7 @@ void BaseAttack::Tick(float elapsed)
 void BaseAttack::SearchFromArray(TArray<ABaseUnit*>& units)
 {
 	if (Target)
-		Target->removeLock();
+		Target->RemoveLock();
 	Target = nullptr;
 	// Todo look for target between RangeMin et RangeMax
 
@@ -37,8 +37,12 @@ void BaseAttack::SearchFromArray(TArray<ABaseUnit*>& units)
 
 	for (auto* unit : units)
 	{
+		if (!unit->IsAlive())
+			continue;
+
 		auto to = unit->GetActorLocation();	to.Z = 0;
 		float dist = FVector::Dist(from, to);
+		UE_LOG(LogTemp, Warning, TEXT("%s %d"), *unit->Name, unit->CurrentLife);
 		UE_LOG(LogTemp, Warning, TEXT("from: %f %f %f"), from.X, from.Y, from.Z);
 		UE_LOG(LogTemp, Warning, TEXT("to: %f %f %f"), to.X, to.Y, to.Z);
 		UE_LOG(LogTemp, Warning, TEXT("dist: %f"), dist);
@@ -52,7 +56,7 @@ void BaseAttack::SearchFromArray(TArray<ABaseUnit*>& units)
 	if (target)
 	{
 		Target = target;
-		Target->addLock();
+		Target->AddLock();
 		UE_LOG(LogTemp, Warning, TEXT("Target Locked"));
 	}
 }
@@ -64,7 +68,7 @@ void BaseAttack::Fire()
 	CurrentCooldown = Cooldown;
 	for (auto& e : EffectsApply)
 		e->OnHit(Target, getRandomFloat(MinDamages, MaxDamages));
-	DrawDebugLine(Target->GetWorld(), Parent->GetActorLocation(), Target->GetActorLocation(), FColor::Blue, false, 10.f);
+	DrawDebugLine(Target->GetWorld(), Parent->GetActorLocation(), Target->GetActorLocation(), FColor::Blue, false, 1.f);
 }
 
 bool BaseAttack::IsTargetInRange()

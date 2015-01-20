@@ -26,31 +26,31 @@ public:
 	GENERATED_UCLASS_BODY()
 
 	/** Name of the unit */
-	UPROPERTY(Replicated, EditAnyWhere, BlueprintReadWrite, Category = "Unit Info")
+	UPROPERTY(EditAnyWhere, BlueprintReadWrite, Category = "Unit Info")
 		FString Name;
 
 	/** Attacker or defender */
-	UPROPERTY(Replicated, EditAnyWhere, BlueprintReadWrite, Category = "Unit Info")
+	UPROPERTY(EditAnyWhere, BlueprintReadWrite, Category = "Unit Info")
 		EUnitType Type;
 
 	/** Maximum life of the unit */
-	UPROPERTY(Replicated, EditAnyWhere, BlueprintReadWrite, Category = "Unit Stats")
+	UPROPERTY(EditAnyWhere, BlueprintReadWrite, Category = "Unit Stats")
 		int32 MaxLife;
 
 	/** Current life of the unit */
-	UPROPERTY(EditAnyWhere, BlueprintReadWrite, Category = "Unit Stats")
+	UPROPERTY(BlueprintReadWrite, Category = "Unit Stats")
 		int32 CurrentLife;
 
 	/** Unit speed in m/s */
-	UPROPERTY(Replicated, EditAnyWhere, BlueprintReadWrite, Category = "Unit Stats")
+	UPROPERTY(EditAnyWhere, BlueprintReadWrite, Category = "Unit Stats")
 		float Speed;
 
 	/** Damage reduction of the unit. Each index is an EElement */
-	UPROPERTY(Replicated, EditAnyWhere, BlueprintReadWrite, Category = "Unit Stats")
+	UPROPERTY(EditAnyWhere, BlueprintReadWrite, Category = "Unit Stats")
 		TArray<float> Defense;
 
 	/** How many units are locking this unit for attack */
-	UPROPERTY(Replicated, EditAnyWhere, BlueprintReadWrite, Category = "Unit Stats")
+	UPROPERTY(EditAnyWhere, BlueprintReadWrite, Category = "Unit Stats")
 		uint32 Locks;
 
 	/** Attacks of the unit */
@@ -67,4 +67,5 @@ public:
 
 	virtual void AddLock();
 	virtual void RemoveLock();
+	virtual bool IsAlive();
 };

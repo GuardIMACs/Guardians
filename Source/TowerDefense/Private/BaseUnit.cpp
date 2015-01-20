@@ -17,6 +17,10 @@ void ABaseUnit::Tick(float DeltaSeconds)
 {
 	if (CurrentLife <= 0)
 	{
+		// Some units still references this unit
+		if (Locks > 0)
+			return;
+
 		OnDestroy();
 		Destroy();
 		return;
@@ -32,7 +36,12 @@ void ABaseUnit::AddLock()
 	Locks++;
 }
 
-void ABaseUnit::removeLock()
+void ABaseUnit::RemoveLock()
 {
 	Locks--;
+}
+
+bool ABaseUnit::IsAlive()
+{
+	return CurrentLife > 0;
 }
