@@ -24,7 +24,7 @@ public:
 AVoidling::AVoidling(const class FPostConstructInitializeProperties& PCIP)
 	: Super(PCIP)
 {
-	Name = "Gatling";
+	Name = "Voidling";
 	Type = EUnitType::Attacker;
 	MaxLife = 100;
 	CurrentLife = MaxLife;
