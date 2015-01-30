@@ -21,7 +21,7 @@ public:
 	}
 };
 
-AVoidling::AVoidling(const class FPostConstructInitializeProperties& PCIP)
+AVoidling::AVoidling(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
 	Name = "Voidling";

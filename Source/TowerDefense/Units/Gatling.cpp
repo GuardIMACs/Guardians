@@ -6,6 +6,7 @@
 #include "Behaviors/StaticBehavior.h"
 #include "Effects/StandardEffect.h"
 #include "TowerDefenseGameMode.h"
+#include "Widgets/LifeBar.h"
 
 class GatlingAtk : public BaseAttack
 {
@@ -16,10 +17,11 @@ public:
 		Description = "Make hole in their bodies!";
 		RangeMin = 0.f;
 		RangeMax = 500.f;
-		Cooldown = 0.5;
-		CurrentCooldown = 0.f;
 		MinDamages = 10;
 		MaxDamages = 20;
+
+		Cooldown = 0.5;
+		CurrentCooldown = 0.f;
 		EffectsApply.Add(TSharedPtr<BaseEffect>(new StandardEffect(EElement::Normal)));
 	}
 
@@ -41,6 +43,8 @@ AGatling::AGatling(const class FPostConstructInitializeProperties& PCIP)
 	MaxLife = 100;
 	CurrentLife = MaxLife;
 	Speed = 0.f;
+	SetMaxLife(MaxLife);
+	SetCurrentLife(CurrentLife);
 	Behavior = TSharedPtr<UnitBehavior>(new StaticBehavior());
 
 	if (GetWorld())

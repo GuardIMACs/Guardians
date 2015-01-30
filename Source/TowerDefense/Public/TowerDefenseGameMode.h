@@ -10,8 +10,6 @@ class ATowerDefenseGameMode : public AGameMode
 	GENERATED_UCLASS_BODY()
 
 	CUnitManager Units;
-	//TowerManager Towers;
-	//MonsterManager Monsters;
 };
 
 

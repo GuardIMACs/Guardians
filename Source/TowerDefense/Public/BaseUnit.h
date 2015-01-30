@@ -8,6 +8,7 @@
 #include "BaseAttack.h"
 #include "BaseUnit.generated.h"
 
+class ULifeBar;
 /**
  * 
  */
@@ -68,4 +69,9 @@ public:
 	virtual void AddLock();
 	virtual void RemoveLock();
 	virtual bool IsAlive();
+
+	void SetMaxLife(int32 life);
+	void SetCurrentLife(int32 life);
+
+	ULifeBar* HealthBar;
 };
