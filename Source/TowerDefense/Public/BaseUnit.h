@@ -6,9 +6,11 @@
 #include "Behaviors/UnitBehavior.h"
 #include "Defines.h"
 #include "BaseAttack.h"
+#include "Runtime/UMG/Public/Components/Widget.h"
+#include "Runtime/UMG/Public/Components/WidgetComponent.h"
 #include "BaseUnit.generated.h"
 
-class ULifeBar;
+class UBaseLifeBar;
 /**
  * 
  */
@@ -73,5 +75,7 @@ public:
 	void SetMaxLife(int32 life);
 	void SetCurrentLife(int32 life);
 
-	ULifeBar* HealthBar;
+	UPROPERTY(VisibleAnyWhere, BlueprintReadOnly, Category = "UI")
+	UWidgetComponent* Widget;
+	UBaseLifeBar* HealthBar;
 };

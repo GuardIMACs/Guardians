@@ -8,7 +8,7 @@
 #include "Units/Voidling.h"
 #include "Defines.h"
 
-ATowerDefenseGameMode::ATowerDefenseGameMode(const class FPostConstructInitializeProperties& PCIP)
+ATowerDefenseGameMode::ATowerDefenseGameMode(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
 	// set default pawn class to our Blueprinted character

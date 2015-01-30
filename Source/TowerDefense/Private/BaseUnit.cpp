@@ -2,9 +2,7 @@
 
 #include "TowerDefense.h"
 #include "BaseUnit.h"
-#include "Widgets/LifeBar.h"
-#include "Runtime/UMG/Public/Components/Widget.h"
-#include "Runtime/UMG/Public/Components/WidgetComponent.h"
+#include "Widgets/BaseLifeBar.h"
 
 ABaseUnit::ABaseUnit(const class FObjectInitializer& PCIP)
 	: Super(PCIP), Type(EUnitType::Neutral), Locks(0), HealthBar(nullptr)
@@ -14,7 +12,7 @@ ABaseUnit::ABaseUnit(const class FObjectInitializer& PCIP)
 	for (int i = 0; i < max; ++i)
 		Defense.Add(0.5f);
 
-	static ConstructorHelpers::FObjectFinder<UBlueprint> blueprint(TEXT("WidgetBlueprint'/Game/Widgets/Lifebar.Lifebar'"));
+	static ConstructorHelpers::FObjectFinder<UBlueprint> blueprint(TEXT("WidgetBlueprint'/Game/Widgets/HealthBar.HealthBar'"));
 	UE_LOG(LogTemp, Warning, TEXT("object: %p"), blueprint.Object);
 	if (blueprint.Object)
 	{
@@ -22,7 +20,7 @@ ABaseUnit::ABaseUnit(const class FObjectInitializer& PCIP)
 		UWorld* const world = GetWorld();
 		if (world)
 		{
-			HealthBar = CreateWidget<ULifeBar>(world, uclass);
+			HealthBar = CreateWidget<UBaseLifeBar>(world, uclass);
 			UE_LOG(LogTemp, Warning, TEXT("lifebar: %p"), HealthBar);
 			SetMaxLife(100);
 			SetCurrentLife(100);
@@ -30,11 +28,13 @@ ABaseUnit::ABaseUnit(const class FObjectInitializer& PCIP)
 		}
 	}
 
-	auto widget = NewObject<UWidgetComponent>(this);
+	
+	Widget = PCIP.CreateDefaultSubobject<UWidgetComponent>(this, "Widget");
+	/*auto widget = PCIP.defaul;
 	widget->AttachTo(GetRootComponent());
-	//widget->Space = EWidgetSpace::Screen;
-	//widget->GetUserWidgetObject();
-	widget->RegisterComponent();
+	widget->Space = EWidgetSpace::Screen;
+	widget->GetUserWidgetObject();
+	widget->RegisterComponent();*/
 }
 
 void ABaseUnit::Tick(float DeltaSeconds)
@@ -56,7 +56,7 @@ void ABaseUnit::Tick(float DeltaSeconds)
 
 	if (HealthBar)
 	{
-		HealthBar->Update();
+		//HealthBar->Update();
 	}
 }
 
@@ -78,13 +78,13 @@ bool ABaseUnit::IsAlive()
 void ABaseUnit::SetMaxLife(int32 life)
 {
 	MaxLife = life;
-	if (HealthBar)
-		HealthBar->SetMaxLife(MaxLife);
+	//if (HealthBar)
+		//HealthBar->SetMaxLife(MaxLife);
 }
 
 void ABaseUnit::SetCurrentLife(int32 life)
 {
 	CurrentLife = life;
-	if (HealthBar)
-		HealthBar->SetCurrentLife(CurrentLife);
+	//if (HealthBar)
+		//HealthBar->SetCurrentLife(CurrentLife);
 }

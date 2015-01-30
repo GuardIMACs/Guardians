@@ -42,12 +42,12 @@ AVoidling::AVoidling(const class FObjectInitializer& PCIP)
 	}*/
 
 	static ConstructorHelpers::FObjectFinder<USkeletalMesh> mesh(TEXT("SkeletalMesh'/Game/Meshes/voidling.voidling'"));
-	Mesh->SetSkeletalMesh(mesh.Object);
-	Mesh->SetWorldScale3D(FVector(0.3f, 0.3f, 0.3f));
-	Mesh->SetWorldLocation(FVector(0, 0, 0));
+	GetMesh()->SetSkeletalMesh(mesh.Object);
+	GetMesh()->SetWorldScale3D(FVector(0.3f, 0.3f, 0.3f));
+	GetMesh()->SetWorldLocation(FVector(0, 0, 0));
 
-	CapsuleComponent->SetCapsuleRadius(30);
-	CapsuleComponent->SetCapsuleHalfHeight(60);
+	GetCapsuleComponent()->SetCapsuleRadius(30);
+	GetCapsuleComponent()->SetCapsuleHalfHeight(60);
 }
 
 AVoidling* AVoidling::Spawn(UWorld* world, const FVector& vec, const FRotator rot)

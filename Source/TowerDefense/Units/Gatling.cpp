@@ -6,7 +6,6 @@
 #include "Behaviors/StaticBehavior.h"
 #include "Effects/StandardEffect.h"
 #include "TowerDefenseGameMode.h"
-#include "Widgets/LifeBar.h"
 
 class GatlingAtk : public BaseAttack
 {
@@ -36,7 +35,7 @@ public:
 	}
 };
 
-AGatling::AGatling(const class FPostConstructInitializeProperties& PCIP)
+AGatling::AGatling(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
 	Name = "Gatling";
@@ -58,12 +57,15 @@ AGatling::AGatling(const class FPostConstructInitializeProperties& PCIP)
 	}
 
 	static ConstructorHelpers::FObjectFinder<USkeletalMesh> mesh(TEXT("SkeletalMesh'/Game/Meshes/gatling.gatling'"));
-	Mesh->SetSkeletalMesh(mesh.Object);
-	Mesh->SetWorldScale3D(FVector(0.5f, 0.5f, 0.5f));
-	Mesh->SetWorldLocation(FVector(0,-110,0));
+	GetMesh()->SetSkeletalMesh(mesh.Object);
+	GetMesh()->SetWorldScale3D(FVector(0.5f, 0.5f, 0.5f));
+	GetMesh()->SetWorldLocation(FVector(0,-110,0));
 
-	CapsuleComponent->SetCapsuleRadius(70);
-	CapsuleComponent->SetCapsuleHalfHeight(150);
+	GetCapsuleComponent()->SetCapsuleRadius(70);
+	GetCapsuleComponent()->SetCapsuleHalfHeight(150);
+
+	if (Widget)
+		Widget->SetWorldLocation(FVector(0, -200, 0));
 }
 
 AGatling* AGatling::Spawn(UWorld* world, const FVector& vec, const FRotator rot)

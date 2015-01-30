@@ -6,7 +6,7 @@
 #include "TextureResource.h"
 #include "CanvasItem.h"
 
-ATowerDefenseHUD::ATowerDefenseHUD(const class FPostConstructInitializeProperties& PCIP) : Super(PCIP)
+ATowerDefenseHUD::ATowerDefenseHUD(const class FObjectInitializer& PCIP) : Super(PCIP)
 {
 	// Set the crosshair texture
 	static ConstructorHelpers::FObjectFinder<UTexture2D> CrosshiarTexObj(TEXT("/Game/Textures/Crosshair"));
