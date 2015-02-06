@@ -24,13 +24,11 @@ ATowerDefenseGameMode::ATowerDefenseGameMode(const class FPostConstructInitializ
 	//Towers.Initialize(GetWorld());
 	//Monsters.Initialize(nullptr);
 	Units.registerTower(SpawnActor<AGatling>(), ETower::Gatling, 100, 1.f, 1);
-
 	Units.registerMonster(SpawnActor<AVoidling>(), EMonster::Voidling, 100, 1.f, 1);
-
-	
 }
 void ATowerDefenseGameMode::PostInitializeComponents()
 {
+	Super::PostInitializeComponents();
 	for (TActorIterator<AGenerator> itr(GetWorld()); itr; ++itr)
 	{
 		Generator = *itr;
