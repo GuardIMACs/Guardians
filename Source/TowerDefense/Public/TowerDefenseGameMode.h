@@ -4,12 +4,17 @@
 #include "Managers/UnitManager.h"
 #include "TowerDefenseGameMode.generated.h"
 
+class AGenerator;
+
 UCLASS(minimalapi)
 class ATowerDefenseGameMode : public AGameMode
 {
 	GENERATED_UCLASS_BODY()
 
+	void PostInitializeComponents() override;
+	
 	CUnitManager Units;
+	AGenerator* Generator;
 	//TowerManager Towers;
 	//MonsterManager Monsters;
 };

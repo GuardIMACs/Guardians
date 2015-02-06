@@ -6,10 +6,13 @@
 #include "TowerDefenseCharacter.h"
 #include "Units/Gatling.h"
 #include "Units/Voidling.h"
+#include "Buildings/Generator.h"
 #include "Defines.h"
 
+#include "EngineUtils.h"
+
 ATowerDefenseGameMode::ATowerDefenseGameMode(const class FPostConstructInitializeProperties& PCIP)
-	: Super(PCIP)
+	: Super(PCIP), Generator(nullptr)
 {
 	// set default pawn class to our Blueprinted character
 	static ConstructorHelpers::FClassFinder<APawn> PlayerPawnClassFinder(TEXT("/Game/Blueprints/MyCharacter"));
@@ -23,4 +26,13 @@ ATowerDefenseGameMode::ATowerDefenseGameMode(const class FPostConstructInitializ
 	Units.registerTower(SpawnActor<AGatling>(), ETower::Gatling, 100, 1.f, 1);
 
 	Units.registerMonster(SpawnActor<AVoidling>(), EMonster::Voidling, 100, 1.f, 1);
+
+	
+}
+void ATowerDefenseGameMode::PostInitializeComponents()
+{
+	for (TActorIterator<AGenerator> itr(GetWorld()); itr; ++itr)
+	{
+		Generator = *itr;
+	}
 }

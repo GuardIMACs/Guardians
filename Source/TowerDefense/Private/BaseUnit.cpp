@@ -15,6 +15,8 @@ ABaseUnit::ABaseUnit(const class FPostConstructInitializeProperties& PCIP)
 
 void ABaseUnit::Tick(float DeltaSeconds)
 {
+	Super::Tick(DeltaSeconds);
+
 	if (CurrentLife <= 0)
 	{
 		// Some units still references this unit
@@ -25,8 +27,9 @@ void ABaseUnit::Tick(float DeltaSeconds)
 		Destroy();
 		return;
 	}
+
 	if (Behavior.IsValid())
-		Behavior->Tick(DeltaSeconds);
+		Behavior->Tick(this, DeltaSeconds);
 	for (auto& atk : Attack)
 		atk->Tick(DeltaSeconds);
 }

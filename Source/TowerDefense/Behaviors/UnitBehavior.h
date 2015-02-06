@@ -5,11 +5,12 @@
 /**
  * 
  */
+class ABaseUnit;
 class TOWERDEFENSE_API UnitBehavior
 {
 public:
 	UnitBehavior() = default;
 	virtual ~UnitBehavior() {};
 
-	virtual void Tick(float elapsed) = 0;
+	virtual void Tick(ABaseUnit* unit, float elapsed) = 0;
 };

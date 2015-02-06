@@ -13,5 +13,5 @@ public:
 	StaticBehavior();
 	~StaticBehavior();
 
-	void Tick(float elapsed);
+	void Tick(ABaseUnit* unit, float elapsed);
 };

@@ -13,7 +13,7 @@ public:
 	CompositeBehavior();
 	~CompositeBehavior();
 
-	void Tick(float elapsed);
+	void Tick(ABaseUnit* unit, float elapsed);
 
 	TArray<TSharedPtr<UnitBehavior>> Behaviors;
 };
