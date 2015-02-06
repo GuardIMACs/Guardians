@@ -11,8 +11,8 @@ CompositeBehavior::~CompositeBehavior()
 {
 }
 
-void CompositeBehavior::Tick(float elapsed)
+void CompositeBehavior::Tick(ABaseUnit* unit, float elapsed)
 {
 	for (auto& b : Behaviors)
-		b->Tick(elapsed);
+		b->Tick(unit, elapsed);
 }

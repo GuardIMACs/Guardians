@@ -25,7 +25,7 @@ void StaticBehavior::Tick(ABaseUnit* unit, float elapsed)
 		if (mode)
 		{
 			auto generator = mode->Generator;
-			unit->MoveToActor();
+			//unit->MoveToActor();
 		}
 	}
 	
