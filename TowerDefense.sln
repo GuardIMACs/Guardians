@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
+VisualStudioVersion = 12.0.30723.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TowerDefense", "Intermediate\ProjectFiles\TowerDefense.vcxproj", "{AA5A5213-83A4-4C22-BC50-B1A8B225C8BD}"
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -16,18 +16,13 @@ Global
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{AA5A5213-83A4-4C22-BC50-B1A8B225C8BD}.DebugGame Editor|Windows.ActiveCfg = DebugGame_Editor|x64
 		{AA5A5213-83A4-4C22-BC50-B1A8B225C8BD}.DebugGame Editor|Windows.Build.0 = DebugGame_Editor|x64
-		{AA5A5213-83A4-4C22-BC50-B1A8B225C8BD}.DebugGame|Windows.ActiveCfg = DebugGame_Game|x64
-		{AA5A5213-83A4-4C22-BC50-B1A8B225C8BD}.DebugGame|Windows.Build.0 = DebugGame_Game|x64
+		{AA5A5213-83A4-4C22-BC50-B1A8B225C8BD}.DebugGame|Windows.ActiveCfg = DebugGame_RocketGame|Win32
 		{AA5A5213-83A4-4C22-BC50-B1A8B225C8BD}.Development Editor|Windows.ActiveCfg = Development_Editor|x64
 		{AA5A5213-83A4-4C22-BC50-B1A8B225C8BD}.Development Editor|Windows.Build.0 = Development_Editor|x64
-		{AA5A5213-83A4-4C22-BC50-B1A8B225C8BD}.Development|Windows.ActiveCfg = Development_Game|x64
-		{AA5A5213-83A4-4C22-BC50-B1A8B225C8BD}.Development|Windows.Build.0 = Development_Game|x64
-		{AA5A5213-83A4-4C22-BC50-B1A8B225C8BD}.Shipping|Windows.ActiveCfg = Shipping_Game|Win32
-		{AA5A5213-83A4-4C22-BC50-B1A8B225C8BD}.Shipping|Windows.Build.0 = Shipping_Game|Win32
+		{AA5A5213-83A4-4C22-BC50-B1A8B225C8BD}.Development|Windows.ActiveCfg = Development_RocketGame|Win32
+		{AA5A5213-83A4-4C22-BC50-B1A8B225C8BD}.Shipping|Windows.ActiveCfg = Shipping_RocketGame|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
 	EndGlobalSection
 EndGlobal

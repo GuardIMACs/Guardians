@@ -20,7 +20,7 @@ ABaseUnit::ABaseUnit(const class FObjectInitializer& PCIP)
 		UWorld* const world = GetWorld();
 		if (world)
 		{
-			HealthBar = CreateWidget<UBaseLifeBar>(world, uclass);
+			//HealthBar = CreateWidget<UBaseLifeBar>(world, uclass);
 			UE_LOG(LogTemp, Warning, TEXT("lifebar: %p"), HealthBar);
 			SetMaxLife(100);
 			SetCurrentLife(100);
@@ -42,7 +42,7 @@ void ABaseUnit::Tick(float DeltaSeconds)
 	if (CurrentLife <= 0)
 	{
 		// Some units still references this unit
-		if (Locks > 0)
+		if (IsLocked())
 			return;
 
 		OnDestroy();
@@ -60,15 +60,7 @@ void ABaseUnit::Tick(float DeltaSeconds)
 	}
 }
 
-void ABaseUnit::AddLock()
-{
-	Locks++;
-}
 
-void ABaseUnit::RemoveLock()
-{
-	Locks--;
-}
 
 bool ABaseUnit::IsAlive()
 {
