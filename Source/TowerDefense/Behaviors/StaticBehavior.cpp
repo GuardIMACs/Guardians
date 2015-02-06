@@ -4,6 +4,8 @@
 #include "StaticBehavior.h"
 #include "BaseUnit.h"
 #include "TowerDefenseGameMode.h"
+#include "AIController.h"
+#include "Buildings/Generator.h"
 
 StaticBehavior::StaticBehavior() : UnitBehavior()
 {
@@ -25,6 +27,22 @@ void StaticBehavior::Tick(ABaseUnit* unit, float elapsed)
 		if (mode)
 		{
 			auto generator = mode->Generator;
+			auto a = unit->GetController();
+			AAIController* ai = Cast<AAIController>(unit->GetController());
+			if (ai && generator)
+			{
+				ai->MoveToActor(generator, 10.f);
+				UE_LOG(LogTemp, Warning, TEXT("Moving to generator"));
+			}
+			
+			if (!ai)
+			{
+				UE_LOG(LogTemp, Warning, TEXT("No AI"));
+			}
+			if (!generator)
+			{
+				UE_LOG(LogTemp, Warning, TEXT("No generator"));
+			}
 			//unit->MoveToActor();
 		}
 	}

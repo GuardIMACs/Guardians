@@ -32,5 +32,6 @@ void ATowerDefenseGameMode::PostInitializeComponents()
 	for (TActorIterator<AGenerator> itr(GetWorld()); itr; ++itr)
 	{
 		Generator = *itr;
+		UE_LOG(LogTemp, Warning, TEXT("Generator found"));
 	}
 }
