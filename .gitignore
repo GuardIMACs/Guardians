@@ -234,7 +234,11 @@ Binaries/*
 Saved/Logs/*
 Saved/Autosaves/*
 Saved/AutoScreenshot.png
+Saved/Screenshots/*
 Saved/Cooked/*
 Saved/StagedBuilds/*
 Saved/Config/*
 Intermediate/*
+
+# Big Files
+Content/Maps/Highrise.umap

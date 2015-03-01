@@ -41,7 +41,7 @@ AVoidling::AVoidling(const class FPostConstructInitializeProperties& PCIP)
 		}
 	}*/
 
-	static ConstructorHelpers::FObjectFinder<USkeletalMesh> mesh(TEXT("SkeletalMesh'/Game/Meshes/Extender.Extender'"));
+	static ConstructorHelpers::FObjectFinder<USkeletalMesh> mesh(TEXT("SkeletalMesh'/Game/Meshes/Aliens/Extender.Extender'"));
 	Mesh->SetSkeletalMesh(mesh.Object);
 	Mesh->SetWorldScale3D(FVector(0.3f, 0.3f, 0.3f));
 	Mesh->SetWorldLocation(FVector(0, 0, 0));
