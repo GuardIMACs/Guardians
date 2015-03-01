@@ -53,7 +53,7 @@ AGatling::AGatling(const class FPostConstructInitializeProperties& PCIP)
 		}
 	}
 
-	static ConstructorHelpers::FObjectFinder<USkeletalMesh> mesh(TEXT("SkeletalMesh'/Game/Meshes/gatling.gatling'"));
+	static ConstructorHelpers::FObjectFinder<USkeletalMesh> mesh(TEXT("SkeletalMesh'/Game/Meshes/Turrets/gatling.gatling'"));
 	Mesh->SetSkeletalMesh(mesh.Object);
 	Mesh->SetWorldScale3D(FVector(0.5f, 0.5f, 0.5f));
 	Mesh->SetWorldLocation(FVector(0,-110,0));

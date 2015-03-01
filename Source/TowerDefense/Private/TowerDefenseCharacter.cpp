@@ -41,6 +41,11 @@ ATowerDefenseCharacter::ATowerDefenseCharacter(const class FPostConstructInitial
 	Mesh1P->RelativeLocation = FVector(0.f, 0.f, -150.f);
 	Mesh1P->bCastDynamicShadow = false;
 	Mesh1P->CastShadow = false;
+	
+	Weapon = PCIP.CreateDefaultSubobject<USkeletalMeshComponent>(this, TEXT("WeaponMesh1P"));
+	/*Weapon->SetOnlyOwnerSee(true);
+	Weapon->AttachSocketName = "ReaperSocket";
+	Weapon->AttachParent = Mesh1P;*/
 
 	// Note: The ProjectileClass and the skeletal mesh/anim blueprints for Mesh1P are set in the
 	// derived blueprint asset named MyCharacter (to avoid direct content references in C++)
@@ -216,4 +221,19 @@ void ATowerDefenseCharacter::LookUpAtRate(float Rate)
 {
 	// calculate delta for this frame from the rate information
 	AddControllerPitchInput(Rate * BaseLookUpRate * GetWorld()->GetDeltaSeconds());
+}
+
+bool ATowerDefenseCharacter::IsTargeting() const
+{
+	return false;
+}
+
+float ATowerDefenseCharacter::GetRunningSpeedModifier() const
+{
+	return false;
+}
+
+bool ATowerDefenseCharacter::IsRunning() const
+{
+	return false;
 }
