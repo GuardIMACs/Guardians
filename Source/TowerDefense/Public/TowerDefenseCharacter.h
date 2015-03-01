@@ -40,7 +40,23 @@ class ATowerDefenseCharacter : public ACharacter
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 	class UAnimMontage* FireAnimation;
 
+	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
+	TSubobjectPtr<class USkeletalMeshComponent> Weapon;
+
 protected:
+
+	/** get targeting state */
+	UFUNCTION(BlueprintCallable, Category = "Game|Weapon")
+	bool IsTargeting() const;
+
+	/** get the modifier value for running speed */
+	UFUNCTION(BlueprintCallable, Category = Pawn)
+	float GetRunningSpeedModifier() const;
+
+	/** get running state */
+	UFUNCTION(BlueprintCallable, Category = Pawn)
+	bool IsRunning() const;
+
 
 	/** Handler for a touch input beginning. */
 	void TouchStarted(const ETouchIndex::Type FingerIndex, const FVector Location);
