@@ -24,6 +24,9 @@ ATowerDefenseCharacter::ATowerDefenseCharacter(const class FPostConstructInitial
 	BaseTurnRate = 45.f;
 	BaseLookUpRate = 45.f;
 
+	P_health = 1.f; 
+	P_shield = 1.f;
+
 	// Create a CameraComponent	
 	FirstPersonCameraComponent = PCIP.CreateDefaultSubobject<UCameraComponent>(this, TEXT("FirstPersonCamera"));
 	FirstPersonCameraComponent->AttachParent = CapsuleComponent;

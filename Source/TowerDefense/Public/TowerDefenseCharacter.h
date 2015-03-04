@@ -24,6 +24,14 @@ class ATowerDefenseCharacter : public ACharacter
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
 	float BaseLookUpRate;
 
+	/** Character's health  - float from 0 to 1 */
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Gameplay)
+	float P_health;
+	 
+	/** Character's shield - float from 0 to 1 */
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Gameplay)
+	float P_shield;
+
 	/** Gun muzzle's offset from the characters location */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Gameplay)
 	FVector GunOffset;
