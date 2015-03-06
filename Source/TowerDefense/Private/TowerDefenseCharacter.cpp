@@ -6,7 +6,8 @@
 #include "Animation/AnimInstance.h"
 
 #include "TowerDefenseGameMode.h"
-#include "BaseUnit.h"
+#include "Units/Tower.h"
+#include "Units/Voidling.h"
 #include "Defines.h"
 #include "DrawDebugHelpers.h"
 
@@ -26,6 +27,9 @@ ATowerDefenseCharacter::ATowerDefenseCharacter(const class FPostConstructInitial
 
 	P_health = 1.f; 
 	P_shield = 1.f;
+	Is_Tower = false; 
+	Is_Monster = false; 
+	ViewedObject = ""; 
 
 	// Create a CameraComponent	
 	FirstPersonCameraComponent = PCIP.CreateDefaultSubobject<UCameraComponent>(this, TEXT("FirstPersonCamera"));
@@ -239,4 +243,73 @@ float ATowerDefenseCharacter::GetRunningSpeedModifier() const
 bool ATowerDefenseCharacter::IsRunning() const
 {
 	return false;
+}
+
+void ATowerDefenseCharacter::Tick(float DeltaSeconds)
+{
+	Super::Tick(DeltaSeconds);
+	if (Controller && Controller->IsLocalPlayerController()) // we check the controller becouse we dont want bots to grab the use object and we need a controller for the Getplayerviewpoint function
+	{
+		Is_Tower = false;
+		Is_Monster = false;
+		
+		FVector CamLoc;
+		FRotator CamRot;
+
+		Controller->GetPlayerViewPoint(CamLoc, CamRot); // Get the camera position and rotation
+		const FVector StartTrace = CamLoc; // trace start is the camera location
+		const FVector Direction = CamRot.Vector();
+		const FVector EndTrace = StartTrace + Direction * 20000; // and trace end is the camera location + an offset in the direction you are looking, the 200 is the distance at wich it checks
+
+		// Perform trace to retrieve hit info
+		FCollisionQueryParams TraceParams(FName(TEXT("WeaponTrace")), true, this);
+		TraceParams.bTraceAsyncScene = true;
+		TraceParams.bReturnPhysicalMaterial = true;
+
+		FHitResult Hit(ForceInit);
+		if (GetWorld()->LineTraceSingle(Hit, StartTrace, EndTrace, ECC_Camera, TraceParams) ) { // simple trace function
+
+			UE_LOG(LogTemp, Error, TEXT("Raycast"));
+			
+
+			ATower* tower = Cast<ATower>(Hit.GetActor()); // we cast the hit actor to the Atower 
+			if (tower) 
+			{
+				UE_LOG(LogTemp, Error, TEXT("Tower")); 
+				Is_Tower = true; 
+				ViewedObject = tower->Name;
+				ViewedObject_currentlife = tower->CurrentLife;
+				ViewedObject_maxlife = tower->MaxLife;
+			}
+			else
+			{
+				UE_LOG(LogTemp, Error, TEXT("Not Tower")); 
+				Is_Tower = false;
+			}
+
+			AMonster* monster = Cast<AMonster>(Hit.GetActor()); // we cast the hit actor to the Atower 
+			if (monster)
+			{
+				UE_LOG(LogTemp, Error, TEXT("Monster"));
+				Is_Monster = true;
+				ViewedObject = monster->Name;
+				ViewedObject_currentlife = monster->CurrentLife;
+				ViewedObject_maxlife = monster->MaxLife;
+			}
+			else
+			{
+				UE_LOG(LogTemp, Error, TEXT("Not Monster"));
+				Is_Monster = false;
+			}
+
+
+
+		}
+		
+		
+
+	
+	}
+
+	
 }

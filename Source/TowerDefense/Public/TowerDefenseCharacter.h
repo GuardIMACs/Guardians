@@ -1,7 +1,9 @@
 // Copyright 1998-2014 Epic Games, Inc. All Rights Reserved.
 #pragma once
 #include "GameFramework/Character.h"
+#include "BaseUnit.h"
 #include "TowerDefenseCharacter.generated.h"
+
 
 UCLASS(config=Game)
 class ATowerDefenseCharacter : public ACharacter
@@ -24,14 +26,6 @@ class ATowerDefenseCharacter : public ACharacter
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
 	float BaseLookUpRate;
 
-	/** Character's health  - float from 0 to 1 */
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Gameplay)
-	float P_health;
-	 
-	/** Character's shield - float from 0 to 1 */
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Gameplay)
-	float P_shield;
-
 	/** Gun muzzle's offset from the characters location */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Gameplay)
 	FVector GunOffset;
@@ -50,6 +44,31 @@ class ATowerDefenseCharacter : public ACharacter
 
 	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
 	TSubobjectPtr<class USkeletalMeshComponent> Weapon;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = GUI)
+	bool Is_Tower;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = GUI)
+	bool Is_Monster;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = GUI)
+	FString ViewedObject;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = GUI)
+	int32 ViewedObject_currentlife;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = GUI)
+	int32 ViewedObject_maxlife;
+
+	/** Character's health  - float from 0 to 1 */
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = CharacterStat)
+	float P_health;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = CharacterStat)
+	float P_shield; //generator
+
+
+
 
 protected:
 
@@ -92,6 +111,8 @@ protected:
 	 * @param Rate	This is a normalized rate, i.e. 1.0 means 100% of desired turn rate
 	 */
 	void LookUpAtRate(float Rate);
+
+	virtual void Tick(float DeltaSeconds) override;
 
 protected:
 	// APawn interface
