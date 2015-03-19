@@ -11,4 +11,8 @@ public:
 
 	virtual AMonster* Spawn(UWorld* world, const FVector& vec, const FRotator rot) { return nullptr; }
 	virtual void OnDestroy();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Behavior)
+	class UBehaviorTree* BehaviorTree;
+	
 };

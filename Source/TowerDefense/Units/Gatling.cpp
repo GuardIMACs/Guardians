@@ -25,12 +25,23 @@ public:
 
 	void SearchTarget()
 	{
-		auto& monsters = GameMode->Units.getMonstersAlive();
-		TArray<ABaseUnit*> m;
-		for (AMonster* u : monsters)
-			m.Add(u);
+		float minDist = RangeMax + 1.f;
+		ABaseUnit* target = nullptr;
+		auto from = Parent->GetActorLocation();	from.Z = 0;
 
-		SearchFromArray(m);
+		GameMode->Units.ForeachMonster([this, &minDist, &target, from](AMonster* m) {
+			auto pos = m->GetActorLocation();
+			pos.Z = 0;
+			float dist = FVector::Dist(from, pos);
+			if (dist <= RangeMax && dist >= RangeMin)
+			{
+				if (dist < minDist)
+				{
+					target = m;
+					minDist = dist;
+				}
+			}
+		});
 	}
 };
 

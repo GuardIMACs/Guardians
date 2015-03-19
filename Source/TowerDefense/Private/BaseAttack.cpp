@@ -22,45 +22,6 @@ void BaseAttack::Tick(float elapsed)
 	}
 }
 
-void BaseAttack::SearchFromArray(TArray<ABaseUnit*>& units)
-{
-	if (Target)
-		Target->RemoveLock();
-	Target = nullptr;
-	// Todo look for target between RangeMin et RangeMax
-
-	float minRange = RangeMax + 1;
-	ABaseUnit* target = nullptr;
-
-	auto from = Parent->GetActorLocation();	from.Z = 0;
-
-
-	for (auto* unit : units)
-	{
-		if (!unit->IsAlive())
-			continue;
-
-		auto to = unit->GetActorLocation();	to.Z = 0;
-		float dist = FVector::Dist(from, to);
-		UE_LOG(LogTemp, Warning, TEXT("%s %d"), *unit->Name, unit->CurrentLife);
-		UE_LOG(LogTemp, Warning, TEXT("from: %f %f %f"), from.X, from.Y, from.Z);
-		UE_LOG(LogTemp, Warning, TEXT("to: %f %f %f"), to.X, to.Y, to.Z);
-		UE_LOG(LogTemp, Warning, TEXT("dist: %f"), dist);
-		if (dist > RangeMin && dist < minRange)
-		{
-			minRange = dist;
-			target = unit;
-		}
-	}
-
-	if (target)
-	{
-		Target = target;
-		Target->AddLock();
-		UE_LOG(LogTemp, Warning, TEXT("Target Locked"));
-	}
-}
-
 void BaseAttack::Fire()
 {
 	CASSERT(Target, "No target set but fire() called");

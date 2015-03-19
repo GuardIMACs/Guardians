@@ -64,8 +64,4 @@ public:
 	virtual bool IsTargetInRange();
 
 	ATowerDefenseGameMode* GameMode;
-
-protected:
-	void SearchFromArray(TArray<ABaseUnit*>& units);
-
 };

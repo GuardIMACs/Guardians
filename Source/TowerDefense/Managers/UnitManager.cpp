@@ -46,8 +46,10 @@ AMonster* CUnitManager::instanciateMonster(EMonster id, UWorld* World, const FVe
 		return nullptr;
 
 	AMonster* ptr = MonstersInfo[index].Monster->Spawn(World, SpawnLocation, SpawnRotation);
-	if (ptr)
+	if (ptr) {
 		Monsters.Add(ptr);
+		ptr->SpawnDefaultController();
+	}
 	return ptr;
 }
 
@@ -58,8 +60,10 @@ ATower* CUnitManager::instanciateTower(ETower id, UWorld* World, const FVector& 
 		return nullptr;
 
 	ATower* ptr = TowersInfo[index].Tower->Spawn(World, SpawnLocation, SpawnRotation);
-	if (ptr)
+	if (ptr) {
 		Towers.Add(ptr);
+		ptr->SpawnDefaultController();
+	}
 	return ptr;
 }
 

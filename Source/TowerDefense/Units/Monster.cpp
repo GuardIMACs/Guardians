@@ -1,5 +1,6 @@
 #include "TowerDefense.h"
 #include "TowerDefenseGameMode.h"
+#include "MonsterAIController.h"
 #include "Monster.h"
 
 
@@ -7,6 +8,7 @@ AMonster::AMonster(const class FPostConstructInitializeProperties& PCIP)
 	: Super(PCIP)
 {
 	Type = EUnitType::Attacker;
+	AIControllerClass = AMonsterAIController::StaticClass();
 }
 
 void AMonster::OnDestroy()

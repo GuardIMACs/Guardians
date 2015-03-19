@@ -1,5 +1,6 @@
 #pragma once
 #include "Defines.h"
+#include <algorithm>
 
 class AMonster;
 class ATower;
@@ -54,6 +55,24 @@ public:
 
 	void		removeMonster(AMonster* monster);
 	void		removeTower(ATower* tower);
+
+	template<typename Lambda> void ForeachTower(Lambda l)
+	{
+		for (auto it = Towers.CreateIterator(); it; ++it)
+			l(*it);
+	}
+	template<typename Lambda> void ForeachMonster(Lambda l)
+	{
+		for (auto it = Monsters.CreateIterator(); it; ++it)
+			l(*it);
+	}
+	template<typename Lambda> void ForeachUnit(Lambda l)
+	{
+		for (auto it = Towers.CreateIterator(); it; ++it)
+			l(*it);
+		for (auto it = Monsters.CreateIterator(); it; ++it)
+			l(*it);
+	}
 
 protected:
 	TArray<SMonsterInfo>	MonstersInfo;

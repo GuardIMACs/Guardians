@@ -37,11 +37,11 @@ void StaticBehavior::Tick(ABaseUnit* unit, float elapsed)
 			
 			if (!ai)
 			{
-				UE_LOG(LogTemp, Warning, TEXT("No AI"));
+				//UE_LOG(LogTemp, Warning, TEXT("No AI"));
 			}
 			if (!generator)
 			{
-				UE_LOG(LogTemp, Warning, TEXT("No generator"));
+				//UE_LOG(LogTemp, Warning, TEXT("No generator"));
 			}
 			//unit->MoveToActor();
 		}

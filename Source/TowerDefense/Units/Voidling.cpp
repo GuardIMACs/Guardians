@@ -2,6 +2,7 @@
 
 #include "TowerDefense.h"
 #include "Voidling.h"
+#include "Engine/Blueprint.h"
 #include "Behaviors/StaticBehavior.h"
 #include "TowerDefenseGameMode.h"
 
@@ -45,9 +46,13 @@ AVoidling::AVoidling(const class FPostConstructInitializeProperties& PCIP)
 	Mesh->SetSkeletalMesh(mesh.Object);
 	Mesh->SetWorldScale3D(FVector(0.3f, 0.3f, 0.3f));
 	Mesh->SetWorldLocation(FVector(0, 0, 0));
+	Mesh->SetWorldRotation(FRotator(0, 90, 0));
 
 	CapsuleComponent->SetCapsuleRadius(30);
 	CapsuleComponent->SetCapsuleHalfHeight(60);
+
+	static ConstructorHelpers::FObjectFinder<UObject> tree(TEXT("BehaviorTree'/Game/Blueprints/Monster_Behavior.Monster_Behavior'"));
+	BehaviorTree = (UBehaviorTree*)tree.Object;
 }
 
 AVoidling* AVoidling::Spawn(UWorld* world, const FVector& vec, const FRotator rot)
