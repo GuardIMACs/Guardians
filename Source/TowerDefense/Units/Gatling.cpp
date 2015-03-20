@@ -26,10 +26,10 @@ public:
 	void SearchTarget()
 	{
 		float minDist = RangeMax + 1.f;
-		ABaseUnit* target = nullptr;
+		Target = nullptr;
 		auto from = Parent->GetActorLocation();	from.Z = 0;
 
-		GameMode->Units.ForeachMonster([this, &minDist, &target, from](AMonster* m) {
+		GameMode->Units.ForeachMonster([this, &minDist, from](AMonster* m) {
 			auto pos = m->GetActorLocation();
 			pos.Z = 0;
 			float dist = FVector::Dist(from, pos);
@@ -37,7 +37,7 @@ public:
 			{
 				if (dist < minDist)
 				{
-					target = m;
+					Target = m;
 					minDist = dist;
 				}
 			}
@@ -60,7 +60,7 @@ AGatling::AGatling(const class FPostConstructInitializeProperties& PCIP)
 		if (mode)
 		{
 			Attack.Add(TSharedPtr<BaseAttack>(new GatlingAtk(this, mode)));
-			UE_LOG(LogTemp, Warning, TEXT("created gatlingatk"));
+			//UE_LOG(LogTemp, Warning, TEXT("created gatlingatk"));
 		}
 	}
 

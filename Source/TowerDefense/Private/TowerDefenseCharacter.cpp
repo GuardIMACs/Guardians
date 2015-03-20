@@ -275,7 +275,7 @@ void ATowerDefenseCharacter::Tick(float DeltaSeconds)
 			ATower* tower = Cast<ATower>(Hit.GetActor()); // we cast the hit actor to the Atower 
 			if (tower) 
 			{
-				UE_LOG(LogTemp, Error, TEXT("Tower")); 
+				//UE_LOG(LogTemp, Error, TEXT("Tower")); 
 				Is_Tower = true; 
 				ViewedObject = tower->Name;
 				ViewedObject_currentlife = tower->CurrentLife;
@@ -283,14 +283,14 @@ void ATowerDefenseCharacter::Tick(float DeltaSeconds)
 			}
 			else
 			{
-				UE_LOG(LogTemp, Error, TEXT("Not Tower")); 
+				//UE_LOG(LogTemp, Error, TEXT("Not Tower")); 
 				Is_Tower = false;
 			}
 
 			AMonster* monster = Cast<AMonster>(Hit.GetActor()); // we cast the hit actor to the Atower 
 			if (monster)
 			{
-				UE_LOG(LogTemp, Error, TEXT("Monster"));
+				//UE_LOG(LogTemp, Error, TEXT("Monster"));
 				Is_Monster = true;
 				ViewedObject = monster->Name;
 				ViewedObject_currentlife = monster->CurrentLife;
@@ -298,7 +298,7 @@ void ATowerDefenseCharacter::Tick(float DeltaSeconds)
 			}
 			else
 			{
-				UE_LOG(LogTemp, Error, TEXT("Not Monster"));
+				//UE_LOG(LogTemp, Error, TEXT("Not Monster"));
 				Is_Monster = false;
 			}
 

@@ -4,7 +4,9 @@
 #include "Voidling.h"
 #include "Engine/Blueprint.h"
 #include "Behaviors/StaticBehavior.h"
+#include "Effects/StandardEffect.h"
 #include "TowerDefenseGameMode.h"
+#include "Units/Tower.h"
 
 class VoidlingAtk : public BaseAttack
 {
@@ -14,11 +16,33 @@ public:
 		Name = "Leap attack";
 		Description = "Jumps on the closest target";
 		RangeMin = 0.f;
-		RangeMax = 5.f;
+		RangeMax = 120.f;
 		Cooldown = 0.5;
 		CurrentCooldown = 0.f;
-		MinDamages = 10;
-		MaxDamages = 20;
+		MinDamages = 0;
+		MaxDamages = 10;
+		EffectsApply.Add(TSharedPtr<BaseEffect>(new StandardEffect(EElement::Normal)));
+	}
+
+	void SearchTarget()
+	{
+		float minDist = RangeMax + 1.f;
+		Target = nullptr;
+		auto from = Parent->GetActorLocation();	from.Z = 0;
+
+		GameMode->Units.ForeachTower([this, &minDist, from](ATower* m) {
+			auto pos = m->GetActorLocation();
+			pos.Z = 0;
+			float dist = FVector::Dist(from, pos);
+			if (dist <= RangeMax && dist >= RangeMin)
+			{
+				if (dist < minDist)
+				{
+					Target = m;
+					minDist = dist;
+				}
+			}
+		});
 	}
 };
 
@@ -32,15 +56,15 @@ AVoidling::AVoidling(const class FPostConstructInitializeProperties& PCIP)
 	Speed = 0.f;
 	Behavior = TSharedPtr<UnitBehavior>(new StaticBehavior());
 
-	/*if (GetWorld())
+	if (GetWorld())
 	{
 		auto* mode = GetWorld()->GetAuthGameMode<ATowerDefenseGameMode>();
 		if (mode)
 		{
 			Attack.Add(TSharedPtr<BaseAttack>(new VoidlingAtk(this, mode)));
-			UE_LOG(LogTemp, Warning, TEXT("created voidlingatk"));
+			//UE_LOG(LogTemp, Warning, TEXT("created voidlingatk"));
 		}
-	}*/
+	}
 
 	static ConstructorHelpers::FObjectFinder<USkeletalMesh> mesh(TEXT("SkeletalMesh'/Game/Meshes/Aliens/Extender.Extender'"));
 	Mesh->SetSkeletalMesh(mesh.Object);
