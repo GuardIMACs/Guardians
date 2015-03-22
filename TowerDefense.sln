@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
-MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Engine", "Engine", "{B6D4B2E5-936E-488F-89A2-F7DE2F136666}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Engine", "Engine", "{0BD22D57-1E8C-47D5-A2BB-60B9DB7363AD}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Games", "Games", "{B05A0377-2A12-45D2-9214-C938DB315030}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Games", "Games", "{883129AC-0E31-47E5-9344-B952F7DF7A21}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TowerDefense", "Intermediate\ProjectFiles\TowerDefense.vcxproj", "{A971C102-0A3C-4716-9EF2-519E27E786F7}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UE4", "Intermediate\ProjectFiles\UE4.vcxproj", "{42738606-96A3-4936-BF39-F74D95DA39D8}"
 EndProject
@@ -30,17 +30,12 @@ Global
 		{A971C102-0A3C-4716-9EF2-519E27E786F7}.Development|Windows.Build.0 = Development_Game|x64
 		{A971C102-0A3C-4716-9EF2-519E27E786F7}.Shipping|Windows.ActiveCfg = Shipping_Game|Win32
 		{A971C102-0A3C-4716-9EF2-519E27E786F7}.Shipping|Windows.Build.0 = Shipping_Game|Win32
-		{42738606-96A3-4936-BF39-F74D95DA39D8}.DebugGame Editor|Windows.ActiveCfg = BuiltWithUnrealBuildTool|Win32
-		{42738606-96A3-4936-BF39-F74D95DA39D8}.DebugGame|Windows.ActiveCfg = BuiltWithUnrealBuildTool|Win32
-		{42738606-96A3-4936-BF39-F74D95DA39D8}.Development Editor|Windows.ActiveCfg = BuiltWithUnrealBuildTool|Win32
-		{42738606-96A3-4936-BF39-F74D95DA39D8}.Development|Windows.ActiveCfg = BuiltWithUnrealBuildTool|Win32
-		{42738606-96A3-4936-BF39-F74D95DA39D8}.Shipping|Windows.ActiveCfg = BuiltWithUnrealBuildTool|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{A971C102-0A3C-4716-9EF2-519E27E786F7} = {B05A0377-2A12-45D2-9214-C938DB315030}
-		{42738606-96A3-4936-BF39-F74D95DA39D8} = {B6D4B2E5-936E-488F-89A2-F7DE2F136666}
+		{42738606-96A3-4936-BF39-F74D95DA39D8} = {0BD22D57-1E8C-47D5-A2BB-60B9DB7363AD}
+		{A971C102-0A3C-4716-9EF2-519E27E786F7} = {883129AC-0E31-47E5-9344-B952F7DF7A21}
 	EndGlobalSection
 EndGlobal
