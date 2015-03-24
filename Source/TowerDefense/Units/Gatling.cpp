@@ -30,6 +30,8 @@ public:
 		auto from = Parent->GetActorLocation();	from.Z = 0;
 
 		GameMode->Units.ForeachMonster([this, &minDist, from](AMonster* m) {
+			if (!m->IsAlive())
+				return;
 			auto pos = m->GetActorLocation();
 			pos.Z = 0;
 			float dist = FVector::Dist(from, pos);

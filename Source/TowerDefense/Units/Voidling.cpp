@@ -31,6 +31,8 @@ public:
 		auto from = Parent->GetActorLocation();	from.Z = 0;
 
 		GameMode->Units.ForeachTower([this, &minDist, from](ATower* m) {
+			if (!m->IsAlive())
+				return;
 			auto pos = m->GetActorLocation();
 			pos.Z = 0;
 			float dist = FVector::Dist(from, pos);
@@ -54,6 +56,7 @@ AVoidling::AVoidling(const class FPostConstructInitializeProperties& PCIP)
 	MaxLife = 100;
 	CurrentLife = MaxLife;
 	Speed = 0.f;
+	AIBehavior = MonsterAIBehavior::Run;
 	Behavior = TSharedPtr<UnitBehavior>(new StaticBehavior());
 
 	if (GetWorld())

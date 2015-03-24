@@ -8,6 +8,9 @@
 /**
  * 
  */
+
+class ABaseUnit;
+
 UCLASS()
 class TOWERDEFENSE_API AMonsterAIController : public AAIController
 {
@@ -17,7 +20,7 @@ class TOWERDEFENSE_API AMonsterAIController : public AAIController
 	UFUNCTION(BlueprintCallable, Category = "Behavior")
 	void SearchForEnemy();
 
-	void SetEnemy(ATower* pawn);
+	void SetEnemy(ABaseUnit* pawn);
 
 	class UBehaviorTreeComponent* BehaviorComponent;
 	class UBlackboardComponent* BlackboardComponent;
