@@ -7,6 +7,7 @@ AGenerator::AGenerator(const class FPostConstructInitializeProperties& PCIP)
 {
 
 	MaxLife = 50.f;
+	CurrentLife = 50.f;
 	/*static ConstructorHelpers::FObjectFinder<USkeletalMesh> mesh(TEXT("SkeletalMesh'/Game/Meshes/generator.generator'"));
 	Mesh->SetSkeletalMesh(mesh.Object);
 
