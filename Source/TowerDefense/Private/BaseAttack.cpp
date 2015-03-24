@@ -15,10 +15,20 @@ void BaseAttack::Tick(float elapsed)
 		CurrentCooldown -= elapsed;
 	else
 	{
-		if (!IsTargetInRange() || !Target->IsAlive())
-			SearchTarget();
-		else
+		if (Target && (!IsTargetInRange() || !Target->IsAlive()))
+		{
+			if (Target)
+				Target->RemoveLock();
+			Target = nullptr;
+		}
+		if (Target)
 			Fire();
+		else
+		{
+			SearchTarget();
+			if (Target)
+				Target->AddLock();
+		}
 	}
 }
 

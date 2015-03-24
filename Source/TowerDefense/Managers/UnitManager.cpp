@@ -63,6 +63,7 @@ ATower* CUnitManager::instanciateTower(ETower id, UWorld* World, const FVector& 
 	if (ptr) {
 		Towers.Add(ptr);
 		ptr->SpawnDefaultController();
+		ptr->GetCapsuleComponent()->SetCanEverAffectNavigation(true);
 	}
 	return ptr;
 }

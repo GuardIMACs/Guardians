@@ -269,9 +269,10 @@ void ATowerDefenseCharacter::Tick(float DeltaSeconds)
 		FHitResult Hit(ForceInit);
 		if (GetWorld()->LineTraceSingle(Hit, StartTrace, EndTrace, ECC_Camera, TraceParams) ) { // simple trace function
 
-			UE_LOG(LogTemp, Error, TEXT("Raycast"));
+//5Q			UE_LOG(LogTemp, Error, TEXT("Raycast"));
 			
-
+			Is_Monster = false;
+			Is_Tower = false;
 			ATower* tower = Cast<ATower>(Hit.GetActor()); // we cast the hit actor to the Atower 
 			if (tower) 
 			{
@@ -285,21 +286,21 @@ void ATowerDefenseCharacter::Tick(float DeltaSeconds)
 			{
 				//UE_LOG(LogTemp, Error, TEXT("Not Tower")); 
 				Is_Tower = false;
-			}
-
-			AMonster* monster = Cast<AMonster>(Hit.GetActor()); // we cast the hit actor to the Atower 
-			if (monster)
-			{
-				//UE_LOG(LogTemp, Error, TEXT("Monster"));
-				Is_Monster = true;
-				ViewedObject = monster->Name;
-				ViewedObject_currentlife = monster->CurrentLife;
-				ViewedObject_maxlife = monster->MaxLife;
-			}
-			else
-			{
-				//UE_LOG(LogTemp, Error, TEXT("Not Monster"));
-				Is_Monster = false;
+				AMonster* monster = Cast<AMonster>(Hit.GetActor()); // we cast the hit actor to the Atower 
+				if (monster)
+				{
+					//UE_LOG(LogTemp, Error, TEXT("Monster"));
+					Is_Monster = true;
+					ViewedObject = monster->Name;
+					ViewedObject_currentlife = monster->CurrentLife;
+					ViewedObject_maxlife = monster->MaxLife;
+				}
+				else
+				{
+					//UE_LOG(LogTemp, Error, TEXT("Not Monster"));
+					Is_Monster = false;
+				}
+				
 			}
 
 

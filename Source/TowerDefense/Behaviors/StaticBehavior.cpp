@@ -19,33 +19,33 @@ void StaticBehavior::Tick(ABaseUnit* unit, float elapsed)
 {
 	if (!unit)
 		return;
-
-	auto world = unit->GetWorld();
-	if (world)
-	{
-		auto mode = world->GetAuthGameMode<ATowerDefenseGameMode>();
-		if (mode)
-		{
-			auto generator = mode->Generator;
-			auto a = unit->GetController();
-			AAIController* ai = Cast<AAIController>(unit->GetController());
-			if (ai && generator)
-			{
-				ai->MoveToActor(generator, 10.f);
-				UE_LOG(LogTemp, Warning, TEXT("Moving to generator"));
-			}
-			
-			if (!ai)
-			{
-				//UE_LOG(LogTemp, Warning, TEXT("No AI"));
-			}
-			if (!generator)
-			{
-				//UE_LOG(LogTemp, Warning, TEXT("No generator"));
-			}
-			//unit->MoveToActor();
-		}
-	}
+	return;
+// 	auto world = unit->GetWorld();
+// 	if (world)
+// 	{
+// 		auto mode = world->GetAuthGameMode<ATowerDefenseGameMode>();
+// 		if (mode)
+// 		{
+// 			auto generator = mode->Generator;
+// 			auto a = unit->GetController();
+// 			AAIController* ai = Cast<AAIController>(unit->GetController());
+// 			if (ai && generator)
+// 			{
+// 				ai->MoveToActor(generator, 10.f);
+// 				UE_LOG(LogTemp, Warning, TEXT("Moving to generator"));
+// 			}
+// 			
+// 			if (!ai)
+// 			{
+// 				//UE_LOG(LogTemp, Warning, TEXT("No AI"));
+// 			}
+// 			if (!generator)
+// 			{
+// 				//UE_LOG(LogTemp, Warning, TEXT("No generator"));
+// 			}
+// 			//unit->MoveToActor();
+// 		}
+// 	}
 	
 	// Do nothing
 }

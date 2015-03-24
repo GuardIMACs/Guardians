@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "TowerDefense.h"
+#include "Buildings/Generator.h"
 #include "Units/Monster.h"
 #include "Units/Tower.h"
 #include "TowerDefenseGameMode.h"
@@ -51,26 +52,40 @@ void AMonsterAIController::SearchForEnemy()
 	}
 
 	float minDist = MAX_FLT;
-	ATower* target = nullptr;
-	auto from = pawn->GetActorLocation();	from.Z = 0;
-
-	mode->Units.ForeachTower([&minDist, &target, from](ATower* t) {
-		auto pos = t->GetActorLocation();	pos.Z = 0;
-		float dist = FVector::Dist(from, pos);
-		if (dist <= minDist)
+	ABaseUnit* target = nullptr;
+	switch (monster->AIBehavior) {
+	case MonsterAIBehavior::Attack:
 		{
-			target = t;
-			minDist = dist;
-		}
-	});
+			auto from = pawn->GetActorLocation();	from.Z = 0;
 
+			mode->Units.ForeachTower([&minDist, &target, from](ATower* t) {
+				auto pos = t->GetActorLocation();	pos.Z = 0;
+				float dist = FVector::Dist(from, pos);
+				if (dist <= minDist)
+				{
+					target = t;
+					minDist = dist;
+				}
+			});
+			if (!target && mode->Generator)
+					target = mode->Generator;
+		}
+		break;
+	case MonsterAIBehavior::Run:
+		if (mode->Generator)
+			target = mode->Generator;
+	
+		break;
+	default:
+		break;
+	}
 	if (target)
 		SetEnemy(target);
 	else
 		UE_LOG(LogTemp, Warning, TEXT("!target"));
 }
 
-void AMonsterAIController::SetEnemy(ATower* pawn)
+void AMonsterAIController::SetEnemy(ABaseUnit* pawn)
 {
 	BlackboardComponent->SetValueAsObject(KeyID_Enemy, pawn);
 	BlackboardComponent->SetValueAsVector(KeyID_EnemyLocation, pawn->GetActorLocation());
