@@ -44,6 +44,10 @@ UENUM(BlueprintType)
 enum class EMonster : uint8
 {
 	Extender UMETA(DisplayName = "Extender"),
+	GlobalHawk UMETA(DisplayName = "GlobalHawk"),
+	Sentinel UMETA(DisplayName = "Sentinel"),
+	Predator UMETA(DisplayName = "Predator"),
+	Surrogate UMETA(DisplayName = "Surrogate"),
 	Max
 };
 
