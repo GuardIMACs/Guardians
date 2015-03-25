@@ -43,7 +43,7 @@ enum class ETower : uint8
 UENUM(BlueprintType)
 enum class EMonster : uint8
 {
-	Voidling UMETA(DisplayName = "Voidling"),
+	Extender UMETA(DisplayName = "Extender"),
 	Max
 };
 

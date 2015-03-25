@@ -1,17 +1,17 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "TowerDefense.h"
-#include "Voidling.h"
+#include "Extender.h"
 #include "Engine/Blueprint.h"
 #include "Behaviors/StaticBehavior.h"
 #include "Effects/StandardEffect.h"
 #include "TowerDefenseGameMode.h"
 #include "Units/Tower.h"
 
-class VoidlingAtk : public BaseAttack
+class ExtenderAtk : public BaseAttack
 {
 public:
-	VoidlingAtk(ABaseUnit* parent, ATowerDefenseGameMode* gameMode) : BaseAttack(parent, gameMode)
+	ExtenderAtk(ABaseUnit* parent, ATowerDefenseGameMode* gameMode) : BaseAttack(parent, gameMode)
 	{
 		Name = "Leap attack";
 		Description = "Jumps on the closest target";
@@ -48,10 +48,10 @@ public:
 	}
 };
 
-AVoidling::AVoidling(const class FPostConstructInitializeProperties& PCIP)
+AExtender::AExtender(const class FPostConstructInitializeProperties& PCIP)
 	: Super(PCIP)
 {
-	Name = "Voidling";
+	Name = "Extender";
 	Type = EUnitType::Attacker;
 	MaxLife = 100;
 	CurrentLife = MaxLife;
@@ -64,7 +64,7 @@ AVoidling::AVoidling(const class FPostConstructInitializeProperties& PCIP)
 		auto* mode = GetWorld()->GetAuthGameMode<ATowerDefenseGameMode>();
 		if (mode)
 		{
-			Attack.Add(TSharedPtr<BaseAttack>(new VoidlingAtk(this, mode)));
+			Attack.Add(TSharedPtr<BaseAttack>(new ExtenderAtk(this, mode)));
 			//UE_LOG(LogTemp, Warning, TEXT("created voidlingatk"));
 		}
 	}
@@ -82,7 +82,7 @@ AVoidling::AVoidling(const class FPostConstructInitializeProperties& PCIP)
 	BehaviorTree = (UBehaviorTree*)tree.Object;
 }
 
-AVoidling* AVoidling::Spawn(UWorld* world, const FVector& vec, const FRotator rot)
+AExtender* AExtender::Spawn(UWorld* world, const FVector& vec, const FRotator rot)
 {
-	return world->SpawnActor<AVoidling>(vec, rot);
+	return world->SpawnActor<AExtender>(vec, rot);
 }
