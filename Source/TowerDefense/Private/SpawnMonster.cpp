@@ -3,7 +3,11 @@
 #include "TowerDefense.h"
 #include "SpawnMonster.h"
 #include "Units/Monster.h"
-#include "Units/Voidling.h"
+#include "Units/Extender.h"
+#include "Units/Predator.h"
+#include "Units/GlobalHawk.h"
+#include "Units/Sentinel.h"
+#include "Units/Surrogate.h"
 #include "TowerDefenseGameMode.h"
 
 
@@ -21,6 +25,7 @@ ASpawnMonster::ASpawnMonster(const class FPostConstructInitializeProperties& PCI
 	SpawnDelay = GetRandomSpawnDelay(); 
 
 	nbMonster = 0; 
+	nbMonsterMax = 4;
 }
 
 
@@ -34,12 +39,58 @@ void ASpawnMonster::SpawnUnit() {
 
 
 			FVector SpawnLocation = GetRandomPointInVolume(); 
+		
+			if (SpawnedMonster->IsChildOf(AExtender::StaticClass())) {
+				auto* mode = World->GetAuthGameMode<ATowerDefenseGameMode>();
+				if (mode != nullptr)
+				{
+					mode->Units.instanciateMonster(EMonster::Extender, World, SpawnLocation, FRotator::ZeroRotator);
+				}
+						
+			}
 
-			auto* mode = World->GetAuthGameMode<ATowerDefenseGameMode>();
+			else if (SpawnedMonster->IsChildOf(APredator::StaticClass())) {
+				auto* mode = World->GetAuthGameMode<ATowerDefenseGameMode>();
+				if (mode != nullptr)
+				{
+					mode->Units.instanciateMonster(EMonster::Predator, World, SpawnLocation, FRotator::ZeroRotator);
+				}
+
+			}
+
+			else if (SpawnedMonster->IsChildOf(ASurrogate::StaticClass())) {
+				auto* mode = World->GetAuthGameMode<ATowerDefenseGameMode>();
+				if (mode != nullptr)
+				{
+					mode->Units.instanciateMonster(EMonster::Surrogate, World, SpawnLocation, FRotator::ZeroRotator);
+				}
+
+			}
+			else if (SpawnedMonster->IsChildOf(ASentinel::StaticClass())) {
+				auto* mode = World->GetAuthGameMode<ATowerDefenseGameMode>();
+				if (mode != nullptr)
+				{
+					mode->Units.instanciateMonster(EMonster::Sentinel, World, SpawnLocation, FRotator::ZeroRotator);
+				}
+
+			}
+			else if (SpawnedMonster->IsChildOf(AGlobalHawk::StaticClass())) {
+				auto* mode = World->GetAuthGameMode<ATowerDefenseGameMode>();
+				if (mode != nullptr)
+				{
+					mode->Units.instanciateMonster(EMonster::GlobalHawk, World, SpawnLocation, FRotator::ZeroRotator);
+				}
+
+			}
+
+
+			/*auto* mode = World->GetAuthGameMode<ATowerDefenseGameMode>();
 			if (mode != nullptr)
 			{
-				mode->Units.instanciateMonster(EMonster::Voidling, World, SpawnLocation, FRotator::ZeroRotator);
-			}
+				mode->Units.instanciateMonster(EMonster::Extender, World, SpawnLocation, FRotator::ZeroRotator);
+			}*/
+
+			//AMonster* const Spawned = World->SpawnActor<AMonster>(SpawnedMonster, SpawnLocation, FRotator::ZeroRotator, SpawnParams); 
 
 		}
 
@@ -110,7 +161,7 @@ void ASpawnMonster::Tick( float DeltaTime )
 		SpawnTime -= SpawnDelay;
 		SpawnDelay = GetRandomSpawnDelay();
 
-		if (nbMonster > 10) {
+		if (nbMonster > nbMonsterMax) {
 			SpawnDelay += 30.f;
 			nbMonster = 0; 
 
