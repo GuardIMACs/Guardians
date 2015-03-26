@@ -7,7 +7,7 @@
 
 #include "TowerDefenseGameMode.h"
 #include "Units/Tower.h"
-#include "Units/Voidling.h"
+#include "Units/Extender.h"
 #include "Defines.h"
 #include "DrawDebugHelpers.h"
 
@@ -184,8 +184,8 @@ void ATowerDefenseCharacter::OnSecondFire()
 			auto* mode = World->GetAuthGameMode<ATowerDefenseGameMode>();
 			if (mode != nullptr)
 			{
-				mode->Units.instanciateMonster(EMonster::Voidling, World, outHit.ImpactPoint, FRotator::ZeroRotator);
-				//ABaseUnit* tow = mode->Monsters.SpawnMonster(EMonster::Voidling, World, outHit.ImpactPoint, FRotator::ZeroRotator);
+				mode->Units.instanciateMonster(EMonster::Extender, World, outHit.ImpactPoint, FRotator::ZeroRotator);
+				//ABaseUnit* tow = mode->Monsters.SpawnMonster(EMonster::Extender, World, outHit.ImpactPoint, FRotator::ZeroRotator);
 			}
 		}
 	}
