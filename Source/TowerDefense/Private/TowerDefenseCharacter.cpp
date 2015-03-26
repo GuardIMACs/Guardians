@@ -164,7 +164,7 @@ void ATowerDefenseCharacter::OnSecondFire()
 			auto* mode = World->GetAuthGameMode<ATowerDefenseGameMode>();
 			if (mode != nullptr)
 			{
-				mode->Units.instanciateMonster(EMonster::Voidling, World, outHit.ImpactPoint, FRotator::ZeroRotator);
+				//mode->Units.instanciateMonster(EMonster::Voidling, World, outHit.ImpactPoint, FRotator::ZeroRotator);
 				//ABaseUnit* tow = mode->Monsters.SpawnMonster(EMonster::Voidling, World, outHit.ImpactPoint, FRotator::ZeroRotator);
 			}
 		}
@@ -200,14 +200,14 @@ void ATowerDefenseCharacter::SpawnTurret()
 			auto* mode = World->GetAuthGameMode<ATowerDefenseGameMode>();
 			if (mode != nullptr)
 			{
-<<<<<<< HEAD
+/* <<<<<<< HEAD
 				mode->Units.instanciateMonster(EMonster::Extender, World, outHit.ImpactPoint, FRotator::ZeroRotator);
 				//ABaseUnit* tow = mode->Monsters.SpawnMonster(EMonster::Extender, World, outHit.ImpactPoint, FRotator::ZeroRotator);
-=======
+======= */
 				ATower* tower = mode->Units.instanciateTower(ETower::Gatling, World, outHit.ImpactPoint, FRotator::ZeroRotator);
 				UE_LOG(LogTemp, Warning, TEXT("%p"), tower);
 				//ABaseUnit* tow = mode->Towers.SpawnTower(ETower::Gatling, World, outHit.ImpactPoint, FRotator::ZeroRotator);
->>>>>>> origin/master
+//>>>>>>> origin/master
 			}
 		}
 		// spawn the projectile at the muzzle

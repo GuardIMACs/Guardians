@@ -29,7 +29,7 @@ public:
 	FVector GetRandomPointInVolume(); 
 
 	UPROPERTY(EditAnywhere, Category = Spawning)
-	int nbMonsterMax ;
+	int32 nbMonsterMax ;
 
 
 	// Called when the game starts or when spawned
@@ -48,7 +48,7 @@ private:
 
 	float SpawnTime; 
 
-	int nbMonster;
+	int32 nbMonster;
 	
 	
 	
