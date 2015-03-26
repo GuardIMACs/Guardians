@@ -50,6 +50,9 @@ ATowerDefenseCharacter::ATowerDefenseCharacter(const class FPostConstructInitial
 	Mesh1P->CastShadow = false;
 	
 	Weapon = PCIP.CreateDefaultSubobject<USkeletalMeshComponent>(this, TEXT("WeaponMesh1P"));
+
+	Weapon_MinDamages = 10;
+	Weapon_MaxDamages = 20;
 	/*Weapon->SetOnlyOwnerSee(true);
 	Weapon->AttachSocketName = "ReaperSocket";
 	Weapon->AttachParent = Mesh1P;*/
@@ -92,10 +95,14 @@ void ATowerDefenseCharacter::OnFire()
 	// try and fire a projectile
 	if (ProjectileClass != NULL)
 	{
-		const FRotator SpawnRotation = GetControlRotation();
-		// MuzzleOffset is in camera space, so transform it to world space before offsetting from the character location to find the final muzzle position
-		const FVector SpawnLocation = GetActorLocation() + SpawnRotation.RotateVector(GunOffset);
-		const FVector EndTrace = SpawnLocation + GetActorForwardVector() * 1000;
+		FVector CamLoc;
+		FRotator CamRot;
+
+		Controller->GetPlayerViewPoint(CamLoc, CamRot); // Get the camera position and rotation
+		const FVector StartTrace = CamLoc; // trace start is the camera location
+		const FVector Direction = CamRot.Vector();
+		const FVector EndTrace = StartTrace + Direction * 20000;
+
 		UWorld* const World = GetWorld();
 		if (World != NULL)
 		{
@@ -111,8 +118,16 @@ void ATowerDefenseCharacter::OnFire()
 			TraceParams.bReturnPhysicalMaterial = true;
 
 			FHitResult Hit(ForceInit);
-			World->LineTraceSingle(Hit, SpawnLocation, EndTrace, ECC_Visibility, TraceParams);
+			World->LineTraceSingle(Hit, StartTrace, EndTrace, ECC_Pawn, TraceParams);
 			SpawnTrailEffect(Hit.GetActor() ? Hit.ImpactPoint : EndTrace);
+			DrawDebugLine(World, StartTrace, EndTrace, FColor::Green, false, 5);
+
+			AMonster* monster = Cast<AMonster>(Hit.GetActor());
+			if (monster)
+			{
+				float damages = getRandomFloat(Weapon_MinDamages, Weapon_MaxDamages);
+				monster->CurrentLife -= damages*monster->Defense[static_cast<int>(EElement::Normal)];
+			}
 		}
 	}
 

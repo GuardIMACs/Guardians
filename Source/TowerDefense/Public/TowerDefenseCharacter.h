@@ -74,6 +74,12 @@ class ATowerDefenseCharacter : public ACharacter
 	UPROPERTY(EditDefaultsOnly, Category = Effects)
 	FName Weapon_TrailTargetParam;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Game|Weapon")
+		float Weapon_MinDamages;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Game|Weapon")
+		float Weapon_MaxDamages;
+
 protected:
 	/** name of bone/socket for muzzle in weapon mesh */
 	UPROPERTY(EditDefaultsOnly, Category = Effects)
