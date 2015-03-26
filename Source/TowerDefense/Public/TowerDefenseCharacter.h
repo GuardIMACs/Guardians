@@ -67,7 +67,25 @@ class ATowerDefenseCharacter : public ACharacter
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = CharacterStat)
 	float P_shield; //generator
 
+	UPROPERTY(EditDefaultsOnly, Category = Effects)
+	UParticleSystem* Weapon_TrailFX;
 
+	/** param name for beam target in smoke trail */
+	UPROPERTY(EditDefaultsOnly, Category = Effects)
+	FName Weapon_TrailTargetParam;
+
+protected:
+	/** name of bone/socket for muzzle in weapon mesh */
+	UPROPERTY(EditDefaultsOnly, Category = Effects)
+	FName MuzzleAttachPoint;
+
+	/** spawned component for muzzle FX */
+	UPROPERTY(Transient)
+	UParticleSystemComponent* MuzzlePSC;
+
+	/** FX for muzzle flash */
+	UPROPERTY(EditDefaultsOnly, Category = Effects)
+	UParticleSystem* MuzzleFX;
 
 
 protected:
@@ -94,6 +112,8 @@ protected:
 	/** */
 	void OnSecondFire();
 
+	void SpawnTurret();
+
 	/** Handles moving forward/backward */
 	void MoveForward(float Val);
 
@@ -113,6 +133,17 @@ protected:
 	void LookUpAtRate(float Rate);
 
 	virtual void Tick(float DeltaSeconds) override;
+
+	/** get weapon mesh (needs pawn owner to determine variant) */
+	USkeletalMeshComponent* GetWeaponMesh() const;
+
+	/** get the muzzle location of the weapon */
+	FVector GetMuzzleLocation() const;
+
+	/** spawn trail effect */
+	void SpawnTrailEffect(const FVector& EndPoint);
+
+	void SpawnMuzzleEffect();
 
 protected:
 	// APawn interface

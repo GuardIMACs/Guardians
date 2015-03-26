@@ -16,6 +16,9 @@ class ATowerDefenseProjectile : public AActor
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Movement)
 	TSubobjectPtr<class UProjectileMovementComponent> ProjectileMovement;
 
+	UPROPERTY(VisibleDefaultsOnly, Category = Projectile)
+		TSubobjectPtr<class UParticleSystemComponent> ParticleComp;
+
 	/** called when projectile hits something */
 	UFUNCTION()
 	void OnHit(AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
