@@ -9,8 +9,8 @@
 ATowerDefenseHUD::ATowerDefenseHUD(const class FPostConstructInitializeProperties& PCIP) : Super(PCIP)
 {
 	// Set the crosshair texture
-	static ConstructorHelpers::FObjectFinder<UTexture2D> CrosshiarTexObj(TEXT("/Game/Textures/Crosshair"));
-	CrosshairTex = CrosshiarTexObj.Object;
+	//static ConstructorHelpers::FObjectFinder<UTexture2D> CrosshiarTexObj(TEXT("/Game/Textures/Crosshair"));
+	//CrosshairTex = CrosshiarTexObj.Object;
 }
 
 
@@ -19,7 +19,7 @@ void ATowerDefenseHUD::DrawHUD()
 	Super::DrawHUD();
 
 	// Draw very simple crosshair
-
+	/*
 	// find center of the Canvas
 	const FVector2D Center(Canvas->ClipX * 0.5f, Canvas->ClipY * 0.5f);
 
@@ -30,6 +30,6 @@ void ATowerDefenseHUD::DrawHUD()
 	// draw the crosshair
 	FCanvasTileItem TileItem( CrosshairDrawPosition, CrosshairTex->Resource, FLinearColor::White);
 	TileItem.BlendMode = SE_BLEND_Translucent;
-	Canvas->DrawItem( TileItem );
+	Canvas->DrawItem( TileItem );*/
 }
 

@@ -14,13 +14,18 @@ ATowerDefenseProjectile::ATowerDefenseProjectile(const class FPostConstructIniti
 	CollisionComp->OnComponentHit.AddDynamic(this, &ATowerDefenseProjectile::OnHit);		// set up a notification for when this component hits something blocking
 	RootComponent = CollisionComp;
 
+	ParticleComp = PCIP.CreateDefaultSubobject<UParticleSystemComponent>(this, TEXT("ParticleComp"));
+	ParticleComp->bAutoActivate = false;
+	ParticleComp->bAutoDestroy = false;
+	ParticleComp->AttachParent = RootComponent;
+
 	// Use a ProjectileMovementComponent to govern this projectile's movement
 	ProjectileMovement = PCIP.CreateDefaultSubobject<UProjectileMovementComponent>(this, TEXT("ProjectileComp"));
 	ProjectileMovement->UpdatedComponent = CollisionComp;
-	ProjectileMovement->InitialSpeed = 3000.f;
-	ProjectileMovement->MaxSpeed = 3000.f;
+	ProjectileMovement->InitialSpeed = 2000.f;
+	ProjectileMovement->MaxSpeed = 2000.f;
 	ProjectileMovement->bRotationFollowsVelocity = true;
-	ProjectileMovement->bShouldBounce = true;
+	ProjectileMovement->ProjectileGravityScale = 0.f;
 
 	// Die after 3 seconds by default
 	InitialLifeSpan = 3.0f;
