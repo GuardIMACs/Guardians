@@ -28,6 +28,9 @@ public:
 	UFUNCTION(BlueprintPure, Category = Spawning)
 	FVector GetRandomPointInVolume(); 
 
+	UPROPERTY(EditAnywhere, Category = Spawning)
+	int nbMonsterMax ;
+
 
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -45,7 +48,8 @@ private:
 
 	float SpawnTime; 
 
-	int nbMonster ;
+	int nbMonster;
+	
 	
 	
 };

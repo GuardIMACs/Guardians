@@ -6,6 +6,10 @@
 #include "TowerDefenseCharacter.h"
 #include "Units/Gatling.h"
 #include "Units/Extender.h"
+#include "Units/Predator.h"
+#include "Units/GlobalHawk.h"
+#include "Units/Sentinel.h"
+#include "Units/Surrogate.h"
 #include "Buildings/Generator.h"
 #include "Defines.h"
 
@@ -25,6 +29,10 @@ ATowerDefenseGameMode::ATowerDefenseGameMode(const class FPostConstructInitializ
 	//Monsters.Initialize(nullptr);
 	Units.registerTower(SpawnActor<AGatling>(), ETower::Gatling, 100, 1.f, 1);
 	Units.registerMonster(SpawnActor<AExtender>(), EMonster::Extender, 100, 1.f, 1);
+	Units.registerMonster(SpawnActor<APredator>(), EMonster::Predator, 100, 1.f, 1);
+	Units.registerMonster(SpawnActor<AGlobalHawk>(), EMonster::GlobalHawk, 100, 1.f, 1);
+	Units.registerMonster(SpawnActor<ASentinel>(), EMonster::Sentinel, 100, 1.f, 1);
+	Units.registerMonster(SpawnActor<ASurrogate>(), EMonster::Surrogate, 100, 1.f, 1);
 }
 void ATowerDefenseGameMode::PostInitializeComponents()
 {
