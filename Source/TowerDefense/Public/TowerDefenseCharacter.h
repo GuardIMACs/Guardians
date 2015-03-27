@@ -74,11 +74,21 @@ class ATowerDefenseCharacter : public ACharacter
 	UPROPERTY(EditDefaultsOnly, Category = Effects)
 	FName Weapon_TrailTargetParam;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Game|Weapon")
+	/** Min damages inflicted by the weapon */
+	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
 		float Weapon_MinDamages;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Game|Weapon")
+	/** Max damages inflicted by the weapon */
+	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
 		float Weapon_MaxDamages;
+
+	bool Weapon_IsFiring;
+
+	/** Fire rate of the weapon, in bullets per seconds */
+	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
+	float Weapon_FireRate;
+
+	float Weapon_CurrentFireElapsedTime;
 
 protected:
 	/** name of bone/socket for muzzle in weapon mesh */
@@ -114,6 +124,7 @@ protected:
 
 	/** Fires a projectile. */
 	void OnFire();
+	void OnStopFire();
 
 	/** */
 	void OnSecondFire();
@@ -151,7 +162,10 @@ protected:
 
 	void SpawnMuzzleEffect();
 
-protected:
+	void UpdateLookAtInfos();
+
+	void FireWeapon();
+
 	// APawn interface
 	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
 	// End of APawn interface

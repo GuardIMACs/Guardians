@@ -53,6 +53,10 @@ ATowerDefenseCharacter::ATowerDefenseCharacter(const class FPostConstructInitial
 
 	Weapon_MinDamages = 10;
 	Weapon_MaxDamages = 20;
+
+	Weapon_FireRate = 1 / 7.5f; // 10 Bullets per sec;
+	Weapon_CurrentFireElapsedTime = Weapon_FireRate;
+	Weapon_IsFiring = false;
 	/*Weapon->SetOnlyOwnerSee(true);
 	Weapon->AttachSocketName = "ReaperSocket";
 	Weapon->AttachParent = Mesh1P;*/
@@ -73,6 +77,7 @@ void ATowerDefenseCharacter::SetupPlayerInputComponent(class UInputComponent* In
 	InputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
 	
 	InputComponent->BindAction("Fire", IE_Pressed, this, &ATowerDefenseCharacter::OnFire);
+	InputComponent->BindAction("Fire", IE_Released, this, &ATowerDefenseCharacter::OnStopFire);
 	InputComponent->BindAction("SecondFire", IE_Pressed, this, &ATowerDefenseCharacter::OnSecondFire);
 	InputComponent->BindTouch(EInputEvent::IE_Pressed, this, &ATowerDefenseCharacter::TouchStarted);
 
@@ -92,62 +97,12 @@ void ATowerDefenseCharacter::SetupPlayerInputComponent(class UInputComponent* In
 
 void ATowerDefenseCharacter::OnFire()
 {
-	// try and fire a projectile
-	if (ProjectileClass != NULL)
-	{
-		FVector CamLoc;
-		FRotator CamRot;
+	Weapon_IsFiring = true;
+}
 
-		Controller->GetPlayerViewPoint(CamLoc, CamRot); // Get the camera position and rotation
-		const FVector StartTrace = CamLoc; // trace start is the camera location
-		const FVector Direction = CamRot.Vector();
-		const FVector EndTrace = StartTrace + Direction * 20000;
-
-		UWorld* const World = GetWorld();
-		if (World != NULL)
-		{
-			// spawn the projectile at the muzzle
-			//World->SpawnActor<ATowerDefenseProjectile>(ProjectileClass, SpawnLocation, SpawnRotation);
-
-			// Tir du rayon
-			static FName WeaponFireTag = FName(TEXT("WeaponTrace"));
-
-			// Perform trace to retrieve hit info
-			FCollisionQueryParams TraceParams(WeaponFireTag, true, Instigator);
-			TraceParams.bTraceAsyncScene = true;
-			TraceParams.bReturnPhysicalMaterial = true;
-
-			FHitResult Hit(ForceInit);
-			World->LineTraceSingle(Hit, StartTrace, EndTrace, ECC_Pawn, TraceParams);
-			SpawnTrailEffect(Hit.GetActor() ? Hit.ImpactPoint : EndTrace);
-			DrawDebugLine(World, StartTrace, EndTrace, FColor::Green, false, 5);
-
-			AMonster* monster = Cast<AMonster>(Hit.GetActor());
-			if (monster)
-			{
-				float damages = getRandomFloat(Weapon_MinDamages, Weapon_MaxDamages);
-				monster->CurrentLife -= damages*monster->Defense[static_cast<int>(EElement::Normal)];
-			}
-		}
-	}
-
-	// try and play the sound if specified
-	if (FireSound != NULL)
-	{
-		UGameplayStatics::PlaySoundAtLocation(this, FireSound, GetActorLocation());
-	}
-
-	// try and play a firing animation if specified
-	if(FireAnimation != NULL)
-	{
-		// Get the animation object for the arms mesh
-		UAnimInstance* AnimInstance = Mesh1P->GetAnimInstance();
-		if(AnimInstance != NULL)
-		{
-			AnimInstance->Montage_Play(FireAnimation, 1.f);
-		}
-	}
-	/**/
+void ATowerDefenseCharacter::OnStopFire()
+{
+	Weapon_IsFiring = false;
 }
 
 void ATowerDefenseCharacter::OnSecondFire()
@@ -289,58 +244,13 @@ void ATowerDefenseCharacter::Tick(float DeltaSeconds)
 	Super::Tick(DeltaSeconds);
 	if (Controller && Controller->IsLocalPlayerController()) // we check the controller becouse we dont want bots to grab the use object and we need a controller for the Getplayerviewpoint function
 	{
-		Is_Tower = false;
-		Is_Monster = false;
+		UpdateLookAtInfos();
 
-		FVector CamLoc;
-		FRotator CamRot;
-
-		Controller->GetPlayerViewPoint(CamLoc, CamRot); // Get the camera position and rotation
-		const FVector StartTrace = CamLoc; // trace start is the camera location
-		const FVector Direction = CamRot.Vector();
-		const FVector EndTrace = StartTrace + Direction * 20000; // and trace end is the camera location + an offset in the direction you are looking, the 200 is the distance at wich it checks
-
-		// Perform trace to retrieve hit info
-		FCollisionQueryParams TraceParams(FName(TEXT("WeaponTrace")), true, this);
-		TraceParams.bTraceAsyncScene = true;
-		TraceParams.bReturnPhysicalMaterial = true;
-
-		FHitResult Hit(ForceInit);
-		if (GetWorld()->LineTraceSingle(Hit, StartTrace, EndTrace, ECC_Camera, TraceParams)) { // simple trace function
-
-			//5Q			UE_LOG(LogTemp, Error, TEXT("Raycast"));
-
-			Is_Monster = false;
-			Is_Tower = false;
-			ATower* tower = Cast<ATower>(Hit.GetActor()); // we cast the hit actor to the Atower 
-			if (tower)
-			{
-				//UE_LOG(LogTemp, Error, TEXT("Tower")); 
-				Is_Tower = true;
-				ViewedObject = tower->Name;
-				ViewedObject_currentlife = tower->CurrentLife;
-				ViewedObject_maxlife = tower->MaxLife;
-			}
-			else
-			{
-				//UE_LOG(LogTemp, Error, TEXT("Not Tower")); 
-				Is_Tower = false;
-				AMonster* monster = Cast<AMonster>(Hit.GetActor()); // we cast the hit actor to the Atower 
-				if (monster)
-				{
-					//UE_LOG(LogTemp, Error, TEXT("Monster"));
-					Is_Monster = true;
-					ViewedObject = monster->Name;
-					ViewedObject_currentlife = monster->CurrentLife;
-					ViewedObject_maxlife = monster->MaxLife;
-				}
-				else
-				{
-					//UE_LOG(LogTemp, Error, TEXT("Not Monster"));
-					Is_Monster = false;
-				}
-
-			}
+		Weapon_CurrentFireElapsedTime += DeltaSeconds;
+		if (Weapon_IsFiring && Weapon_CurrentFireElapsedTime > Weapon_FireRate)
+		{
+			FireWeapon();
+			Weapon_CurrentFireElapsedTime = 0;
 		}
 	}
 }
@@ -377,4 +287,116 @@ void ATowerDefenseCharacter::SpawnMuzzleEffect()
 	MuzzlePSC = UGameplayStatics::SpawnEmitterAttached(MuzzleFX, Weapon, MuzzleAttachPoint);
 	MuzzlePSC->bOwnerNoSee = false;
 	MuzzlePSC->bOnlyOwnerSee = true;
+}
+
+void ATowerDefenseCharacter::UpdateLookAtInfos()
+{
+	Is_Tower = false;
+	Is_Monster = false;
+
+	FVector CamLoc;
+	FRotator CamRot;
+
+	Controller->GetPlayerViewPoint(CamLoc, CamRot); // Get the camera position and rotation
+	const FVector StartTrace = CamLoc; // trace start is the camera location
+	const FVector Direction = CamRot.Vector();
+	const FVector EndTrace = StartTrace + Direction * 20000; // and trace end is the camera location + an offset in the direction you are looking, the 200 is the distance at wich it checks
+
+	// Perform trace to retrieve hit info
+	FCollisionQueryParams TraceParams(FName(TEXT("WeaponTrace")), true, this);
+	TraceParams.bTraceAsyncScene = true;
+	TraceParams.bReturnPhysicalMaterial = true;
+
+	FHitResult Hit(ForceInit);
+	if (GetWorld()->LineTraceSingle(Hit, StartTrace, EndTrace, ECC_Camera, TraceParams)) { // simple trace function
+
+		//5Q			UE_LOG(LogTemp, Error, TEXT("Raycast"));
+
+		Is_Monster = false;
+		Is_Tower = false;
+		ATower* tower = Cast<ATower>(Hit.GetActor()); // we cast the hit actor to the Atower 
+		if (tower)
+		{
+			//UE_LOG(LogTemp, Error, TEXT("Tower")); 
+			Is_Tower = true;
+			ViewedObject = tower->Name;
+			ViewedObject_currentlife = tower->CurrentLife;
+			ViewedObject_maxlife = tower->MaxLife;
+		}
+		else
+		{
+			//UE_LOG(LogTemp, Error, TEXT("Not Tower")); 
+			Is_Tower = false;
+			AMonster* monster = Cast<AMonster>(Hit.GetActor()); // we cast the hit actor to the Atower 
+			if (monster)
+			{
+				//UE_LOG(LogTemp, Error, TEXT("Monster"));
+				Is_Monster = true;
+				ViewedObject = monster->Name;
+				ViewedObject_currentlife = monster->CurrentLife;
+				ViewedObject_maxlife = monster->MaxLife;
+			}
+			else
+			{
+				//UE_LOG(LogTemp, Error, TEXT("Not Monster"));
+				Is_Monster = false;
+			}
+
+		}
+	}
+}
+
+void ATowerDefenseCharacter::FireWeapon()
+{
+	FVector CamLoc;
+	FRotator CamRot;
+
+	Controller->GetPlayerViewPoint(CamLoc, CamRot); // Get the camera position and rotation
+	const FVector StartTrace = CamLoc; // trace start is the camera location
+	const FVector Direction = CamRot.Vector();
+	const FVector EndTrace = StartTrace + Direction * 20000;
+
+	UWorld* const World = GetWorld();
+	if (World != NULL)
+	{
+		// spawn the projectile at the muzzle
+		//World->SpawnActor<ATowerDefenseProjectile>(ProjectileClass, SpawnLocation, SpawnRotation);
+
+		// Tir du rayon
+		static FName WeaponFireTag = FName(TEXT("WeaponTrace"));
+
+		// Perform trace to retrieve hit info
+		FCollisionQueryParams TraceParams(WeaponFireTag, true, Instigator);
+		TraceParams.bTraceAsyncScene = true;
+		TraceParams.bReturnPhysicalMaterial = true;
+
+		FHitResult Hit(ForceInit);
+		World->LineTraceSingle(Hit, StartTrace, EndTrace, ECC_Pawn, TraceParams);
+		SpawnTrailEffect(Hit.GetActor() ? Hit.ImpactPoint : EndTrace);
+		DrawDebugLine(World, StartTrace, EndTrace, FColor::Green, false, 5);
+
+		AMonster* monster = Cast<AMonster>(Hit.GetActor());
+		if (monster)
+		{
+			float damages = getRandomFloat(Weapon_MinDamages, Weapon_MaxDamages);
+			monster->CurrentLife -= damages*monster->Defense[static_cast<int>(EElement::Normal)];
+		}
+	}
+
+	// try and play the sound if specified
+	if (FireSound != NULL)
+	{
+		UGameplayStatics::PlaySoundAtLocation(this, FireSound, GetActorLocation());
+	}
+
+	// try and play a firing animation if specified
+	if (FireAnimation != NULL)
+	{
+		// Get the animation object for the arms mesh
+		UAnimInstance* AnimInstance = Mesh1P->GetAnimInstance();
+		if (AnimInstance != NULL)
+		{
+			AnimInstance->Montage_Play(FireAnimation, 1.f);
+		}
+	}
 }
