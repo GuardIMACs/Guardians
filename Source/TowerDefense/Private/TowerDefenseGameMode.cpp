@@ -64,6 +64,11 @@ void ATowerDefenseGameMode::PostInitializeComponents()
 		Spawns.Add(*itr);
 }
 
+void ATowerDefenseGameMode::NotifyMonsterKilled(uint32 resources)
+{
+
+}
+
 void ATowerDefenseGameMode::NotifyTowerUnderAttack()
 {
 
