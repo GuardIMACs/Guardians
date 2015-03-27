@@ -87,3 +87,8 @@ void CUnitManager::removeTower(ATower* tower)
 {
 	Towers.Remove(tower);
 }
+
+const SMonsterInfo& CUnitManager::getMonsterInfo(EMonster monster) const
+{
+	return MonstersInfo[static_cast<uint8>(monster)];
+}

@@ -3,6 +3,7 @@
 #pragma once
 
 #include "GameFramework/Actor.h"
+#include "Defines.h"
 #include "SpawnMonster.generated.h"
 
 UCLASS()
@@ -14,42 +15,17 @@ public:
 	GENERATED_UCLASS_BODY()
 
 	UPROPERTY(VisibleInstanceOnly, Category = Spawning)
-	class UBoxComponent* WhereToSPawn;
-
-	UPROPERTY(EditAnywhere, Category = Spawning)
-	TSubclassOf<class AMonster> SpawnedMonster; 
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Spawning)
-	float SpawnDelayRangeLow; 
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Spawning)
-	float SpawnDelayRangeHigh; 
+	class UBoxComponent* WhereToSpawn;
 
 	UFUNCTION(BlueprintPure, Category = Spawning)
 	FVector GetRandomPointInVolume(); 
-
-	UPROPERTY(EditAnywhere, Category = Spawning)
-	int32 nbMonsterMax ;
-
-
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
 	
 	// Called every frame
 	virtual void Tick( float DeltaSeconds ) override;
 
 private:
-
-	float GetRandomSpawnDelay(); 
-
-	float SpawnDelay; 
-
-	void SpawnUnit(); 
-
 	float SpawnTime; 
 
-	int32 nbMonster;
-	
-	
+	EMonster NextMonster;
 	
 };

@@ -48,7 +48,7 @@ public:
 	}
 };
 
-ASentinel::ASentinel(const class FPostConstructInitializeProperties& PCIP)
+ASentinel::ASentinel(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
 	Name = "Sentinel";

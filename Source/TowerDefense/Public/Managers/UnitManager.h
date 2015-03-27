@@ -56,6 +56,8 @@ public:
 	void		removeMonster(AMonster* monster);
 	void		removeTower(ATower* tower);
 
+	const SMonsterInfo& getMonsterInfo(EMonster monster) const;
+
 	template<typename Lambda> void ForeachTower(Lambda l)
 	{
 		for (auto it = Towers.CreateIterator(); it; ++it)
