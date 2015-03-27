@@ -78,8 +78,9 @@ APredator::APredator(const class FObjectInitializer& PCIP)
 	GetMesh()->SetWorldLocation(FVector(0, 0, 0));
 	GetMesh()->SetWorldRotation(FRotator(0, 90, 0));
 
-	static ConstructorHelpers::FObjectFinder<UAnimBlueprint> anim(TEXT("AnimBlueprint'/Game/Meshes/Aliens/Predator/PredatorAnimBlueprint.PredatorAnimBlueprint'"));
-	GetMesh()->SetAnimInstanceClass(anim.Object->GeneratedClass);
+	static ConstructorHelpers::FObjectFinder<UClass> anim(TEXT("Class'/Game/Meshes/Aliens/Predator/PredatorAnimBlueprint.PredatorAnimBlueprint_C'"));
+	if (anim.Object)
+		GetMesh()->SetAnimInstanceClass(anim.Object);
 
 	GetCapsuleComponent()->SetCapsuleRadius(40);
 	GetCapsuleComponent()->SetCapsuleHalfHeight(70);

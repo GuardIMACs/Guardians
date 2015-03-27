@@ -49,8 +49,8 @@ ATowerDefenseCharacter::ATowerDefenseCharacter(const class FObjectInitializer& P
 	Mesh1P->bCastDynamicShadow = false;
 	Mesh1P->CastShadow = false;
 	
-	Weapon = PCIP.CreateDefaultSubobject<USkeletalMeshComponent>(this, TEXT("WeaponMesh1P"));
-
+	//Weapon = PCIP.CreateDefaultSubobject<USkeletalMeshComponent>(this, TEXT("WeaponMesh1P"));
+	
 	Weapon_MinDamages = 10;
 	Weapon_MaxDamages = 20;
 
@@ -96,6 +96,19 @@ void ATowerDefenseCharacter::SetupPlayerInputComponent(class UInputComponent* In
 	InputComponent->BindAxis("TurnRate", this, &ATowerDefenseCharacter::TurnAtRate);
 	InputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);
 	InputComponent->BindAxis("LookUpRate", this, &ATowerDefenseCharacter::LookUpAtRate);
+}
+
+void ATowerDefenseCharacter::PostInitializeComponents()
+{
+	Super::PostInitializeComponents();
+	for (TObjectIterator<USkeletalMeshComponent> itr; itr; ++itr)
+	{
+		if (itr->GetName() == "WeaponMesh1P")
+		{
+			Weapon = *itr;
+			break;
+		}
+	}
 }
 
 void ATowerDefenseCharacter::OnFire()
@@ -162,7 +175,7 @@ void ATowerDefenseCharacter::SpawnTurret()
 		params.bReturnPhysicalMaterial = true;
 
 
-		DrawDebugLine(World, Start, End, FColor::Red, false, 10.f);
+		//DrawDebugLine(World, Start, End, FColor::Red, false, 10.f);
 		if (World->LineTraceSingle(outHit, Start, End, ECC_Visibility, params))
 		{
 			UE_LOG(LogTemp, Warning, TEXT("spawn tower"));

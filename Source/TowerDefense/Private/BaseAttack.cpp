@@ -39,7 +39,7 @@ void BaseAttack::Fire()
 	CurrentCooldown = Cooldown;
 	for (auto& e : EffectsApply)
 		e->OnHit(Target, getRandomFloat(MinDamages, MaxDamages));
-	DrawDebugLine(Target->GetWorld(), Parent->GetActorLocation(), Target->GetActorLocation(), FColor::Blue, false, 1.f);
+	//DrawDebugLine(Target->GetWorld(), Parent->GetActorLocation(), Target->GetActorLocation(), FColor::Blue, false, 1.f);
 }
 
 bool BaseAttack::IsTargetInRange()

@@ -78,8 +78,9 @@ ASentinel::ASentinel(const class FObjectInitializer& PCIP)
 	GetMesh()->SetWorldLocation(FVector(0, 0, 0));
 	GetMesh()->SetWorldRotation(FRotator(0, 90, 0));
 
-	static ConstructorHelpers::FObjectFinder<UAnimBlueprint> anim(TEXT("AnimBlueprint'/Game/Meshes/Aliens/Sentinel/SentinelAnimBlueprint.SentinelAnimBlueprint'"));
-	GetMesh()->SetAnimInstanceClass(anim.Object->GeneratedClass);
+	static ConstructorHelpers::FObjectFinder<UClass> anim(TEXT("Class'/Game/Meshes/Aliens/Sentinel/SentinelAnimBlueprint.SentinelAnimBlueprint_C'"));
+	if (anim.Object)
+		GetMesh()->SetAnimInstanceClass(anim.Object);
 
 	GetCapsuleComponent()->SetCapsuleRadius(35);
 	GetCapsuleComponent()->SetCapsuleHalfHeight(55);

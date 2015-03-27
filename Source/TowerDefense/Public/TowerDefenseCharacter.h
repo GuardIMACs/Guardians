@@ -10,6 +10,8 @@ class ATowerDefenseCharacter : public ACharacter
 {
 	GENERATED_UCLASS_BODY()
 
+	virtual void PostInitializeComponents() override;
+
 	/** Pawn mesh: 1st person view (arms; seen only by self) */
 	UPROPERTY(VisibleDefaultsOnly, Category=Mesh)
 	USkeletalMeshComponent* Mesh1P;

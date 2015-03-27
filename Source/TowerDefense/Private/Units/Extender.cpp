@@ -76,8 +76,9 @@ AExtender::AExtender(const class FObjectInitializer& PCIP)
 	GetMesh()->SetWorldScale3D(FVector(0.4f, 0.4f, 0.4f));
 	GetMesh()->SetWorldLocation(FVector(0, 0, 0));
 	GetMesh()->SetWorldRotation(FRotator(0, 90, 0));
-	static ConstructorHelpers::FObjectFinder<UAnimBlueprint> anim(TEXT("AnimBlueprint'/Game/Meshes/Aliens/Extender/AliensAnimBlueprint.AliensAnimBlueprint'"));
-	GetMesh()->SetAnimInstanceClass(anim.Object->GeneratedClass);
+	static ConstructorHelpers::FObjectFinder<UClass> anim(TEXT("Class'/Game/Meshes/Aliens/Extender/AliensAnimBlueprint.AliensAnimBlueprint_C'"));
+	if (anim.Object)
+		GetMesh()->SetAnimInstanceClass(anim.Object);
 
 	GetCapsuleComponent()->SetCapsuleRadius(30);
 	GetCapsuleComponent()->SetCapsuleHalfHeight(30);
