@@ -8,6 +8,8 @@
 #include "BehaviorTree/BlackboardComponent.h"
 #include "BehaviorTree/BehaviorTreeComponent.h"
 #include "BehaviorTree/BehaviorTree.h"
+#include "BehaviorTree/Blackboard/BlackboardKeyType_Object.h"
+#include "BehaviorTree/Blackboard/BlackboardKeyType_Vector.h"
 #include "MonsterAIController.h"
 
 AMonsterAIController::AMonsterAIController(const class FObjectInitializer& PCIP) :
@@ -87,6 +89,6 @@ void AMonsterAIController::SearchForEnemy()
 
 void AMonsterAIController::SetEnemy(ABaseUnit* pawn)
 {
-	BlackboardComponent->SetValueAsObject(KeyID_Enemy, pawn);
-	BlackboardComponent->SetValueAsVector(KeyID_EnemyLocation, pawn->GetActorLocation());
+	BlackboardComponent->SetValue<UBlackboardKeyType_Object>(KeyID_Enemy, pawn);
+	BlackboardComponent->SetValue<UBlackboardKeyType_Vector>(KeyID_EnemyLocation, pawn->GetActorLocation());
 }

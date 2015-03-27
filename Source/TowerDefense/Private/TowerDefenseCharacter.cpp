@@ -10,16 +10,16 @@
 #include "Units/Extender.h"
 #include "Defines.h"
 #include "DrawDebugHelpers.h"
-
+#include "FX/ImpactEffect.h"
 
 //////////////////////////////////////////////////////////////////////////
 // ATowerDefenseCharacter
 
-ATowerDefenseCharacter::ATowerDefenseCharacter(const class FPostConstructInitializeProperties& PCIP)
+ATowerDefenseCharacter::ATowerDefenseCharacter(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
 	// Set size for collision capsule
-	CapsuleComponent->InitCapsuleSize(42.f, 96.0f);
+	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
 
 	// set our turn rates for input
 	BaseTurnRate = 45.f;
@@ -33,7 +33,7 @@ ATowerDefenseCharacter::ATowerDefenseCharacter(const class FPostConstructInitial
 
 	// Create a CameraComponent	
 	FirstPersonCameraComponent = PCIP.CreateDefaultSubobject<UCameraComponent>(this, TEXT("FirstPersonCamera"));
-	FirstPersonCameraComponent->AttachParent = CapsuleComponent;
+	FirstPersonCameraComponent->AttachParent = GetCapsuleComponent();
 	FirstPersonCameraComponent->RelativeLocation = FVector(0, 0, 64.f); // Position the camera
 	FirstPersonCameraComponent->bUseControllerViewRotation_DEPRECATED = true; // for backwards compatibility with old saved content
 	FirstPersonCameraComponent->bUsePawnControlRotation = true;
@@ -57,6 +57,8 @@ ATowerDefenseCharacter::ATowerDefenseCharacter(const class FPostConstructInitial
 	Weapon_FireRate = 1 / 7.5f; // 10 Bullets per sec;
 	Weapon_CurrentFireElapsedTime = Weapon_FireRate;
 	Weapon_IsFiring = false;
+	Weapon_IsAiming = false;
+	Weapon_WasFiring = false;
 	/*Weapon->SetOnlyOwnerSee(true);
 	Weapon->AttachSocketName = "ReaperSocket";
 	Weapon->AttachParent = Mesh1P;*/
@@ -79,6 +81,7 @@ void ATowerDefenseCharacter::SetupPlayerInputComponent(class UInputComponent* In
 	InputComponent->BindAction("Fire", IE_Pressed, this, &ATowerDefenseCharacter::OnFire);
 	InputComponent->BindAction("Fire", IE_Released, this, &ATowerDefenseCharacter::OnStopFire);
 	InputComponent->BindAction("SecondFire", IE_Pressed, this, &ATowerDefenseCharacter::OnSecondFire);
+	InputComponent->BindAction("SecondFire", IE_Released, this, &ATowerDefenseCharacter::OnStopSecondFire);
 	InputComponent->BindTouch(EInputEvent::IE_Pressed, this, &ATowerDefenseCharacter::TouchStarted);
 
 	InputComponent->BindAxis("MoveForward", this, &ATowerDefenseCharacter::MoveForward);
@@ -107,38 +110,34 @@ void ATowerDefenseCharacter::OnStopFire()
 
 void ATowerDefenseCharacter::OnSecondFire()
 {
-	UWorld* World = GetWorld();
-	if (World != NULL)
+	Weapon_IsAiming = true;
+	// try and play a firing animation if specified
+	/*if (FireAnimation != NULL)
 	{
-		FVector CameraLoc;
-		FRotator CameraRot;
-		GetActorEyesViewPoint(CameraLoc, CameraRot);
-
-		FVector Start = CameraLoc;
-		// you need to add a uproperty to the header file for a float PlayerInteractionDistance
-		FVector End = CameraLoc + (CameraRot.Vector() * 1000000);
-
-		// MuzzleOffset is in camera space, so transform it to world space before offsetting from the character location to find the final muzzle position
-
-		FHitResult outHit;
-		FCollisionQueryParams params;
-		params.bTraceComplex = true;
-		params.bTraceAsyncScene = true;
-		params.bReturnPhysicalMaterial = true;
-
-
-		DrawDebugLine(World, Start, End, FColor::Red, false, 10.f);
-		if (World->LineTraceSingle(outHit, Start, End, ECC_Visibility, params))
+		// Get the animation object for the arms mesh
+		UAnimInstance* AnimInstance = Mesh1P->GetAnimInstance();
+		if (AnimInstance != NULL)
 		{
-			UE_LOG(LogTemp, Warning, TEXT("spawn monster"));
-			auto* mode = World->GetAuthGameMode<ATowerDefenseGameMode>();
-			if (mode != nullptr)
-			{
-				//mode->Units.instanciateMonster(EMonster::Voidling, World, outHit.ImpactPoint, FRotator::ZeroRotator);
-				//ABaseUnit* tow = mode->Monsters.SpawnMonster(EMonster::Voidling, World, outHit.ImpactPoint, FRotator::ZeroRotator);
-			}
+			if (!Weapon_IsFiring)
+				AnimInstance->Montage_Play(IdleAimAnimation, 1.f);
 		}
-	}
+	}*/
+}
+
+void ATowerDefenseCharacter::OnStopSecondFire()
+{
+	Weapon_IsAiming = false;
+	// try and play a firing animation if specified
+	/*if (FireAnimation != NULL)
+	{
+		// Get the animation object for the arms mesh
+		UAnimInstance* AnimInstance = Mesh1P->GetAnimInstance();
+		if (AnimInstance != NULL)
+		{
+			if (!Weapon_IsFiring)
+				AnimInstance->Montage_Play(IdleAnimation, 1.f);
+		}
+	}*/
 }
 
 void ATowerDefenseCharacter::SpawnTurret()
@@ -170,14 +169,8 @@ void ATowerDefenseCharacter::SpawnTurret()
 			auto* mode = World->GetAuthGameMode<ATowerDefenseGameMode>();
 			if (mode != nullptr)
 			{
-/* <<<<<<< HEAD
-				mode->Units.instanciateMonster(EMonster::Extender, World, outHit.ImpactPoint, FRotator::ZeroRotator);
-				//ABaseUnit* tow = mode->Monsters.SpawnMonster(EMonster::Extender, World, outHit.ImpactPoint, FRotator::ZeroRotator);
-======= */
 				ATower* tower = mode->Units.instanciateTower(ETower::Gatling, World, outHit.ImpactPoint, FRotator::ZeroRotator);
 				UE_LOG(LogTemp, Warning, TEXT("%p"), tower);
-				//ABaseUnit* tow = mode->Towers.SpawnTower(ETower::Gatling, World, outHit.ImpactPoint, FRotator::ZeroRotator);
-//>>>>>>> origin/master
 			}
 		}
 		// spawn the projectile at the muzzle
@@ -251,6 +244,12 @@ void ATowerDefenseCharacter::Tick(float DeltaSeconds)
 		{
 			FireWeapon();
 			Weapon_CurrentFireElapsedTime = 0;
+			Weapon_WasFiring = true;
+		}
+		else if (!Weapon_IsFiring && Weapon_WasFiring)
+		{
+			StopFireWeapon();
+			Weapon_WasFiring = false;
 		}
 	}
 }
@@ -269,24 +268,32 @@ FVector ATowerDefenseCharacter::GetMuzzleLocation() const
 
 void ATowerDefenseCharacter::SpawnTrailEffect(const FVector& EndPoint)
 {
-	if (Weapon_TrailFX)
-	{
-		const FVector Origin = GetMuzzleLocation();
-
-		UParticleSystemComponent* TrailPSC = UGameplayStatics::SpawnEmitterAtLocation(this, Weapon_TrailFX, Origin);
-		if (TrailPSC)
-		{
-			TrailPSC->SetVectorParameter(Weapon_TrailTargetParam, EndPoint);
-		}
-	}
 }
 
 void ATowerDefenseCharacter::SpawnMuzzleEffect()
 {
 	GetMuzzleLocation();
-	MuzzlePSC = UGameplayStatics::SpawnEmitterAttached(MuzzleFX, Weapon, MuzzleAttachPoint);
-	MuzzlePSC->bOwnerNoSee = false;
-	MuzzlePSC->bOnlyOwnerSee = true;
+	if (MuzzlePSC == NULL) 
+	{
+		MuzzlePSC = UGameplayStatics::SpawnEmitterAttached(MuzzleFX, Weapon, MuzzleAttachPoint);
+		MuzzlePSC->bOwnerNoSee = false;
+		MuzzlePSC->bOnlyOwnerSee = true;
+	}
+}
+
+void ATowerDefenseCharacter::SpawnImpactEffect(const FHitResult& Impact)
+{
+	if (!Impact.bBlockingHit)
+		return;
+
+	if (ImpactTemplate) {
+		AImpactEffect* EffectActor = GetWorld()->SpawnActorDeferred<AImpactEffect>(ImpactTemplate, Impact.ImpactPoint, Impact.ImpactNormal.Rotation());
+		if (EffectActor)
+		{
+			EffectActor->SurfaceHit = Impact;
+			UGameplayStatics::FinishSpawningActor(EffectActor, FTransform(Impact.ImpactNormal.Rotation(), Impact.ImpactPoint));
+		}
+	}
 }
 
 void ATowerDefenseCharacter::UpdateLookAtInfos()
@@ -372,8 +379,11 @@ void ATowerDefenseCharacter::FireWeapon()
 
 		FHitResult Hit(ForceInit);
 		World->LineTraceSingle(Hit, StartTrace, EndTrace, ECC_Pawn, TraceParams);
+		SpawnMuzzleEffect();
 		SpawnTrailEffect(Hit.GetActor() ? Hit.ImpactPoint : EndTrace);
-		DrawDebugLine(World, StartTrace, EndTrace, FColor::Green, false, 5);
+		SpawnImpactEffect(Hit);
+
+		//DrawDebugLine(World, StartTrace, EndTrace, FColor::Green, false, 5);
 
 		AMonster* monster = Cast<AMonster>(Hit.GetActor());
 		if (monster)
@@ -396,7 +406,33 @@ void ATowerDefenseCharacter::FireWeapon()
 		UAnimInstance* AnimInstance = Mesh1P->GetAnimInstance();
 		if (AnimInstance != NULL)
 		{
-			AnimInstance->Montage_Play(FireAnimation, 1.f);
+			/*if (Weapon_IsAiming)
+				AnimInstance->Montage_Play(FireAimAnimation, 1.f);
+			else*/
+				AnimInstance->Montage_Play(FireAnimation, 1.f);
 		}
+	}
+}
+
+void ATowerDefenseCharacter::StopFireWeapon()
+{
+	// try and play a firing animation if specified
+	if (FireAnimation != NULL)
+	{
+		// Get the animation object for the arms mesh
+		UAnimInstance* AnimInstance = Mesh1P->GetAnimInstance();
+		if (AnimInstance != NULL)
+		{
+			/*if (Weapon_IsAiming)
+				AnimInstance->Montage_Play(IdleAimAnimation, 1.f);
+			else*/
+			AnimInstance->Montage_Stop(1.f);
+		}
+	}
+
+	if (MuzzlePSC)
+	{
+		MuzzlePSC->DeactivateSystem();
+		MuzzlePSC = nullptr;
 	}
 }

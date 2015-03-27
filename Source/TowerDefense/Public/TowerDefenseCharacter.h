@@ -12,11 +12,11 @@ class ATowerDefenseCharacter : public ACharacter
 
 	/** Pawn mesh: 1st person view (arms; seen only by self) */
 	UPROPERTY(VisibleDefaultsOnly, Category=Mesh)
-	TSubobjectPtr<class USkeletalMeshComponent> Mesh1P;
+	USkeletalMeshComponent* Mesh1P;
 
 	/** First person camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
-	TSubobjectPtr<class UCameraComponent> FirstPersonCameraComponent;
+	UCameraComponent* FirstPersonCameraComponent;
 
 	/** Base turn rate, in deg/sec. Other scaling may affect final turn rate. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
@@ -42,8 +42,20 @@ class ATowerDefenseCharacter : public ACharacter
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 	class UAnimMontage* FireAnimation;
 
+	/** AnimMontage to play each time we fire while aiming*/
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+	class UAnimMontage* FireAimAnimation;
+
+	/** AnimMontage to play each time we stop fire */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+	class UAnimMontage* IdleAnimation;
+
+	/** AnimMontage to play each time we stop fire while aiming */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+	class UAnimMontage* IdleAimAnimation;
+
 	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
-	TSubobjectPtr<class USkeletalMeshComponent> Weapon;
+	USkeletalMeshComponent* Weapon;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = GUI)
 	bool Is_Tower;
@@ -67,13 +79,6 @@ class ATowerDefenseCharacter : public ACharacter
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = CharacterStat)
 	float P_shield; //generator
 
-	UPROPERTY(EditDefaultsOnly, Category = Effects)
-	UParticleSystem* Weapon_TrailFX;
-
-	/** param name for beam target in smoke trail */
-	UPROPERTY(EditDefaultsOnly, Category = Effects)
-	FName Weapon_TrailTargetParam;
-
 	/** Min damages inflicted by the weapon */
 	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
 		float Weapon_MinDamages;
@@ -84,11 +89,19 @@ class ATowerDefenseCharacter : public ACharacter
 
 	bool Weapon_IsFiring;
 
+	bool Weapon_IsAiming;
+
+	bool Weapon_WasFiring;
+
 	/** Fire rate of the weapon, in bullets per seconds */
 	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
 	float Weapon_FireRate;
 
 	float Weapon_CurrentFireElapsedTime;
+
+	/** impact effects */
+	UPROPERTY(EditDefaultsOnly, Category = Effects)
+	TSubclassOf<class AImpactEffect> ImpactTemplate;
 
 protected:
 	/** name of bone/socket for muzzle in weapon mesh */
@@ -128,6 +141,7 @@ protected:
 
 	/** */
 	void OnSecondFire();
+	void OnStopSecondFire();
 
 	void SpawnTurret();
 
@@ -162,9 +176,13 @@ protected:
 
 	void SpawnMuzzleEffect();
 
+	void SpawnImpactEffect(const FHitResult& Impact);
+
 	void UpdateLookAtInfos();
 
 	void FireWeapon();
+
+	void StopFireWeapon();
 
 	// APawn interface
 	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;

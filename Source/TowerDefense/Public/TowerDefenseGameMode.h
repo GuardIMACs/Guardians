@@ -2,9 +2,12 @@
 #pragma once
 #include "GameFramework/GameMode.h"
 #include "Managers/UnitManager.h"
+#include "MonsterWaves.h"
 #include "TowerDefenseGameMode.generated.h"
 
 class AGenerator;
+class ASpawnMonster;
+class CMonsterWaves;
 
 UCLASS(minimalapi)
 class ATowerDefenseGameMode : public AGameMode
@@ -15,6 +18,8 @@ class ATowerDefenseGameMode : public AGameMode
 	
 	CUnitManager Units;
 	AGenerator* Generator;
+	TArray<ASpawnMonster*> Spawns;
+	CMonsterWaves Waves;
 	//TowerManager Towers;
 	//MonsterManager Monsters;
 };

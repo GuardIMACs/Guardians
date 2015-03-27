@@ -4,6 +4,7 @@
 #define __TOWERDEFENSE_H__
 
 #include "EngineMinimal.h"
+#include "SoundDefinitions.h"
 
 #define COLLISION_PROJECTILE	ECC_GameTraceChannel1
 

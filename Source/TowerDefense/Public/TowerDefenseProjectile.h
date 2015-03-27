@@ -10,14 +10,14 @@ class ATowerDefenseProjectile : public AActor
 
 	/** Sphere collision component */
 	UPROPERTY(VisibleDefaultsOnly, Category=Projectile)
-	TSubobjectPtr<class USphereComponent> CollisionComp;
+	class USphereComponent* CollisionComp;
 
 	/** Projectile movement component */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Movement)
-	TSubobjectPtr<class UProjectileMovementComponent> ProjectileMovement;
+	class UProjectileMovementComponent* ProjectileMovement;
 
 	UPROPERTY(VisibleDefaultsOnly, Category = Projectile)
-		TSubobjectPtr<class UParticleSystemComponent> ParticleComp;
+	class UParticleSystemComponent* ParticleComp;
 
 	/** called when projectile hits something */
 	UFUNCTION()
