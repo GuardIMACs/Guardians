@@ -20,7 +20,7 @@ public:
 		Cooldown = 0.5;
 		CurrentCooldown = 0.f;
 		MinDamages = 0;
-		MaxDamages = 10;
+		MaxDamages = 5;
 		EffectsApply.Add(TSharedPtr<BaseEffect>(new StandardEffect(EElement::Normal)));
 	}
 
@@ -55,7 +55,7 @@ AExtender::AExtender(const class FPostConstructInitializeProperties& PCIP)
 	Type = EUnitType::Attacker;
 	MaxLife = 100;
 	CurrentLife = MaxLife;
-	Speed = 0.f;
+	Speed = 0.5f;
 	AIBehavior = MonsterAIBehavior::Run;
 	Behavior = TSharedPtr<UnitBehavior>(new StaticBehavior());
 
@@ -71,7 +71,7 @@ AExtender::AExtender(const class FPostConstructInitializeProperties& PCIP)
 
 	static ConstructorHelpers::FObjectFinder<USkeletalMesh> mesh(TEXT("SkeletalMesh'/Game/Meshes/Aliens/Extender.Extender'"));
 	Mesh->SetSkeletalMesh(mesh.Object);
-	Mesh->SetWorldScale3D(FVector(0.5f, 0.5f, 0.5f));
+	Mesh->SetWorldScale3D(FVector(0.4f, 0.4f, 0.4f));
 	Mesh->SetWorldLocation(FVector(0, 0, -25));
 	Mesh->SetWorldRotation(FRotator(0, 90, 0));
 

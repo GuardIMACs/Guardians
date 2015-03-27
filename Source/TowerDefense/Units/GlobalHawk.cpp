@@ -16,11 +16,11 @@ public:
 		Name = "Leap attack";
 		Description = "Jumps on the closest target";
 		RangeMin = 0.f;
-		RangeMax = 120.f;
+		RangeMax = 240.f;
 		Cooldown = 0.5;
 		CurrentCooldown = 0.f;
 		MinDamages = 0;
-		MaxDamages = 10;
+		MaxDamages = 2;
 		EffectsApply.Add(TSharedPtr<BaseEffect>(new StandardEffect(EElement::Normal)));
 	}
 
@@ -55,7 +55,7 @@ AGlobalHawk::AGlobalHawk(const class FPostConstructInitializeProperties& PCIP)
 	Type = EUnitType::Attacker;
 	MaxLife = 100;
 	CurrentLife = MaxLife;
-	Speed = 0.f;
+	Speed = 1.f;
 	AIBehavior = MonsterAIBehavior::Run;
 	Behavior = TSharedPtr<UnitBehavior>(new StaticBehavior());
 
@@ -72,7 +72,7 @@ AGlobalHawk::AGlobalHawk(const class FPostConstructInitializeProperties& PCIP)
 	static ConstructorHelpers::FObjectFinder<USkeletalMesh> mesh(TEXT("SkeletalMesh'/Game/Meshes/Aliens/GlobalHawk.GlobalHawk'"));
 	Mesh->SetSkeletalMesh(mesh.Object);
 	Mesh->SetWorldScale3D(FVector(0.5f, 0.5f, 0.5f));
-	Mesh->SetWorldLocation(FVector(0, 0, -25));
+	Mesh->SetWorldLocation(FVector(0, 0, -20));
 	Mesh->SetWorldRotation(FRotator(0, 90, 0));
 
 	CapsuleComponent->SetCapsuleRadius(30);

@@ -16,11 +16,11 @@ public:
 		Name = "Leap attack";
 		Description = "Jumps on the closest target";
 		RangeMin = 0.f;
-		RangeMax = 120.f;
-		Cooldown = 0.5;
+		RangeMax = 240.f;
+		Cooldown = 0.1;
 		CurrentCooldown = 0.f;
 		MinDamages = 0;
-		MaxDamages = 10;
+		MaxDamages = 5;
 		EffectsApply.Add(TSharedPtr<BaseEffect>(new StandardEffect(EElement::Normal)));
 	}
 
@@ -55,7 +55,7 @@ ASentinel::ASentinel(const class FPostConstructInitializeProperties& PCIP)
 	Type = EUnitType::Attacker;
 	MaxLife = 100;
 	CurrentLife = MaxLife;
-	Speed = 0.f;
+	Speed = 0.5f;
 	AIBehavior = MonsterAIBehavior::Run;
 	Behavior = TSharedPtr<UnitBehavior>(new StaticBehavior());
 
@@ -71,8 +71,8 @@ ASentinel::ASentinel(const class FPostConstructInitializeProperties& PCIP)
 
 	static ConstructorHelpers::FObjectFinder<USkeletalMesh> mesh(TEXT("SkeletalMesh'/Game/Meshes/Aliens/Sentinel.Sentinel'"));
 	Mesh->SetSkeletalMesh(mesh.Object);
-	Mesh->SetWorldScale3D(FVector(0.5f, 0.5f, 0.5f));
-	Mesh->SetWorldLocation(FVector(0, 0, -25));
+	Mesh->SetWorldScale3D(FVector(0.7f, 0.7f, 0.7f));
+	Mesh->SetWorldLocation(FVector(0, 0, -10));
 	Mesh->SetWorldRotation(FRotator(0, 90, 0));
 
 	CapsuleComponent->SetCapsuleRadius(30);

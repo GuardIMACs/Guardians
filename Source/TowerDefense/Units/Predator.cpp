@@ -19,7 +19,7 @@ public:
 		RangeMax = 120.f;
 		Cooldown = 0.5;
 		CurrentCooldown = 0.f;
-		MinDamages = 0;
+		MinDamages = 5;
 		MaxDamages = 10;
 		EffectsApply.Add(TSharedPtr<BaseEffect>(new StandardEffect(EElement::Normal)));
 	}
@@ -53,9 +53,9 @@ APredator::APredator(const class FPostConstructInitializeProperties& PCIP)
 {
 	Name = "Predator";
 	Type = EUnitType::Attacker;
-	MaxLife = 100;
+	MaxLife = 300;
 	CurrentLife = MaxLife;
-	Speed = 0.f;
+	Speed = 0.2f;
 	AIBehavior = MonsterAIBehavior::Run;
 	Behavior = TSharedPtr<UnitBehavior>(new StaticBehavior());
 
@@ -71,8 +71,8 @@ APredator::APredator(const class FPostConstructInitializeProperties& PCIP)
 
 	static ConstructorHelpers::FObjectFinder<USkeletalMesh> mesh(TEXT("SkeletalMesh'/Game/Meshes/Aliens/Predator.Predator'"));
 	Mesh->SetSkeletalMesh(mesh.Object);
-	Mesh->SetWorldScale3D(FVector(0.5f, 0.5f, 0.5f));
-	Mesh->SetWorldLocation(FVector(0, 0, -25));
+	Mesh->SetWorldScale3D(FVector(0.9f, 0.9f, 0.9f));
+	Mesh->SetWorldLocation(FVector(0, 0, -5));
 	Mesh->SetWorldRotation(FRotator(0, 90, 0));
 
 	CapsuleComponent->SetCapsuleRadius(30);
