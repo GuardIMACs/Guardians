@@ -11,7 +11,6 @@
 #include "Defines.h"
 #include "DrawDebugHelpers.h"
 
-
 //////////////////////////////////////////////////////////////////////////
 // ATowerDefenseCharacter
 
@@ -57,6 +56,8 @@ ATowerDefenseCharacter::ATowerDefenseCharacter(const class FPostConstructInitial
 	Weapon_FireRate = 1 / 7.5f; // 10 Bullets per sec;
 	Weapon_CurrentFireElapsedTime = Weapon_FireRate;
 	Weapon_IsFiring = false;
+	Weapon_IsAiming = false;
+	Weapon_WasFiring = false;
 	/*Weapon->SetOnlyOwnerSee(true);
 	Weapon->AttachSocketName = "ReaperSocket";
 	Weapon->AttachParent = Mesh1P;*/
@@ -79,6 +80,7 @@ void ATowerDefenseCharacter::SetupPlayerInputComponent(class UInputComponent* In
 	InputComponent->BindAction("Fire", IE_Pressed, this, &ATowerDefenseCharacter::OnFire);
 	InputComponent->BindAction("Fire", IE_Released, this, &ATowerDefenseCharacter::OnStopFire);
 	InputComponent->BindAction("SecondFire", IE_Pressed, this, &ATowerDefenseCharacter::OnSecondFire);
+	InputComponent->BindAction("SecondFire", IE_Released, this, &ATowerDefenseCharacter::OnStopSecondFire);
 	InputComponent->BindTouch(EInputEvent::IE_Pressed, this, &ATowerDefenseCharacter::TouchStarted);
 
 	InputComponent->BindAxis("MoveForward", this, &ATowerDefenseCharacter::MoveForward);
@@ -107,38 +109,34 @@ void ATowerDefenseCharacter::OnStopFire()
 
 void ATowerDefenseCharacter::OnSecondFire()
 {
-	UWorld* World = GetWorld();
-	if (World != NULL)
+	Weapon_IsAiming = true;
+	// try and play a firing animation if specified
+	/*if (FireAnimation != NULL)
 	{
-		FVector CameraLoc;
-		FRotator CameraRot;
-		GetActorEyesViewPoint(CameraLoc, CameraRot);
-
-		FVector Start = CameraLoc;
-		// you need to add a uproperty to the header file for a float PlayerInteractionDistance
-		FVector End = CameraLoc + (CameraRot.Vector() * 1000000);
-
-		// MuzzleOffset is in camera space, so transform it to world space before offsetting from the character location to find the final muzzle position
-
-		FHitResult outHit;
-		FCollisionQueryParams params;
-		params.bTraceComplex = true;
-		params.bTraceAsyncScene = true;
-		params.bReturnPhysicalMaterial = true;
-
-
-		DrawDebugLine(World, Start, End, FColor::Red, false, 10.f);
-		if (World->LineTraceSingle(outHit, Start, End, ECC_Visibility, params))
+		// Get the animation object for the arms mesh
+		UAnimInstance* AnimInstance = Mesh1P->GetAnimInstance();
+		if (AnimInstance != NULL)
 		{
-			UE_LOG(LogTemp, Warning, TEXT("spawn monster"));
-			auto* mode = World->GetAuthGameMode<ATowerDefenseGameMode>();
-			if (mode != nullptr)
-			{
-				//mode->Units.instanciateMonster(EMonster::Voidling, World, outHit.ImpactPoint, FRotator::ZeroRotator);
-				//ABaseUnit* tow = mode->Monsters.SpawnMonster(EMonster::Voidling, World, outHit.ImpactPoint, FRotator::ZeroRotator);
-			}
+			if (!Weapon_IsFiring)
+				AnimInstance->Montage_Play(IdleAimAnimation, 1.f);
 		}
-	}
+	}*/
+}
+
+void ATowerDefenseCharacter::OnStopSecondFire()
+{
+	Weapon_IsAiming = false;
+	// try and play a firing animation if specified
+	/*if (FireAnimation != NULL)
+	{
+		// Get the animation object for the arms mesh
+		UAnimInstance* AnimInstance = Mesh1P->GetAnimInstance();
+		if (AnimInstance != NULL)
+		{
+			if (!Weapon_IsFiring)
+				AnimInstance->Montage_Play(IdleAnimation, 1.f);
+		}
+	}*/
 }
 
 void ATowerDefenseCharacter::SpawnTurret()
@@ -251,6 +249,12 @@ void ATowerDefenseCharacter::Tick(float DeltaSeconds)
 		{
 			FireWeapon();
 			Weapon_CurrentFireElapsedTime = 0;
+			Weapon_WasFiring = true;
+		}
+		else if (!Weapon_IsFiring && Weapon_WasFiring)
+		{
+			StopFireWeapon();
+			Weapon_WasFiring = false;
 		}
 	}
 }
@@ -396,7 +400,27 @@ void ATowerDefenseCharacter::FireWeapon()
 		UAnimInstance* AnimInstance = Mesh1P->GetAnimInstance();
 		if (AnimInstance != NULL)
 		{
-			AnimInstance->Montage_Play(FireAnimation, 1.f);
+			/*if (Weapon_IsAiming)
+				AnimInstance->Montage_Play(FireAimAnimation, 1.f);
+			else*/
+				AnimInstance->Montage_Play(FireAnimation, 1.f);
+		}
+	}
+}
+
+void ATowerDefenseCharacter::StopFireWeapon()
+{
+	// try and play a firing animation if specified
+	if (FireAnimation != NULL)
+	{
+		// Get the animation object for the arms mesh
+		UAnimInstance* AnimInstance = Mesh1P->GetAnimInstance();
+		if (AnimInstance != NULL)
+		{
+			/*if (Weapon_IsAiming)
+				AnimInstance->Montage_Play(IdleAimAnimation, 1.f);
+			else*/
+			AnimInstance->Montage_Stop(1.f);
 		}
 	}
 }

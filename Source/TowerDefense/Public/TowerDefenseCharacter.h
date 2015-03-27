@@ -42,6 +42,18 @@ class ATowerDefenseCharacter : public ACharacter
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 	class UAnimMontage* FireAnimation;
 
+	/** AnimMontage to play each time we fire while aiming*/
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+	class UAnimMontage* FireAimAnimation;
+
+	/** AnimMontage to play each time we stop fire */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+	class UAnimMontage* IdleAnimation;
+
+	/** AnimMontage to play each time we stop fire while aiming */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+	class UAnimMontage* IdleAimAnimation;
+
 	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
 	TSubobjectPtr<class USkeletalMeshComponent> Weapon;
 
@@ -83,6 +95,10 @@ class ATowerDefenseCharacter : public ACharacter
 		float Weapon_MaxDamages;
 
 	bool Weapon_IsFiring;
+
+	bool Weapon_IsAiming;
+
+	bool Weapon_WasFiring;
 
 	/** Fire rate of the weapon, in bullets per seconds */
 	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
@@ -128,6 +144,7 @@ protected:
 
 	/** */
 	void OnSecondFire();
+	void OnStopSecondFire();
 
 	void SpawnTurret();
 
@@ -165,6 +182,8 @@ protected:
 	void UpdateLookAtInfos();
 
 	void FireWeapon();
+
+	void StopFireWeapon();
 
 	// APawn interface
 	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
