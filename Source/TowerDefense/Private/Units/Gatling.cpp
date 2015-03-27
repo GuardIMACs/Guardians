@@ -1,11 +1,12 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "TowerDefense.h"
-#include "Monster.h"
-#include "Gatling.h"
+#include "Units/Monster.h"
+#include "Units/Gatling.h"
 #include "Behaviors/StaticBehavior.h"
 #include "Effects/StandardEffect.h"
 #include "TowerDefenseGameMode.h"
+
 
 class GatlingAtk : public BaseAttack
 {
@@ -29,7 +30,9 @@ public:
 		Target = nullptr;
 		auto from = Parent->GetActorLocation();	from.Z = 0;
 
-		GameMode->Units.ForeachMonster([this, &minDist, from](AMonster* m) {
+		GameMode->Units.ForeachUnit([this, &minDist, from](ABaseUnit* m) {
+			if (m->Type != EUnitType::Defender)
+				return;
 			if (!m->IsAlive())
 				return;
 			auto pos = m->GetActorLocation();
@@ -53,7 +56,6 @@ AGatling::AGatling(const class FObjectInitializer& PCIP)
 	Name = "Gatling";
 	MaxLife = 100;
 	CurrentLife = MaxLife;
-	Speed = 0.f;
 	Behavior = TSharedPtr<UnitBehavior>(new StaticBehavior());
 
 	if (GetWorld())
@@ -70,6 +72,7 @@ AGatling::AGatling(const class FObjectInitializer& PCIP)
 	GetMesh()->SetSkeletalMesh(mesh.Object);
 	GetMesh()->SetWorldScale3D(FVector(0.5f, 0.5f, 0.5f));
 	GetMesh()->SetWorldLocation(FVector(0, -110, 0));
+
 
 	GetCapsuleComponent()->SetCapsuleRadius(70);
 	GetCapsuleComponent()->SetCapsuleHalfHeight(150);

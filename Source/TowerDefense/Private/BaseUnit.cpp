@@ -48,3 +48,8 @@ bool ABaseUnit::IsAlive()
 {
 	return CurrentLife > 0;
 }
+
+void ABaseUnit::SetSpeed(float speed)
+{
+	GetCharacterMovement()->MaxWalkSpeed = speed;
+}

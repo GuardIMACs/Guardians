@@ -41,10 +41,6 @@ public:
 	UPROPERTY(BlueprintReadWrite, Category = "Unit Stats")
 		int32 CurrentLife;
 
-	/** Unit speed in m/s */
-	UPROPERTY(EditAnyWhere, BlueprintReadWrite, Category = "Unit Stats")
-		float Speed;
-
 	/** Damage reduction of the unit. Each index is an EElement */
 	UPROPERTY(EditAnyWhere, BlueprintReadWrite, Category = "Unit Stats")
 		TArray<float> Defense;
@@ -68,4 +64,6 @@ public:
 	virtual void AddLock();
 	virtual void RemoveLock();
 	virtual bool IsAlive();
+
+	void SetSpeed(float speed);
 };

@@ -7,6 +7,8 @@
 #include "Effects/StandardEffect.h"
 #include "TowerDefenseGameMode.h"
 #include "Units/Tower.h"
+#include "Animation/AnimBlueprint.h"
+
 
 class GlobalHawkAtk : public BaseAttack
 {
@@ -30,7 +32,9 @@ public:
 		Target = nullptr;
 		auto from = Parent->GetActorLocation();	from.Z = 0;
 
-		GameMode->Units.ForeachTower([this, &minDist, from](ATower* m) {
+		GameMode->Units.ForeachUnit([this, &minDist, from](ABaseUnit* m) {
+			if (m->Type != EUnitType::Defender)
+				return;
 			if (!m->IsAlive())
 				return;
 			auto pos = m->GetActorLocation();
@@ -55,7 +59,6 @@ AGlobalHawk::AGlobalHawk(const class FObjectInitializer& PCIP)
 	Type = EUnitType::Attacker;
 	MaxLife = 100;
 	CurrentLife = MaxLife;
-	Speed = 0.f;
 	AIBehavior = MonsterAIBehavior::Run;
 	Behavior = TSharedPtr<UnitBehavior>(new StaticBehavior());
 
@@ -69,17 +72,22 @@ AGlobalHawk::AGlobalHawk(const class FObjectInitializer& PCIP)
 		}
 	}
 
-	static ConstructorHelpers::FObjectFinder<USkeletalMesh> mesh(TEXT("SkeletalMesh'/Game/Meshes/Aliens/GlobalHawk.GlobalHawk'"));
+	static ConstructorHelpers::FObjectFinder<USkeletalMesh> mesh(TEXT("SkeletalMesh'/Game/Meshes/Aliens/GlobalHawk/GlobalHawk.GlobalHawk'"));
 	GetMesh()->SetSkeletalMesh(mesh.Object);
 	GetMesh()->SetWorldScale3D(FVector(0.5f, 0.5f, 0.5f));
 	GetMesh()->SetWorldLocation(FVector(0, 0, -25));
 	GetMesh()->SetWorldRotation(FRotator(0, 90, 0));
+
+	static ConstructorHelpers::FObjectFinder<UAnimBlueprint> anim(TEXT("AnimBlueprint'/Game/Meshes/Aliens/Surrogate/SurrogateAnimBlueprint.SurrogateAnimBlueprint'"));
+	GetMesh()->SetAnimInstanceClass(anim.Object->GeneratedClass);
 
 	GetCapsuleComponent()->SetCapsuleRadius(30);
 	GetCapsuleComponent()->SetCapsuleHalfHeight(60);
 
 	static ConstructorHelpers::FObjectFinder<UObject> tree(TEXT("BehaviorTree'/Game/Blueprints/Monster_Behavior.Monster_Behavior'"));
 	BehaviorTree = (UBehaviorTree*)tree.Object;
+
+	SetSpeed(100);
 }
 
 AGlobalHawk* AGlobalHawk::Spawn(UWorld* world, const FVector& vec, const FRotator rot)

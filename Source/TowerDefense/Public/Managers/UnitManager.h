@@ -2,6 +2,8 @@
 #include "Defines.h"
 #include <algorithm>
 
+#include "Buildings/Generator.h"
+
 class AMonster;
 class ATower;
 class ALoot;
@@ -74,6 +76,8 @@ public:
 			l(*it);
 		for (auto it = Monsters.CreateIterator(); it; ++it)
 			l(*it);
+		if (Generator)
+			l(Generator);
 	}
 
 protected:
@@ -85,5 +89,8 @@ protected:
 
 	TArray<SLootInfo>		LootsInfo;
 	TArray<ALoot*>			Loots;
+
+public:
+	AGenerator*				Generator;
 };
 
