@@ -81,8 +81,8 @@ ASurrogate::ASurrogate(const class FObjectInitializer& PCIP)
 	static ConstructorHelpers::FObjectFinder<UAnimBlueprint> anim(TEXT("AnimBlueprint'/Game/Meshes/Aliens/Surrogate/SurrogateAnimBlueprint.SurrogateAnimBlueprint'"));
 	GetMesh()->SetAnimInstanceClass(anim.Object->GeneratedClass);
 
-	GetCapsuleComponent()->SetCapsuleRadius(30);
-	GetCapsuleComponent()->SetCapsuleHalfHeight(60);
+	GetCapsuleComponent()->SetCapsuleRadius(45);
+	GetCapsuleComponent()->SetCapsuleHalfHeight(80);
 
 	static ConstructorHelpers::FObjectFinder<UObject> tree(TEXT("BehaviorTree'/Game/Blueprints/Monster_Behavior.Monster_Behavior'"));
 	BehaviorTree = (UBehaviorTree*)tree.Object;

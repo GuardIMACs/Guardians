@@ -75,14 +75,14 @@ AGlobalHawk::AGlobalHawk(const class FObjectInitializer& PCIP)
 	static ConstructorHelpers::FObjectFinder<USkeletalMesh> mesh(TEXT("SkeletalMesh'/Game/Meshes/Aliens/GlobalHawk/GlobalHawk.GlobalHawk'"));
 	GetMesh()->SetSkeletalMesh(mesh.Object);
 	GetMesh()->SetWorldScale3D(FVector(0.5f, 0.5f, 0.5f));
-	GetMesh()->SetWorldLocation(FVector(0, 0, -20));
+	GetMesh()->SetWorldLocation(FVector(0, 0, 0));
 	GetMesh()->SetWorldRotation(FRotator(0, 90, 0));
 
-	static ConstructorHelpers::FObjectFinder<UAnimBlueprint> anim(TEXT("AnimBlueprint'/Game/Meshes/Aliens/Surrogate/SurrogateAnimBlueprint.SurrogateAnimBlueprint'"));
+	static ConstructorHelpers::FObjectFinder<UAnimBlueprint> anim(TEXT("AnimBlueprint'/Game/Meshes/Aliens/GlobalHawk/GlobalHawkAnimBlueprint.GlobalHawkAnimBlueprint'"));
 	GetMesh()->SetAnimInstanceClass(anim.Object->GeneratedClass);
 
 	GetCapsuleComponent()->SetCapsuleRadius(30);
-	GetCapsuleComponent()->SetCapsuleHalfHeight(60);
+	GetCapsuleComponent()->SetCapsuleHalfHeight(40);
 
 	static ConstructorHelpers::FObjectFinder<UObject> tree(TEXT("BehaviorTree'/Game/Blueprints/Monster_Behavior.Monster_Behavior'"));
 	BehaviorTree = (UBehaviorTree*)tree.Object;

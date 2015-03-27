@@ -74,13 +74,13 @@ AExtender::AExtender(const class FObjectInitializer& PCIP)
 	static ConstructorHelpers::FObjectFinder<USkeletalMesh> mesh(TEXT("SkeletalMesh'/Game/Meshes/Aliens/Extender/Extender.Extender'"));
 	GetMesh()->SetSkeletalMesh(mesh.Object);
 	GetMesh()->SetWorldScale3D(FVector(0.4f, 0.4f, 0.4f));
-	GetMesh()->SetWorldLocation(FVector(0, 0, -25));
+	GetMesh()->SetWorldLocation(FVector(0, 0, 0));
 	GetMesh()->SetWorldRotation(FRotator(0, 90, 0));
 	static ConstructorHelpers::FObjectFinder<UAnimBlueprint> anim(TEXT("AnimBlueprint'/Game/Meshes/Aliens/Extender/AliensAnimBlueprint.AliensAnimBlueprint'"));
 	GetMesh()->SetAnimInstanceClass(anim.Object->GeneratedClass);
 
 	GetCapsuleComponent()->SetCapsuleRadius(30);
-	GetCapsuleComponent()->SetCapsuleHalfHeight(60);
+	GetCapsuleComponent()->SetCapsuleHalfHeight(30);
 
 	//UE_LOG(LogTemp, Warning, TEXT("MOVESPEED: %f"), GetCharacterMovement()->GetMaxSpeed());
 	SetSpeed(100);

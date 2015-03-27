@@ -30,9 +30,7 @@ public:
 		Target = nullptr;
 		auto from = Parent->GetActorLocation();	from.Z = 0;
 
-		GameMode->Units.ForeachUnit([this, &minDist, from](ABaseUnit* m) {
-			if (m->Type != EUnitType::Defender)
-				return;
+		GameMode->Units.ForeachMonster([this, &minDist, from](AMonster* m) {
 			if (!m->IsAlive())
 				return;
 			auto pos = m->GetActorLocation();
@@ -71,14 +69,17 @@ AGatling::AGatling(const class FObjectInitializer& PCIP)
 	static ConstructorHelpers::FObjectFinder<USkeletalMesh> mesh(TEXT("SkeletalMesh'/Game/Meshes/Turrets/GatlingTurret.GatlingTurret'"));
 	GetMesh()->SetSkeletalMesh(mesh.Object);
 	GetMesh()->SetWorldScale3D(FVector(5.f, 5.f, 5.f));
-	GetMesh()->SetWorldLocation(FVector(0, 0, -150));
+	GetMesh()->SetWorldLocation(FVector(0, 0, -50));
 
 
-	GetCapsuleComponent()->SetCapsuleRadius(70);
+	GetCapsuleComponent()->SetCapsuleRadius(120);
 	GetCapsuleComponent()->SetCapsuleHalfHeight(150);
 }
 
 AGatling* AGatling::Spawn(UWorld* world, const FVector& vec, const FRotator rot)
 {
-	return world->SpawnActor<AGatling>(vec, rot);
+	auto* a = world->SpawnActor<AGatling>(vec, rot);
+	if (a)
+		a->SetActorLocation(a->GetActorLocation() + FVector(0, 0, -100));
+	return a;
 }

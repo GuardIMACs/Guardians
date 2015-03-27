@@ -15,6 +15,7 @@ ASpawnMonster::ASpawnMonster(const class FObjectInitializer& PCIP)
 	WhereToSpawn = PCIP.CreateDefaultSubobject<UBoxComponent>(this, TEXT("WhereToSpawn"));
 
 	RootComponent = WhereToSpawn;
+	NextMonster = EMonster::Max;
 }
 
 

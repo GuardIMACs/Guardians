@@ -69,12 +69,12 @@ void AMonsterAIController::SearchForEnemy()
 					minDist = dist;
 				}
 			});
-			if (!target && mode->Generator)
+			if (!target && mode->Generator && mode->Generator->IsAlive())
 					target = mode->Generator;
 		}
 		break;
 	case MonsterAIBehavior::Run:
-		if (mode->Generator)
+		if (mode->Generator && mode->Generator->IsAlive())
 			target = mode->Generator;
 	
 		break;

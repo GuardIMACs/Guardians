@@ -58,7 +58,7 @@ void ATowerDefenseGameMode::PostInitializeComponents()
 		Units.Generator = Generator;
 		UE_LOG(LogTemp, Warning, TEXT("Generator found"));
 	}
-
+	Generator->AddLock();
 	for (TActorIterator<ASpawnMonster> itr(GetWorld()); itr; ++itr)
 		Spawns.Add(*itr);
 }

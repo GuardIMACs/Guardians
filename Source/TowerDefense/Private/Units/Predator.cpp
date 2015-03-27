@@ -75,14 +75,14 @@ APredator::APredator(const class FObjectInitializer& PCIP)
 	static ConstructorHelpers::FObjectFinder<USkeletalMesh> mesh(TEXT("SkeletalMesh'/Game/Meshes/Aliens/Predator/Predator.Predator'"));
 	GetMesh()->SetSkeletalMesh(mesh.Object);
 	GetMesh()->SetWorldScale3D(FVector(0.9f, 0.9f, 0.9f));
-	GetMesh()->SetWorldLocation(FVector(0, 0, -5));
+	GetMesh()->SetWorldLocation(FVector(0, 0, 0));
 	GetMesh()->SetWorldRotation(FRotator(0, 90, 0));
 
 	static ConstructorHelpers::FObjectFinder<UAnimBlueprint> anim(TEXT("AnimBlueprint'/Game/Meshes/Aliens/Predator/PredatorAnimBlueprint.PredatorAnimBlueprint'"));
 	GetMesh()->SetAnimInstanceClass(anim.Object->GeneratedClass);
 
-	GetCapsuleComponent()->SetCapsuleRadius(30);
-	GetCapsuleComponent()->SetCapsuleHalfHeight(60);
+	GetCapsuleComponent()->SetCapsuleRadius(40);
+	GetCapsuleComponent()->SetCapsuleHalfHeight(70);
 
 	static ConstructorHelpers::FObjectFinder<UObject> tree(TEXT("BehaviorTree'/Game/Blueprints/Monster_Behavior.Monster_Behavior'"));
 	BehaviorTree = (UBehaviorTree*)tree.Object;
