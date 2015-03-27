@@ -235,6 +235,20 @@ bool ATowerDefenseCharacter::IsRunning() const
 void ATowerDefenseCharacter::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
+	UWorld* World = GetWorld();
+	auto* mode = World->GetAuthGameMode<ATowerDefenseGameMode>();
+	if (mode != nullptr)
+	{
+		/* UE_LOG(LogTemp, Warning, TEXT("p_shield: %f"), P_shield);
+		UE_LOG(LogTemp, Warning, TEXT("max: %f"), mode->Generator->MaxLife);
+		UE_LOG(LogTemp, Warning, TEXT("current: %f"), mode->Generator->CurrentLife); */
+
+		float current = mode->Generator->CurrentLife; 
+		float max = mode->Generator->MaxLife;
+
+		P_shield = current / max; 
+	}
+
 	if (Controller && Controller->IsLocalPlayerController()) // we check the controller becouse we dont want bots to grab the use object and we need a controller for the Getplayerviewpoint function
 	{
 		UpdateLookAtInfos();
