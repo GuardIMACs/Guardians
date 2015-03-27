@@ -10,15 +10,16 @@
 #include "Units/Extender.h"
 #include "Defines.h"
 #include "DrawDebugHelpers.h"
+#include "FX/ImpactEffect.h"
 
 //////////////////////////////////////////////////////////////////////////
 // ATowerDefenseCharacter
 
-ATowerDefenseCharacter::ATowerDefenseCharacter(const class FPostConstructInitializeProperties& PCIP)
+ATowerDefenseCharacter::ATowerDefenseCharacter(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
 	// Set size for collision capsule
-	CapsuleComponent->InitCapsuleSize(42.f, 96.0f);
+	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
 
 	// set our turn rates for input
 	BaseTurnRate = 45.f;
@@ -32,7 +33,7 @@ ATowerDefenseCharacter::ATowerDefenseCharacter(const class FPostConstructInitial
 
 	// Create a CameraComponent	
 	FirstPersonCameraComponent = PCIP.CreateDefaultSubobject<UCameraComponent>(this, TEXT("FirstPersonCamera"));
-	FirstPersonCameraComponent->AttachParent = CapsuleComponent;
+	FirstPersonCameraComponent->AttachParent = GetCapsuleComponent();
 	FirstPersonCameraComponent->RelativeLocation = FVector(0, 0, 64.f); // Position the camera
 	FirstPersonCameraComponent->bUseControllerViewRotation_DEPRECATED = true; // for backwards compatibility with old saved content
 	FirstPersonCameraComponent->bUsePawnControlRotation = true;
@@ -273,16 +274,6 @@ FVector ATowerDefenseCharacter::GetMuzzleLocation() const
 
 void ATowerDefenseCharacter::SpawnTrailEffect(const FVector& EndPoint)
 {
-	if (Weapon_TrailFX)
-	{
-		const FVector Origin = GetActorLocation();
-
-		UParticleSystemComponent* TrailPSC = UGameplayStatics::SpawnEmitterAtLocation(this, Weapon_TrailFX, Origin);
-		if (TrailPSC)
-		{
-			TrailPSC->SetVectorParameter(Weapon_TrailTargetParam, EndPoint);
-		}
-	}
 }
 
 void ATowerDefenseCharacter::SpawnMuzzleEffect()
@@ -296,10 +287,19 @@ void ATowerDefenseCharacter::SpawnMuzzleEffect()
 	}
 }
 
-void ATowerDefenseCharacter::SpawnImpactEffect(const FVector& Location)
+void ATowerDefenseCharacter::SpawnImpactEffect(const FHitResult& Impact)
 {
-	if (Weapon_ImpactFX)
-		/*UParticleSystemComponent* ImpactPSC = */UGameplayStatics::SpawnEmitterAtLocation(this, Weapon_ImpactFX, Location);
+	if (!Impact.bBlockingHit)
+		return;
+
+	if (ImpactTemplate) {
+		AImpactEffect* EffectActor = GetWorld()->SpawnActorDeferred<AImpactEffect>(ImpactTemplate, Impact.ImpactPoint, Impact.ImpactNormal.Rotation());
+		if (EffectActor)
+		{
+			EffectActor->SurfaceHit = Impact;
+			UGameplayStatics::FinishSpawningActor(EffectActor, FTransform(Impact.ImpactNormal.Rotation(), Impact.ImpactPoint));
+		}
+	}
 }
 
 void ATowerDefenseCharacter::UpdateLookAtInfos()
@@ -387,11 +387,9 @@ void ATowerDefenseCharacter::FireWeapon()
 		World->LineTraceSingle(Hit, StartTrace, EndTrace, ECC_Pawn, TraceParams);
 		SpawnMuzzleEffect();
 		SpawnTrailEffect(Hit.GetActor() ? Hit.ImpactPoint : EndTrace);
-		if (Hit.GetActor()) {
-			SpawnImpactEffect(Hit.ImpactPoint);
-		}
+		SpawnImpactEffect(Hit);
 
-		DrawDebugLine(World, StartTrace, EndTrace, FColor::Green, false, 5);
+		//DrawDebugLine(World, StartTrace, EndTrace, FColor::Green, false, 5);
 
 		AMonster* monster = Cast<AMonster>(Hit.GetActor());
 		if (monster)
