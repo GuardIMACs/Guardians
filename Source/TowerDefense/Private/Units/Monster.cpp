@@ -4,7 +4,7 @@
 #include "Monster.h"
 
 
-AMonster::AMonster(const class FPostConstructInitializeProperties& PCIP)
+AMonster::AMonster(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
 	Type = EUnitType::Attacker;

@@ -48,7 +48,7 @@ public:
 	}
 };
 
-APredator::APredator(const class FPostConstructInitializeProperties& PCIP)
+APredator::APredator(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
 	Name = "Predator";
@@ -70,13 +70,13 @@ APredator::APredator(const class FPostConstructInitializeProperties& PCIP)
 	}
 
 	static ConstructorHelpers::FObjectFinder<USkeletalMesh> mesh(TEXT("SkeletalMesh'/Game/Meshes/Aliens/Predator.Predator'"));
-	Mesh->SetSkeletalMesh(mesh.Object);
-	Mesh->SetWorldScale3D(FVector(0.5f, 0.5f, 0.5f));
-	Mesh->SetWorldLocation(FVector(0, 0, -25));
-	Mesh->SetWorldRotation(FRotator(0, 90, 0));
+	GetMesh()->SetSkeletalMesh(mesh.Object);
+	GetMesh()->SetWorldScale3D(FVector(0.5f, 0.5f, 0.5f));
+	GetMesh()->SetWorldLocation(FVector(0, 0, -25));
+	GetMesh()->SetWorldRotation(FRotator(0, 90, 0));
 
-	CapsuleComponent->SetCapsuleRadius(30);
-	CapsuleComponent->SetCapsuleHalfHeight(60);
+	GetCapsuleComponent()->SetCapsuleRadius(30);
+	GetCapsuleComponent()->SetCapsuleHalfHeight(60);
 
 	static ConstructorHelpers::FObjectFinder<UObject> tree(TEXT("BehaviorTree'/Game/Blueprints/Monster_Behavior.Monster_Behavior'"));
 	BehaviorTree = (UBehaviorTree*)tree.Object;

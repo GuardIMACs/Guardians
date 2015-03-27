@@ -4,7 +4,7 @@
 #include "BaseUnit.h"
 
 
-ABaseUnit::ABaseUnit(const class FPostConstructInitializeProperties& PCIP)
+ABaseUnit::ABaseUnit(const class FObjectInitializer& PCIP)
 	: Super(PCIP), Type(EUnitType::Neutral), Locks(0)
 {
 	uint8 max = static_cast<uint8>(EElement::Max);

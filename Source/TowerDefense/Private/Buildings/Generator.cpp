@@ -2,7 +2,7 @@
 #include "Generator.h"
 
 
-AGenerator::AGenerator(const class FPostConstructInitializeProperties& PCIP)
+AGenerator::AGenerator(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
 

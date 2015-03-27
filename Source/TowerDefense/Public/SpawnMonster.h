@@ -14,7 +14,7 @@ public:
 	GENERATED_UCLASS_BODY()
 
 	UPROPERTY(VisibleInstanceOnly, Category = Spawning)
-	TSubobjectPtr<UBoxComponent> WhereToSPawn;
+	class UBoxComponent* WhereToSPawn;
 
 	UPROPERTY(EditAnywhere, Category = Spawning)
 	TSubclassOf<class AMonster> SpawnedMonster; 

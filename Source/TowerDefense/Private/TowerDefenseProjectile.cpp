@@ -4,7 +4,7 @@
 #include "TowerDefenseProjectile.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 
-ATowerDefenseProjectile::ATowerDefenseProjectile(const class FPostConstructInitializeProperties& PCIP) 
+ATowerDefenseProjectile::ATowerDefenseProjectile(const class FObjectInitializer& PCIP) 
 	: Super(PCIP)
 {
 	// Use a sphere as a simple collision representation

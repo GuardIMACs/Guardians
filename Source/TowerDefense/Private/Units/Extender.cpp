@@ -1,17 +1,17 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "TowerDefense.h"
-#include "GlobalHawk.h"
+#include "Extender.h"
 #include "Engine/Blueprint.h"
 #include "Behaviors/StaticBehavior.h"
 #include "Effects/StandardEffect.h"
 #include "TowerDefenseGameMode.h"
 #include "Units/Tower.h"
 
-class GlobalHawkAtk : public BaseAttack
+class ExtenderAtk : public BaseAttack
 {
 public:
-	GlobalHawkAtk(ABaseUnit* parent, ATowerDefenseGameMode* gameMode) : BaseAttack(parent, gameMode)
+	ExtenderAtk(ABaseUnit* parent, ATowerDefenseGameMode* gameMode) : BaseAttack(parent, gameMode)
 	{
 		Name = "Leap attack";
 		Description = "Jumps on the closest target";
@@ -48,10 +48,10 @@ public:
 	}
 };
 
-AGlobalHawk::AGlobalHawk(const class FPostConstructInitializeProperties& PCIP)
+AExtender::AExtender(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
-	Name = "GlobalHawk";
+	Name = "Extender";
 	Type = EUnitType::Attacker;
 	MaxLife = 100;
 	CurrentLife = MaxLife;
@@ -64,25 +64,25 @@ AGlobalHawk::AGlobalHawk(const class FPostConstructInitializeProperties& PCIP)
 		auto* mode = GetWorld()->GetAuthGameMode<ATowerDefenseGameMode>();
 		if (mode)
 		{
-			Attack.Add(TSharedPtr<BaseAttack>(new GlobalHawkAtk(this, mode)));
+			Attack.Add(TSharedPtr<BaseAttack>(new ExtenderAtk(this, mode)));
 			//UE_LOG(LogTemp, Warning, TEXT("created voidlingatk"));
 		}
 	}
 
-	static ConstructorHelpers::FObjectFinder<USkeletalMesh> mesh(TEXT("SkeletalMesh'/Game/Meshes/Aliens/GlobalHawk.GlobalHawk'"));
-	Mesh->SetSkeletalMesh(mesh.Object);
-	Mesh->SetWorldScale3D(FVector(0.5f, 0.5f, 0.5f));
-	Mesh->SetWorldLocation(FVector(0, 0, -25));
-	Mesh->SetWorldRotation(FRotator(0, 90, 0));
+	static ConstructorHelpers::FObjectFinder<USkeletalMesh> mesh(TEXT("SkeletalMesh'/Game/Meshes/Aliens/Extender.Extender'"));
+	GetMesh()->SetSkeletalMesh(mesh.Object);
+	GetMesh()->SetWorldScale3D(FVector(0.5f, 0.5f, 0.5f));
+	GetMesh()->SetWorldLocation(FVector(0, 0, -25));
+	GetMesh()->SetWorldRotation(FRotator(0, 90, 0));
 
-	CapsuleComponent->SetCapsuleRadius(30);
-	CapsuleComponent->SetCapsuleHalfHeight(60);
+	GetCapsuleComponent()->SetCapsuleRadius(30);
+	GetCapsuleComponent()->SetCapsuleHalfHeight(60);
 
 	static ConstructorHelpers::FObjectFinder<UObject> tree(TEXT("BehaviorTree'/Game/Blueprints/Monster_Behavior.Monster_Behavior'"));
 	BehaviorTree = (UBehaviorTree*)tree.Object;
 }
 
-AGlobalHawk* AGlobalHawk::Spawn(UWorld* world, const FVector& vec, const FRotator rot)
+AExtender* AExtender::Spawn(UWorld* world, const FVector& vec, const FRotator rot)
 {
-	return world->SpawnActor<AGlobalHawk>(vec, rot);
+	return world->SpawnActor<AExtender>(vec, rot);
 }

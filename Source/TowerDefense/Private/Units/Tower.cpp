@@ -3,7 +3,7 @@
 #include "Tower.h"
 
 
-ATower::ATower(const class FPostConstructInitializeProperties& PCIP)
+ATower::ATower(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
 	Type = EUnitType::Defender;

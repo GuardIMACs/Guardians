@@ -15,7 +15,7 @@
 
 #include "EngineUtils.h"
 
-ATowerDefenseGameMode::ATowerDefenseGameMode(const class FPostConstructInitializeProperties& PCIP)
+ATowerDefenseGameMode::ATowerDefenseGameMode(const class FObjectInitializer& PCIP)
 	: Super(PCIP), Generator(nullptr)
 {
 	// set default pawn class to our Blueprinted character

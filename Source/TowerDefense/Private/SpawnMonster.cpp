@@ -12,7 +12,7 @@
 
 
 // Sets default values
-ASpawnMonster::ASpawnMonster(const class FPostConstructInitializeProperties& PCIP)
+ASpawnMonster::ASpawnMonster(const class FObjectInitializer& PCIP)
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
