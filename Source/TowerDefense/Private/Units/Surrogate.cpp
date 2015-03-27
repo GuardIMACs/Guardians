@@ -22,7 +22,7 @@ public:
 		Cooldown = 0.5;
 		CurrentCooldown = 0.f;
 		MinDamages = 0;
-		MaxDamages = 10;
+		MaxDamages = 2;
 		EffectsApply.Add(TSharedPtr<BaseEffect>(new StandardEffect(EElement::Normal)));
 	}
 
@@ -57,7 +57,7 @@ ASurrogate::ASurrogate(const class FObjectInitializer& PCIP)
 {
 	Name = "Surrogate";
 	Type = EUnitType::Attacker;
-	MaxLife = 100;
+	MaxLife = 500;
 	CurrentLife = MaxLife;
 	AIBehavior = MonsterAIBehavior::Run;
 	Behavior = TSharedPtr<UnitBehavior>(new StaticBehavior());
@@ -74,8 +74,8 @@ ASurrogate::ASurrogate(const class FObjectInitializer& PCIP)
 
 	static ConstructorHelpers::FObjectFinder<USkeletalMesh> mesh(TEXT("SkeletalMesh'/Game/Meshes/Aliens/Surrogate/Surrogate.Surrogate'"));
 	GetMesh()->SetSkeletalMesh(mesh.Object);
-	GetMesh()->SetWorldScale3D(FVector(0.5f, 0.5f, 0.5f));
-	GetMesh()->SetWorldLocation(FVector(0, 0, -25));
+	GetMesh()->SetWorldScale3D(FVector(1.f, 1.f, 1.f));
+	GetMesh()->SetWorldLocation(FVector(0, 0, 0));
 	GetMesh()->SetWorldRotation(FRotator(0, 90, 0));
 
 	static ConstructorHelpers::FObjectFinder<UAnimBlueprint> anim(TEXT("AnimBlueprint'/Game/Meshes/Aliens/Surrogate/SurrogateAnimBlueprint.SurrogateAnimBlueprint'"));

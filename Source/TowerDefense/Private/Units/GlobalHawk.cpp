@@ -18,11 +18,11 @@ public:
 		Name = "Leap attack";
 		Description = "Jumps on the closest target";
 		RangeMin = 0.f;
-		RangeMax = 120.f;
+		RangeMax = 240.f;
 		Cooldown = 0.5;
 		CurrentCooldown = 0.f;
 		MinDamages = 0;
-		MaxDamages = 10;
+		MaxDamages = 2;
 		EffectsApply.Add(TSharedPtr<BaseEffect>(new StandardEffect(EElement::Normal)));
 	}
 
@@ -75,7 +75,7 @@ AGlobalHawk::AGlobalHawk(const class FObjectInitializer& PCIP)
 	static ConstructorHelpers::FObjectFinder<USkeletalMesh> mesh(TEXT("SkeletalMesh'/Game/Meshes/Aliens/GlobalHawk/GlobalHawk.GlobalHawk'"));
 	GetMesh()->SetSkeletalMesh(mesh.Object);
 	GetMesh()->SetWorldScale3D(FVector(0.5f, 0.5f, 0.5f));
-	GetMesh()->SetWorldLocation(FVector(0, 0, -25));
+	GetMesh()->SetWorldLocation(FVector(0, 0, -20));
 	GetMesh()->SetWorldRotation(FRotator(0, 90, 0));
 
 	static ConstructorHelpers::FObjectFinder<UAnimBlueprint> anim(TEXT("AnimBlueprint'/Game/Meshes/Aliens/Surrogate/SurrogateAnimBlueprint.SurrogateAnimBlueprint'"));

@@ -21,7 +21,7 @@ public:
 		Cooldown = 0.5;
 		CurrentCooldown = 0.f;
 		MinDamages = 0;
-		MaxDamages = 10;
+		MaxDamages = 5;
 		EffectsApply.Add(TSharedPtr<BaseEffect>(new StandardEffect(EElement::Normal)));
 	}
 
@@ -73,7 +73,7 @@ AExtender::AExtender(const class FObjectInitializer& PCIP)
 
 	static ConstructorHelpers::FObjectFinder<USkeletalMesh> mesh(TEXT("SkeletalMesh'/Game/Meshes/Aliens/Extender/Extender.Extender'"));
 	GetMesh()->SetSkeletalMesh(mesh.Object);
-	GetMesh()->SetWorldScale3D(FVector(0.5f, 0.5f, 0.5f));
+	GetMesh()->SetWorldScale3D(FVector(0.4f, 0.4f, 0.4f));
 	GetMesh()->SetWorldLocation(FVector(0, 0, -25));
 	GetMesh()->SetWorldRotation(FRotator(0, 90, 0));
 	static ConstructorHelpers::FObjectFinder<UAnimBlueprint> anim(TEXT("AnimBlueprint'/Game/Meshes/Aliens/Extender/AliensAnimBlueprint.AliensAnimBlueprint'"));
