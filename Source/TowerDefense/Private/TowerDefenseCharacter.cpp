@@ -275,7 +275,7 @@ void ATowerDefenseCharacter::SpawnTrailEffect(const FVector& EndPoint)
 {
 	if (Weapon_TrailFX)
 	{
-		const FVector Origin = GetMuzzleLocation();
+		const FVector Origin = GetActorLocation();
 
 		UParticleSystemComponent* TrailPSC = UGameplayStatics::SpawnEmitterAtLocation(this, Weapon_TrailFX, Origin);
 		if (TrailPSC)
@@ -288,9 +288,18 @@ void ATowerDefenseCharacter::SpawnTrailEffect(const FVector& EndPoint)
 void ATowerDefenseCharacter::SpawnMuzzleEffect()
 {
 	GetMuzzleLocation();
-	MuzzlePSC = UGameplayStatics::SpawnEmitterAttached(MuzzleFX, Weapon, MuzzleAttachPoint);
-	MuzzlePSC->bOwnerNoSee = false;
-	MuzzlePSC->bOnlyOwnerSee = true;
+	if (MuzzlePSC == NULL) 
+	{
+		MuzzlePSC = UGameplayStatics::SpawnEmitterAttached(MuzzleFX, Weapon, MuzzleAttachPoint);
+		MuzzlePSC->bOwnerNoSee = false;
+		MuzzlePSC->bOnlyOwnerSee = true;
+	}
+}
+
+void ATowerDefenseCharacter::SpawnImpactEffect(const FVector& Location)
+{
+	if (Weapon_ImpactFX)
+		/*UParticleSystemComponent* ImpactPSC = */UGameplayStatics::SpawnEmitterAtLocation(this, Weapon_ImpactFX, Location);
 }
 
 void ATowerDefenseCharacter::UpdateLookAtInfos()
@@ -376,7 +385,12 @@ void ATowerDefenseCharacter::FireWeapon()
 
 		FHitResult Hit(ForceInit);
 		World->LineTraceSingle(Hit, StartTrace, EndTrace, ECC_Pawn, TraceParams);
+		SpawnMuzzleEffect();
 		SpawnTrailEffect(Hit.GetActor() ? Hit.ImpactPoint : EndTrace);
+		if (Hit.GetActor()) {
+			SpawnImpactEffect(Hit.ImpactPoint);
+		}
+
 		DrawDebugLine(World, StartTrace, EndTrace, FColor::Green, false, 5);
 
 		AMonster* monster = Cast<AMonster>(Hit.GetActor());
@@ -422,5 +436,11 @@ void ATowerDefenseCharacter::StopFireWeapon()
 			else*/
 			AnimInstance->Montage_Stop(1.f);
 		}
+	}
+
+	if (MuzzlePSC)
+	{
+		MuzzlePSC->DeactivateSystem();
+		MuzzlePSC = nullptr;
 	}
 }

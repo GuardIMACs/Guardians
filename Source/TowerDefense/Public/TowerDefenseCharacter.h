@@ -119,6 +119,10 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = Effects)
 	UParticleSystem* MuzzleFX;
 
+	/** FX for impact hit */
+	UPROPERTY(EditDefaultsOnly, Category = Effects)
+	UParticleSystem* Weapon_ImpactFX;
+
 
 protected:
 
@@ -178,6 +182,8 @@ protected:
 	void SpawnTrailEffect(const FVector& EndPoint);
 
 	void SpawnMuzzleEffect();
+
+	void SpawnImpactEffect(const FVector& Location);
 
 	void UpdateLookAtInfos();
 
