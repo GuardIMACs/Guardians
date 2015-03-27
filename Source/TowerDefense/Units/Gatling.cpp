@@ -66,10 +66,10 @@ AGatling::AGatling(const class FObjectInitializer& PCIP)
 		}
 	}
 
-	static ConstructorHelpers::FObjectFinder<USkeletalMesh> mesh(TEXT("SkeletalMesh'/Game/Meshes/Turrets/gatling.gatling'"));
+	static ConstructorHelpers::FObjectFinder<USkeletalMesh> mesh(TEXT("SkeletalMesh'/Game/Meshes/Turrets/GatlingTurret.GatlingTurret'"));
 	GetMesh()->SetSkeletalMesh(mesh.Object);
-	GetMesh()->SetWorldScale3D(FVector(0.5f, 0.5f, 0.5f));
-	GetMesh()->SetWorldLocation(FVector(0, -110, 0));
+	GetMesh()->SetWorldScale3D(FVector(5.f, 5.f, 5.f));
+	GetMesh()->SetWorldLocation(FVector(0, 0, -150));
 
 	GetCapsuleComponent()->SetCapsuleRadius(70);
 	GetCapsuleComponent()->SetCapsuleHalfHeight(150);
