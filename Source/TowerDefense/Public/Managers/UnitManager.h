@@ -7,6 +7,7 @@
 class AMonster;
 class ATower;
 class ALoot;
+class ATowerDefenseGameMode;
 
 struct SMonsterInfo
 {
@@ -92,5 +93,6 @@ protected:
 
 public:
 	AGenerator*				Generator;
+	ATowerDefenseGameMode*	GameMode;
 };
 

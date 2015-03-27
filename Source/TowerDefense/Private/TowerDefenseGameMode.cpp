@@ -28,6 +28,7 @@ ATowerDefenseGameMode::ATowerDefenseGameMode(const class FObjectInitializer& PCI
 
 	//Towers.Initialize(GetWorld());
 	//Monsters.Initialize(nullptr);
+	Units.GameMode = this;
 	Units.registerTower(SpawnActor<AGatling>(), ETower::Gatling, 100, 1.f, 1);
 	Units.registerMonster(SpawnActor<AExtender>(), EMonster::Extender, 100, 1.f, 1);
 	Units.registerMonster(SpawnActor<APredator>(), EMonster::Predator, 100, 5.f, 1);
@@ -61,4 +62,24 @@ void ATowerDefenseGameMode::PostInitializeComponents()
 	Generator->AddLock();
 	for (TActorIterator<ASpawnMonster> itr(GetWorld()); itr; ++itr)
 		Spawns.Add(*itr);
+}
+
+void ATowerDefenseGameMode::NotifyTowerUnderAttack()
+{
+
+}
+
+void ATowerDefenseGameMode::NotifyGeneratorUnderAttack()
+{
+
+}
+
+void ATowerDefenseGameMode::NotifyTowerDestroyed()
+{
+
+}
+
+void ATowerDefenseGameMode::NotifyGeneratorDestroyed()
+{
+
 }

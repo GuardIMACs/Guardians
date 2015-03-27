@@ -16,6 +16,12 @@ class ATowerDefenseGameMode : public AGameMode
 
 	void PostInitializeComponents() override;
 	
+	void NotifyMonsterKilled(uint32 resources);
+	void NotifyTowerUnderAttack();
+	void NotifyGeneratorUnderAttack();
+	void NotifyTowerDestroyed();
+	void NotifyGeneratorDestroyed();
+
 	CUnitManager Units;
 	AGenerator* Generator;
 	TArray<ASpawnMonster*> Spawns;
