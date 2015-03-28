@@ -60,6 +60,7 @@ ATowerDefenseCharacter::ATowerDefenseCharacter(const class FObjectInitializer& P
 	Weapon_IsFiring = false;
 	Weapon_IsAiming = false;
 	Weapon_WasFiring = false;
+	Resources = 400;
 	/*Weapon->SetOnlyOwnerSee(true);
 	Weapon->AttachSocketName = "ReaperSocket";
 	Weapon->AttachParent = Mesh1P;*/
@@ -179,12 +180,13 @@ void ATowerDefenseCharacter::SpawnTurret()
 		//DrawDebugLine(World, Start, End, FColor::Red, false, 10.f);
 		if (World->LineTraceSingle(outHit, Start, End, ECC_Visibility, params))
 		{
-			UE_LOG(LogTemp, Warning, TEXT("spawn tower"));
+			//UE_LOG(LogTemp, Warning, TEXT("spawn tower"));
 			auto* mode = World->GetAuthGameMode<ATowerDefenseGameMode>();
-			if (mode != nullptr)
+			if (mode != nullptr && Resources >= 100)
 			{
 				ATower* tower = mode->Units.instanciateTower(ETower::Gatling, World, outHit.ImpactPoint, FRotator::ZeroRotator);
-				UE_LOG(LogTemp, Warning, TEXT("%p"), tower);
+				//UE_LOG(LogTemp, Warning, TEXT("%p"), tower);
+				Resources -= 100;
 			}
 		}
 		// spawn the projectile at the muzzle
@@ -229,6 +231,11 @@ void ATowerDefenseCharacter::LookUpAtRate(float Rate)
 {
 	// calculate delta for this frame from the rate information
 	AddControllerPitchInput(Rate * BaseLookUpRate * GetWorld()->GetDeltaSeconds());
+}
+
+void ATowerDefenseCharacter::AddResources(uint32 resources)
+{
+	Resources += resources;
 }
 
 bool ATowerDefenseCharacter::IsTargeting() const
@@ -418,7 +425,7 @@ void ATowerDefenseCharacter::FireWeapon()
 		if (monster)
 		{
 			float damages = getRandomFloat(Weapon_MinDamages, Weapon_MaxDamages);
-			monster->CurrentLife -= damages*monster->Defense[static_cast<int>(EElement::Normal)];
+			monster->TakeDamages(damages, EElement::Normal);
 		}
 	}
 

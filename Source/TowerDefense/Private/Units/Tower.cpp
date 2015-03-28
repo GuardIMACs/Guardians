@@ -15,3 +15,11 @@ void ATower::OnDestroy()
 	mode->Units.removeTower(this);
 	UE_LOG(LogTemp, Warning, TEXT("%s died"), *Name);
 }
+
+void ATower::TakeDamages(float damages, EElement element)
+{
+	ABaseUnit::TakeDamages(damages, element);
+	auto* mode = GetWorld()->GetAuthGameMode<ATowerDefenseGameMode>();
+	if (mode)
+		mode->NotifyTowerUnderAttack();
+}

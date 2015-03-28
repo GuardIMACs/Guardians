@@ -53,3 +53,8 @@ void ABaseUnit::SetSpeed(float speed)
 {
 	GetCharacterMovement()->MaxWalkSpeed = speed;
 }
+
+void ABaseUnit::TakeDamages(float damages, EElement element)
+{
+	CurrentLife -= damages*Defense[static_cast<int>(element)];
+}

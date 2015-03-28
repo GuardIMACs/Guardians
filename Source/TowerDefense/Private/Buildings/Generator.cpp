@@ -1,6 +1,6 @@
 #include "TowerDefense.h"
-#include "Generator.h"
-
+#include "Buildings/Generator.h"
+#include "TowerDefenseGameMode.h"
 
 AGenerator::AGenerator(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
@@ -15,4 +15,19 @@ AGenerator::AGenerator(const class FObjectInitializer& PCIP)
 	CapsuleComponent->SetCapsuleRadius(65);
 	CapsuleComponent->SetCapsuleHalfHeight(70);
 	CapsuleComponent->SetWorldScale3D(FVector(5, 5, 5));*/
+}
+
+void AGenerator::OnDestroy()
+{
+	auto* mode = GetWorld()->GetAuthGameMode<ATowerDefenseGameMode>();
+	if (mode)
+		mode->NotifyGeneratorDestroyed();
+}
+
+void AGenerator::TakeDamages(float damages, EElement element)
+{
+	ABaseUnit::TakeDamages(damages, element);
+	auto* mode = GetWorld()->GetAuthGameMode<ATowerDefenseGameMode>();
+	if (mode)
+		mode->NotifyGeneratorUnderAttack();
 }
