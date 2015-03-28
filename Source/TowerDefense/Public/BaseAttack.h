@@ -14,7 +14,7 @@ class ATowerDefenseGameMode;
 class TOWERDEFENSE_API BaseAttack
 {
 public:
-	BaseAttack(ABaseUnit* parent, ATowerDefenseGameMode* gameMode) : Parent(parent), Target(0), GameMode(gameMode) {}
+	BaseAttack(ABaseUnit* parent, ATowerDefenseGameMode* gameMode) : Parent(parent), Target(0), GameMode(gameMode), Sound(nullptr) {}
 
 	virtual ~BaseAttack();
 
@@ -66,4 +66,6 @@ public:
 	virtual bool IsTargetInRange();
 
 	ATowerDefenseGameMode* GameMode;
+
+	USoundCue* Sound;
 };

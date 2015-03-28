@@ -5,6 +5,7 @@
 #include "Units/Gatling.h"
 #include "Behaviors/StaticBehavior.h"
 #include "Effects/StandardEffect.h"
+#include "Sound/SoundCue.h"
 #include "TowerDefenseGameMode.h"
 
 
@@ -22,6 +23,7 @@ public:
 		MinDamages = 10;
 		MaxDamages = 20;
 		EffectsApply.Add(TSharedPtr<BaseEffect>(new StandardEffect(EElement::Normal)));
+		Sound = parent->AtkSound;
 	}
 
 	void SearchTarget()
@@ -54,6 +56,9 @@ AGatling::AGatling(const class FObjectInitializer& PCIP)
 	MaxLife = 100;
 	CurrentLife = MaxLife;
 	Behavior = TSharedPtr<UnitBehavior>(new StaticBehavior());
+	static ConstructorHelpers::FObjectFinder<USoundCue> sound(TEXT("SoundCue'/Game/Audio/Tourelles/shoot-laserblast_Cue.shoot-laserblast_Cue'"));
+	if (sound.Object)
+		AtkSound = sound.Object;
 
 	if (GetWorld())
 	{

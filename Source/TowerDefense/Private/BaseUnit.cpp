@@ -6,12 +6,14 @@
 uint32 ABaseUnit::UnitStaticID = 1;
 
 ABaseUnit::ABaseUnit(const class FObjectInitializer& PCIP)
-	: Super(PCIP), Type(EUnitType::Neutral), Locks(0), UnitID(UnitStaticID++)
+	: Super(PCIP), Type(EUnitType::Neutral), Locks(0), UnitID(UnitStaticID++), AtkSound(nullptr), DeathSound(nullptr)
 {
 	uint8 max = static_cast<uint8>(EElement::Max);
 	Defense.Reserve(max);
 	for (int i = 0; i < max; ++i)
 		Defense.Add(0.5f);
+
+	AudioComponent = PCIP.CreateDefaultSubobject<UAudioComponent>(this, FName("AudioComponent"));
 }
 
 void ABaseUnit::Tick(float DeltaSeconds)
@@ -20,6 +22,8 @@ void ABaseUnit::Tick(float DeltaSeconds)
 
 	if (CurrentLife <= 0)
 	{
+		if (DeathSound && AudioComponent)
+			UGameplayStatics::PlaySoundAttached(DeathSound, AudioComponent);
 		OnDestroy();
 		Destroy();
 		return;

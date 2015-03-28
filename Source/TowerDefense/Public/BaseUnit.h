@@ -6,6 +6,8 @@
 #include "Behaviors/UnitBehavior.h"
 #include "Defines.h"
 #include "BaseAttack.h"
+#include "Audio.h"
+#include "Sound/SoundCue.h"
 #include "BaseUnit.generated.h"
 
 /**
@@ -72,4 +74,9 @@ public:
 	void SetSpeed(float speed);
 
 	static uint32 UnitStaticID;
+
+	UAudioComponent* AudioComponent;
+
+	USoundCue* AtkSound;
+	USoundCue* DeathSound;
 };

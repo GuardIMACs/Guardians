@@ -60,6 +60,13 @@ AGlobalHawk::AGlobalHawk(const class FObjectInitializer& PCIP)
 	MaxLife = 100;
 	CurrentLife = MaxLife;
 	AIBehavior = MonsterAIBehavior::Run;
+	static ConstructorHelpers::FObjectFinder<USoundCue> sound(TEXT("SoundCue'/Game/Audio/Monstres/Hawk/attack-hawk_Cue.attack-hawk_Cue'"));
+	if (sound.Object)
+		AtkSound = sound.Object;
+	static ConstructorHelpers::FObjectFinder<USoundCue> sound2(TEXT("SoundCue'/Game/Audio/Monstres/Hawk/dead-hawk_Cue.dead-hawk_Cue'"));
+	if (sound2.Object)
+		DeathSound = sound2.Object;
+
 	Behavior = TSharedPtr<UnitBehavior>(new StaticBehavior());
 
 	if (GetWorld())

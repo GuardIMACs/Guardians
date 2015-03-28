@@ -5,6 +5,7 @@
 #include "BaseUnit.h"
 #include "TowerDefenseGameMode.h"
 #include "Effects/BaseEffect.h"
+#include "Sound/SoundCue.h"
 
 #include "DrawDebugHelpers.h"
 
@@ -41,6 +42,9 @@ void BaseAttack::Fire()
 
 	for (auto& e : EffectsApply)
 		e->OnHit(t, getRandomFloat(MinDamages, MaxDamages));
+
+	if (Sound && Parent->AudioComponent)
+		UGameplayStatics::PlaySoundAttached(Sound, Parent->AudioComponent);
 	//DrawDebugLine(Target->GetWorld(), Parent->GetActorLocation(), Target->GetActorLocation(), FColor::Blue, false, 1.f);
 }
 
