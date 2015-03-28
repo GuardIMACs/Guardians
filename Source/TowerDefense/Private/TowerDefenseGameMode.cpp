@@ -33,8 +33,8 @@ ATowerDefenseGameMode::ATowerDefenseGameMode(const class FObjectInitializer& PCI
 	Units.registerMonster(SpawnActor<AExtender>(), EMonster::Extender, 100, 1.f, 1, 10);
 	Units.registerMonster(SpawnActor<APredator>(), EMonster::Predator, 100, 5.f, 1, 25);
 	Units.registerMonster(SpawnActor<AGlobalHawk>(), EMonster::GlobalHawk, 100, 10.f, 1, 50);
-	Units.registerMonster(SpawnActor<ASentinel>(), EMonster::Sentinel, 100, 15.f, 1, 100);
-	Units.registerMonster(SpawnActor<ASurrogate>(), EMonster::Surrogate, 100, 30.f, 1, 500);
+	Units.registerMonster(SpawnActor<ASentinel>(), EMonster::Sentinel, 100, 15.f, 1, 75);
+	Units.registerMonster(SpawnActor<ASurrogate>(), EMonster::Surrogate, 100, 30.f, 1, 100);
 
 	Waves.SetWavesCount(1);
 	Waves.AddWaveElement(0, EMonster::Extender);
@@ -66,7 +66,7 @@ void ATowerDefenseGameMode::PostInitializeComponents()
 
 void ATowerDefenseGameMode::NotifyMonsterKilled(uint32 resources)
 {
-	auto* player = Cast<ATowerDefenseCharacter>(DefaultPawnClass);
+	auto* player = Cast<ATowerDefenseCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
 	if (player)
 	{
 		player->AddResources(resources);

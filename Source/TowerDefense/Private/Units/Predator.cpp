@@ -29,7 +29,6 @@ public:
 	void SearchTarget()
 	{
 		float minDist = RangeMax + 1.f;
-		Target = nullptr;
 		auto from = Parent->GetActorLocation();	from.Z = 0;
 
 		GameMode->Units.ForeachUnit([this, &minDist, from](ABaseUnit* m) {
@@ -44,7 +43,7 @@ public:
 			{
 				if (dist < minDist)
 				{
-					Target = m;
+					Target = m->UnitID;
 					minDist = dist;
 				}
 			}
@@ -56,10 +55,11 @@ APredator::APredator(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
 	Name = "Predator";
+	MonsterID = EMonster::Predator;
 	Type = EUnitType::Attacker;
 	MaxLife = 300;
 	CurrentLife = MaxLife;
-	AIBehavior = MonsterAIBehavior::Attack;
+	AIBehavior = MonsterAIBehavior::Run;
 	Behavior = TSharedPtr<UnitBehavior>(new StaticBehavior());
 
 	if (GetWorld())

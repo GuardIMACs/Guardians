@@ -83,7 +83,7 @@ void CUnitManager::removeMonster(AMonster* monster)
 {
 	Monsters.Remove(monster);
 	if (GameMode)
-		GameMode->NotifyMonsterKilled(100);
+		GameMode->NotifyMonsterKilled(getMonsterInfo(monster->MonsterID).Loot);
 }
 
 void CUnitManager::removeTower(ATower* tower)
@@ -96,4 +96,19 @@ void CUnitManager::removeTower(ATower* tower)
 const SMonsterInfo& CUnitManager::getMonsterInfo(EMonster monster) const
 {
 	return MonstersInfo[static_cast<uint8>(monster)];
+}
+
+ABaseUnit* CUnitManager::GetUnitById(uint32 id)
+{
+	for (auto it = Towers.CreateIterator(); it; ++it)
+		if ((*it)->UnitID == id)
+			return *it;
+	
+	for (auto it = Monsters.CreateIterator(); it; ++it)
+		if ((*it)->UnitID == id)
+			return *it;
+
+	if (Generator && Generator->UnitID == id)
+		return Generator;
+	return nullptr;
 }

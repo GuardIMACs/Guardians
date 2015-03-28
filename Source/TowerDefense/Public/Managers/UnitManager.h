@@ -82,6 +82,8 @@ public:
 			l(Generator);
 	}
 
+	ABaseUnit* GetUnitById(uint32 id);
+
 protected:
 	TArray<SMonsterInfo>	MonstersInfo;
 	TArray<AMonster*>		Monsters;

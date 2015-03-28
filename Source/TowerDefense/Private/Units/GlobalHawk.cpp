@@ -29,7 +29,6 @@ public:
 	void SearchTarget()
 	{
 		float minDist = RangeMax + 1.f;
-		Target = nullptr;
 		auto from = Parent->GetActorLocation();	from.Z = 0;
 
 		GameMode->Units.ForeachUnit([this, &minDist, from](ABaseUnit* m) {
@@ -44,7 +43,7 @@ public:
 			{
 				if (dist < minDist)
 				{
-					Target = m;
+					Target = m->UnitID;
 					minDist = dist;
 				}
 			}
@@ -56,6 +55,7 @@ AGlobalHawk::AGlobalHawk(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
 	Name = "GlobalHawk";
+	MonsterID = EMonster::GlobalHawk;
 	Type = EUnitType::Attacker;
 	MaxLife = 100;
 	CurrentLife = MaxLife;

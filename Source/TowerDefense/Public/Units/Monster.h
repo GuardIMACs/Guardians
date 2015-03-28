@@ -24,5 +24,7 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Behavior")
 	MonsterAIBehavior AIBehavior;
+
+	EMonster MonsterID;
 	
 };

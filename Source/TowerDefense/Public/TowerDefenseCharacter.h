@@ -81,6 +81,12 @@ class ATowerDefenseCharacter : public ACharacter
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = CharacterStat)
 	float P_shield; //generator
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = CharacterStat)
+		float P_towersAvailable; //generator
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = CharacterStat)
+		float P_resourcesAvailable; //generator
+
 	/** Min damages inflicted by the weapon */
 	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
 		float Weapon_MinDamages;

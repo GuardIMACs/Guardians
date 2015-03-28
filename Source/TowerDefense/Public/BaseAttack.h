@@ -14,9 +14,11 @@ class ATowerDefenseGameMode;
 class TOWERDEFENSE_API BaseAttack
 {
 public:
-	BaseAttack(ABaseUnit* parent, ATowerDefenseGameMode* gameMode) : Parent(parent), Target(nullptr), GameMode(gameMode) {}
+	BaseAttack(ABaseUnit* parent, ATowerDefenseGameMode* gameMode) : Parent(parent), Target(0), GameMode(gameMode) {}
 
-	virtual ~BaseAttack() {};
+	virtual ~BaseAttack();
+
+	ABaseUnit* GetTargetPtr();
 
 	/** Name of the attack */
 	FString Name;
@@ -46,7 +48,7 @@ public:
 	ABaseUnit* Parent;
 
 	/** Primary target */
-	ABaseUnit* Target;
+	uint32 Target;
 
 	/** Effects applieds to the target */
 	TArray<TSharedPtr<BaseEffect>> EffectsApply;

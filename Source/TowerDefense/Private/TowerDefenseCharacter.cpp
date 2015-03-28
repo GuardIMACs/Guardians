@@ -27,6 +27,8 @@ ATowerDefenseCharacter::ATowerDefenseCharacter(const class FObjectInitializer& P
 
 	P_health = 1.f; 
 	P_shield = 1.f;
+	P_towersAvailable = 0;
+	P_resourcesAvailable = 0;
 	Is_Tower = false; 
 	Is_Monster = false; 
 	ViewedObject = ""; 
@@ -268,6 +270,9 @@ void ATowerDefenseCharacter::Tick(float DeltaSeconds)
 
 		P_shield = current / max; 
 	}
+
+	P_towersAvailable = Resources / 100 / 10.f;
+	P_resourcesAvailable = Resources % 100 / 100.f;
 
 	if (Controller && Controller->IsLocalPlayerController()) // we check the controller becouse we dont want bots to grab the use object and we need a controller for the Getplayerviewpoint function
 	{

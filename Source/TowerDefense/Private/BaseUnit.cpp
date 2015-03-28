@@ -3,9 +3,10 @@
 #include "TowerDefense.h"
 #include "BaseUnit.h"
 
+uint32 ABaseUnit::UnitStaticID = 1;
 
 ABaseUnit::ABaseUnit(const class FObjectInitializer& PCIP)
-	: Super(PCIP), Type(EUnitType::Neutral), Locks(0)
+	: Super(PCIP), Type(EUnitType::Neutral), Locks(0), UnitID(UnitStaticID++)
 {
 	uint8 max = static_cast<uint8>(EElement::Max);
 	Defense.Reserve(max);
@@ -19,10 +20,6 @@ void ABaseUnit::Tick(float DeltaSeconds)
 
 	if (CurrentLife <= 0)
 	{
-		// Some units still references this unit
-		if (Locks > 0)
-			return;
-
 		OnDestroy();
 		Destroy();
 		return;
@@ -32,16 +29,6 @@ void ABaseUnit::Tick(float DeltaSeconds)
 		Behavior->Tick(this, DeltaSeconds);
 	for (auto& atk : Attack)
 		atk->Tick(DeltaSeconds);
-}
-
-void ABaseUnit::AddLock()
-{
-	Locks++;
-}
-
-void ABaseUnit::RemoveLock()
-{
-	Locks--;
 }
 
 bool ABaseUnit::IsAlive()
