@@ -67,3 +67,7 @@ void ASpawnMonster::Tick( float DeltaTime )
 	}
 }
 
+bool ASpawnMonster::IsSpawning()
+{
+	return NextMonster != EMonster::Max;
+}

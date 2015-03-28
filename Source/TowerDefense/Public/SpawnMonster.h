@@ -23,6 +23,7 @@ public:
 	// Called every frame
 	virtual void Tick( float DeltaSeconds ) override;
 
+	bool IsSpawning();
 private:
 	float SpawnTime; 
 

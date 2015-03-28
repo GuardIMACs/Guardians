@@ -8,6 +8,7 @@
 #include "TowerDefenseGameMode.h"
 #include "Units/Tower.h"
 #include "Units/Extender.h"
+#include "Sound/SoundCue.h"
 #include "Defines.h"
 #include "DrawDebugHelpers.h"
 #include "FX/ImpactEffect.h"
@@ -16,7 +17,7 @@
 // ATowerDefenseCharacter
 
 ATowerDefenseCharacter::ATowerDefenseCharacter(const class FObjectInitializer& PCIP)
-	: Super(PCIP)
+	: Super(PCIP), NextWaveSound(nullptr)
 {
 	// Set size for collision capsule
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
@@ -63,7 +64,21 @@ ATowerDefenseCharacter::ATowerDefenseCharacter(const class FObjectInitializer& P
 	Weapon_IsFiring = false;
 	Weapon_IsAiming = false;
 	Weapon_WasFiring = false;
+	Wave_Ended = true;
 	Resources = 400;
+
+	AudioComponent = PCIP.CreateDefaultSubobject<UAudioComponent>(this, FName("AudioComponent"));
+	{
+		static ConstructorHelpers::FObjectFinder<USoundCue> sound(TEXT("SoundCue'/Game/Audio/Alerte/begin-wave_Cue.begin-wave_Cue'"));
+		if (sound.Object)
+			NextWaveSound = sound.Object;
+	}
+	{
+		static ConstructorHelpers::FObjectFinder<USoundCue> sound(TEXT("SoundCue'/Game/Audio/Alerte/gameover_Cue.gameover_Cue'"));
+		if (sound.Object)
+			GameOverSound = sound.Object;
+	}
+	
 	/*Weapon->SetOnlyOwnerSee(true);
 	Weapon->AttachSocketName = "ReaperSocket";
 	Weapon->AttachParent = Mesh1P;*/
@@ -189,7 +204,8 @@ void ATowerDefenseCharacter::SpawnTurret()
 			{
 				ATower* tower = mode->Units.instanciateTower(ETower::Gatling, World, outHit.ImpactPoint, FRotator::ZeroRotator);
 				//UE_LOG(LogTemp, Warning, TEXT("%p"), tower);
-				Resources -= 100;
+				if(tower)
+					Resources -= 100;
 			}
 		}
 		// spawn the projectile at the muzzle
@@ -275,6 +291,15 @@ void ATowerDefenseCharacter::Tick(float DeltaSeconds)
 		last_wave = mode->Waves.isEmpty(); 
 		noMonster = mode->Units.isMonsterEmpty(); 
 
+		if (generator_destoyed && GameOverSound && AudioComponent)
+			UGameplayStatics::PlaySoundAttached(GameOverSound, AudioComponent);
+
+		if (Wave_Ended) {
+			if (AudioComponent)
+				UGameplayStatics::PlaySoundAttached(NextWaveSound, AudioComponent);
+			mode->Waves.NextWave();
+			Wave_Ended = false;
+		}
 	}
 
 	P_towersAvailable = Resources / 100 / 10.f;
@@ -297,6 +322,11 @@ void ATowerDefenseCharacter::Tick(float DeltaSeconds)
 			Weapon_WasFiring = false;
 		}
 	}
+}
+
+void ATowerDefenseCharacter::EndWave()
+{
+	Wave_Ended = true;
 }
 
 USkeletalMeshComponent* ATowerDefenseCharacter::GetWeaponMesh() const

@@ -126,6 +126,13 @@ class ATowerDefenseCharacter : public ACharacter
 
 	void AddResources(uint32 resources);
 
+	UAudioComponent* AudioComponent;
+
+	USoundCue* NextWaveSound;
+	USoundCue* GameOverSound;
+	void EndWave();
+	bool Wave_Ended;
+
 protected:
 	/** name of bone/socket for muzzle in weapon mesh */
 	UPROPERTY(EditDefaultsOnly, Category = Effects)

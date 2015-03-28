@@ -13,6 +13,9 @@ public:
 	EMonster NextMonster();
 	bool isEmpty(); 
 
+	void NextWave();
+	bool HasNextMonster();
+
 protected:
 	TArray<TArray<EMonster>> waves;
 };

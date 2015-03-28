@@ -23,6 +23,13 @@ bool CMonsterWaves::isEmpty() {
 	return (waves.Num() == 0); 
 }
 
+bool CMonsterWaves::HasNextMonster() {
+	if (waves.Num() == 0)
+		return false;
+
+	return waves[0].Num() > 0;
+}
+
 void CMonsterWaves::AddWaveElement(uint8 wave, EMonster monster)
 {
 	waves[wave].Add(monster);
@@ -37,7 +44,14 @@ EMonster CMonsterWaves::NextMonster()
 			waves[0].RemoveAt(0);
 			return next;
 		}
-		waves.RemoveAt(0);
 	}
 	return EMonster::Max;
+}
+
+void CMonsterWaves::NextWave()
+{
+	if (waves.Num() > 0)
+		waves.RemoveAt(0);
+
+	UE_LOG(LogTemp, Warning, TEXT("NEXT WAVE"));
 }

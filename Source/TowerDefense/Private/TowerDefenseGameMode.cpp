@@ -35,21 +35,69 @@ ATowerDefenseGameMode::ATowerDefenseGameMode(const class FObjectInitializer& PCI
 	Units.registerMonster(SpawnActor<AExtender>(), EMonster::Extender, 100, 1.f, 1, 10);
 	Units.registerMonster(SpawnActor<APredator>(), EMonster::Predator, 100, 5.f, 1, 25);
 	Units.registerMonster(SpawnActor<AGlobalHawk>(), EMonster::GlobalHawk, 100, 10.f, 1, 50);
-	Units.registerMonster(SpawnActor<ASentinel>(), EMonster::Sentinel, 100, 15.f, 1, 75);
-	Units.registerMonster(SpawnActor<ASurrogate>(), EMonster::Surrogate, 100, 30.f, 1, 100);
+	Units.registerMonster(SpawnActor<ASentinel>(), EMonster::Sentinel, 100, 10.f, 1, 75);
+	Units.registerMonster(SpawnActor<ASurrogate>(), EMonster::Surrogate, 100, 10.f, 1, 100);
 
-	Waves.SetWavesCount(1);
-	Waves.AddWaveElement(0, EMonster::Extender);
-	Waves.AddWaveElement(0, EMonster::Extender);
-	Waves.AddWaveElement(0, EMonster::Extender);
-	Waves.AddWaveElement(0, EMonster::Extender);
-	Waves.AddWaveElement(0, EMonster::Extender);
-	Waves.AddWaveElement(0, EMonster::Predator);
-	Waves.AddWaveElement(0, EMonster::Extender);
-	Waves.AddWaveElement(0, EMonster::Predator);
-	Waves.AddWaveElement(0, EMonster::Extender);
-	Waves.AddWaveElement(0, EMonster::Predator);
-	Waves.AddWaveElement(0, EMonster::Predator);
+	Waves.SetWavesCount(6);
+	Waves.AddWaveElement(1, EMonster::Extender);
+	Waves.AddWaveElement(1, EMonster::Extender);
+	Waves.AddWaveElement(1, EMonster::Extender);
+	Waves.AddWaveElement(1, EMonster::Extender);
+	Waves.AddWaveElement(1, EMonster::Extender);
+	Waves.AddWaveElement(1, EMonster::Predator);
+	Waves.AddWaveElement(1, EMonster::Extender);
+	Waves.AddWaveElement(1, EMonster::Predator);
+	Waves.AddWaveElement(1, EMonster::Extender);
+	Waves.AddWaveElement(1, EMonster::Predator);
+	Waves.AddWaveElement(1, EMonster::Predator);
+
+	Waves.AddWaveElement(2, EMonster::Extender);
+	Waves.AddWaveElement(2, EMonster::Extender);
+	Waves.AddWaveElement(2, EMonster::Extender);
+	Waves.AddWaveElement(2, EMonster::Predator);
+	Waves.AddWaveElement(2, EMonster::Predator);
+	Waves.AddWaveElement(2, EMonster::GlobalHawk);
+	Waves.AddWaveElement(2, EMonster::Extender);
+	Waves.AddWaveElement(2, EMonster::Predator);
+	Waves.AddWaveElement(2, EMonster::Extender);
+	Waves.AddWaveElement(2, EMonster::GlobalHawk);
+	Waves.AddWaveElement(2, EMonster::Predator);
+
+	Waves.AddWaveElement(3, EMonster::Extender);
+	Waves.AddWaveElement(3, EMonster::Extender);
+	Waves.AddWaveElement(3, EMonster::Extender);
+	Waves.AddWaveElement(3, EMonster::Extender);
+	Waves.AddWaveElement(3, EMonster::Extender);
+	Waves.AddWaveElement(3, EMonster::GlobalHawk);
+	Waves.AddWaveElement(3, EMonster::Extender);
+	Waves.AddWaveElement(3, EMonster::GlobalHawk);
+	Waves.AddWaveElement(3, EMonster::Extender);
+	Waves.AddWaveElement(3, EMonster::Predator);
+	Waves.AddWaveElement(3, EMonster::Sentinel);
+
+	Waves.AddWaveElement(4, EMonster::Extender);
+	Waves.AddWaveElement(4, EMonster::Extender);
+	Waves.AddWaveElement(4, EMonster::Extender);
+	Waves.AddWaveElement(4, EMonster::Extender);
+	Waves.AddWaveElement(4, EMonster::GlobalHawk);
+	Waves.AddWaveElement(4, EMonster::Predator);
+	Waves.AddWaveElement(4, EMonster::GlobalHawk);
+	Waves.AddWaveElement(4, EMonster::Sentinel);
+	Waves.AddWaveElement(4, EMonster::Sentinel);
+	Waves.AddWaveElement(4, EMonster::Sentinel);
+	Waves.AddWaveElement(4, EMonster::Sentinel);
+
+	Waves.AddWaveElement(5, EMonster::Extender);
+	Waves.AddWaveElement(5, EMonster::Extender);
+	Waves.AddWaveElement(5, EMonster::Predator);
+	Waves.AddWaveElement(5, EMonster::GlobalHawk);
+	Waves.AddWaveElement(5, EMonster::GlobalHawk);
+	Waves.AddWaveElement(5, EMonster::Sentinel);
+	Waves.AddWaveElement(5, EMonster::Sentinel);
+	Waves.AddWaveElement(5, EMonster::Sentinel);
+	Waves.AddWaveElement(5, EMonster::Sentinel);
+	Waves.AddWaveElement(5, EMonster::Surrogate);
+	Waves.AddWaveElement(5, EMonster::Surrogate);
 
 }
 void ATowerDefenseGameMode::PostInitializeComponents()
@@ -72,6 +120,16 @@ void ATowerDefenseGameMode::NotifyMonsterKilled(uint32 resources)
 	if (player)
 	{
 		player->AddResources(resources);
+		bool spawning = false;
+		for (auto it = Spawns.CreateIterator(); it; ++it)
+			if ((*it)->IsSpawning())
+				spawning = true;
+
+		UE_LOG(LogTemp, Warning, TEXT("Alive: %d"), Units.getMonstersAlive().Num());
+		if (Units.getMonstersAlive().Num() == 0 && !Waves.HasNextMonster() && !spawning)
+		{
+			player->EndWave();
+		}
 	}
 }
 
