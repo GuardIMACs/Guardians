@@ -81,6 +81,10 @@ class ATowerDefenseCharacter : public ACharacter
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = CharacterStat)
 	float P_shield; //generator
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = CharacterStat)
+	bool generator_destoyed; //generator destroyed
+
+
 	/** Min damages inflicted by the weapon */
 	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
 		float Weapon_MinDamages;
