@@ -82,7 +82,11 @@ public:
 			l(Generator);
 	}
 
+
+	bool isMonsterEmpty() { return (Monsters.Num() == 0); }
+
 	ABaseUnit* GetUnitById(uint32 id);
+
 
 protected:
 	TArray<SMonsterInfo>	MonstersInfo;

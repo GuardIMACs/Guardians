@@ -19,6 +19,10 @@ void CMonsterWaves::SetWavesCount(uint8 count)
 		waves.Add(TArray<EMonster>());
 }
 
+bool CMonsterWaves::isEmpty() {
+	return (waves.Num() == 0); 
+}
+
 void CMonsterWaves::AddWaveElement(uint8 wave, EMonster monster)
 {
 	waves[wave].Add(monster);

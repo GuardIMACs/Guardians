@@ -32,6 +32,7 @@ ATowerDefenseCharacter::ATowerDefenseCharacter(const class FObjectInitializer& P
 	Is_Tower = false; 
 	Is_Monster = false; 
 	generator_destoyed = false;
+	last_wave = false; 
 	ViewedObject = ""; 
 
 	// Create a CameraComponent	
@@ -271,6 +272,9 @@ void ATowerDefenseCharacter::Tick(float DeltaSeconds)
 		
 		P_shield = current / max; 
 		generator_destoyed = mode->defeat; 
+		last_wave = mode->Waves.isEmpty(); 
+		noMonster = mode->Units.isMonsterEmpty(); 
+
 	}
 
 	P_towersAvailable = Resources / 100 / 10.f;
