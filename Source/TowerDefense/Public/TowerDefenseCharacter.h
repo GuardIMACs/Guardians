@@ -84,6 +84,12 @@ class ATowerDefenseCharacter : public ACharacter
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = CharacterStat)
 	bool generator_destoyed; //generator destroyed
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = CharacterStat)
+	bool last_wave; //last wave
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = CharacterStat)
+		bool noMonster; //last wave
+
 
 	/** Min damages inflicted by the weapon */
 	UPROPERTY(EditDefaultsOnly, Category = "Weapon")

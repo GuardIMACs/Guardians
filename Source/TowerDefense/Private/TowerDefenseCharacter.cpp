@@ -30,6 +30,7 @@ ATowerDefenseCharacter::ATowerDefenseCharacter(const class FObjectInitializer& P
 	Is_Tower = false; 
 	Is_Monster = false; 
 	generator_destoyed = false;
+	last_wave = false; 
 	ViewedObject = ""; 
 
 	// Create a CameraComponent	
@@ -269,6 +270,9 @@ void ATowerDefenseCharacter::Tick(float DeltaSeconds)
 		
 		P_shield = current / max; 
 		generator_destoyed = mode->defeat; 
+		last_wave = mode->Waves.isEmpty(); 
+		noMonster = mode->Units.isMonsterEmpty(); 
+
 	}
 
 	if (Controller && Controller->IsLocalPlayerController()) // we check the controller becouse we dont want bots to grab the use object and we need a controller for the Getplayerviewpoint function

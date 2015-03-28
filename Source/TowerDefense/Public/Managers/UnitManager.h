@@ -82,6 +82,8 @@ public:
 			l(Generator);
 	}
 
+	bool isMonsterEmpty() { return (Monsters.Num() == 0); }
+
 protected:
 	TArray<SMonsterInfo>	MonstersInfo;
 	TArray<AMonster*>		Monsters;
