@@ -105,6 +105,11 @@ class ATowerDefenseCharacter : public ACharacter
 	UPROPERTY(EditDefaultsOnly, Category = Effects)
 	TSubclassOf<class AImpactEffect> ImpactTemplate;
 
+	UPROPERTY(EditDefaultsOnly, Category = Gameplay)
+	uint32 Resources;
+
+	void AddResources(uint32 resources);
+
 protected:
 	/** name of bone/socket for muzzle in weapon mesh */
 	UPROPERTY(EditDefaultsOnly, Category = Effects)

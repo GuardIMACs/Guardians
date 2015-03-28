@@ -65,5 +65,7 @@ public:
 	virtual void RemoveLock();
 	virtual bool IsAlive();
 
+	virtual void TakeDamages(float damages, EElement element);
+
 	void SetSpeed(float speed);
 };

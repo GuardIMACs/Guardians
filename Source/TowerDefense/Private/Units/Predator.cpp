@@ -18,7 +18,7 @@ public:
 		Name = "Leap attack";
 		Description = "Jumps on the closest target";
 		RangeMin = 0.f;
-		RangeMax = 120.f;
+		RangeMax = 200.f;
 		Cooldown = 0.5;
 		CurrentCooldown = 0.f;
 		MinDamages = 5;
@@ -59,7 +59,7 @@ APredator::APredator(const class FObjectInitializer& PCIP)
 	Type = EUnitType::Attacker;
 	MaxLife = 300;
 	CurrentLife = MaxLife;
-	AIBehavior = MonsterAIBehavior::Run;
+	AIBehavior = MonsterAIBehavior::Attack;
 	Behavior = TSharedPtr<UnitBehavior>(new StaticBehavior());
 
 	if (GetWorld())

@@ -2,13 +2,14 @@
 #include "UnitManager.h"
 #include "Units/Tower.h"
 #include "Units/Monster.h"
+#include "TowerDefenseGameMode.h"
 
 
 CUnitManager::CUnitManager()
 {
 	uint8 max = static_cast<uint8>(EMonster::Max);
 	for (uint8 i = 0; i < max; ++i)
-		MonstersInfo.Add({nullptr, -1,-1,-1});
+		MonstersInfo.Add({nullptr, -1,-1,-1, 0});
 
 	max = static_cast<uint8>(ETower::Max);
 	for (uint8 i = 0; i < max; ++i)
@@ -20,11 +21,11 @@ CUnitManager::~CUnitManager()
 {
 }
 
-void CUnitManager::registerMonster(AMonster* monster, EMonster monsterId, int32 cost, float buildTime, int32 weight)
+void CUnitManager::registerMonster(AMonster* monster, EMonster monsterId, int32 cost, float buildTime, int32 weight, uint32 loot)
 {
 	if (!monster)
 		UE_LOG(LogTemp, Warning, TEXT("Nullptr added"));
-	MonstersInfo[static_cast<uint8>(monsterId)] = SMonsterInfo(monster, cost, buildTime, weight);
+	MonstersInfo[static_cast<uint8>(monsterId)] = SMonsterInfo(monster, cost, buildTime, weight, loot);
 }
 
 void CUnitManager::registerTower(ATower* tower, ETower towerId, int32 cost, float buildTime, int32 weight)
@@ -81,11 +82,15 @@ TArray<ATower*>& CUnitManager::getTowersAlive()
 void CUnitManager::removeMonster(AMonster* monster)
 {
 	Monsters.Remove(monster);
+	if (GameMode)
+		GameMode->NotifyMonsterKilled(100);
 }
 
 void CUnitManager::removeTower(ATower* tower)
 {
 	Towers.Remove(tower);
+	if (GameMode)
+		GameMode->NotifyTowerDestroyed();
 }
 
 const SMonsterInfo& CUnitManager::getMonsterInfo(EMonster monster) const

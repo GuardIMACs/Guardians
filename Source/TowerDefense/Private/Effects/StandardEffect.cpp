@@ -17,8 +17,8 @@ StandardEffect* StandardEffect::Clone()
 
 void StandardEffect::OnHit(ABaseUnit* target, float damages)
 {
-	target->CurrentLife -= damages*target->Defense[static_cast<int>(Element)];
-	UE_LOG(LogTemp, Warning, TEXT("life: %d"), target->CurrentLife);
+	target->TakeDamages(damages, Element);
+//	UE_LOG(LogTemp, Warning, TEXT("life: %d"), target->CurrentLife);
 }
 
 void StandardEffect::Tick(float elapsed)

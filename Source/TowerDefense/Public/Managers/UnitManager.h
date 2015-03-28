@@ -11,13 +11,14 @@ class ATowerDefenseGameMode;
 
 struct SMonsterInfo
 {
-	SMonsterInfo(AMonster* u, int32 c, float t, int32 w) : Monster(u), Cost(c), BuildTime(t), Weight(w) {}
-	SMonsterInfo(const SMonsterInfo& other) : SMonsterInfo(other.Monster, other.Cost, other.BuildTime, other.Weight) {}
+	SMonsterInfo(AMonster* u, int32 c, float t, int32 w, uint32 l) : Monster(u), Cost(c), BuildTime(t), Weight(w), Loot(l) {}
+	SMonsterInfo(const SMonsterInfo& other) : SMonsterInfo(other.Monster, other.Cost, other.BuildTime, other.Weight, other.Loot) {}
 
 	AMonster* Monster;	/** Monster to clone */
 	int32 Cost;			/** Monster build cost */
 	float BuildTime;	/** Monster build time, in seconds */
 	int32 Weight;		/** Monster map cost */
+	uint32 Loot;		/** Monster drop */
 };
 
 struct STowerInfo
@@ -46,7 +47,7 @@ public:
 	CUnitManager();
 	~CUnitManager();
 
-	void registerMonster(AMonster* monster, EMonster monsterId, int32 cost, float buildTime, int32 weight = 1);
+	void registerMonster(AMonster* monster, EMonster monsterId, int32 cost, float buildTime, int32 weight, uint32 loot);
 	void registerTower(ATower* tower, ETower towerId, int32 cost, float buildTime, int32 weight);
 	void registerLoot(ALoot* loot, EMonster monsterId, int32 probability);
 
