@@ -82,6 +82,12 @@ class ATowerDefenseCharacter : public ACharacter
 	float P_shield; //generator
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = CharacterStat)
+	float P_towersAvailable; //generator
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = CharacterStat)
+	float P_resourcesAvailable; //generator
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = CharacterStat)
 	bool generator_destoyed; //generator destroyed
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = CharacterStat)

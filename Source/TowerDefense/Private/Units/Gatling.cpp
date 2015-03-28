@@ -27,7 +27,6 @@ public:
 	void SearchTarget()
 	{
 		float minDist = RangeMax + 1.f;
-		Target = nullptr;
 		auto from = Parent->GetActorLocation();	from.Z = 0;
 
 		GameMode->Units.ForeachMonster([this, &minDist, from](AMonster* m) {
@@ -40,7 +39,7 @@ public:
 			{
 				if (dist < minDist)
 				{
-					Target = m;
+					Target = m->UnitID;
 					minDist = dist;
 				}
 			}

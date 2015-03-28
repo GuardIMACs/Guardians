@@ -27,6 +27,10 @@ public:
 
 	/** Name of the unit */
 	UPROPERTY(EditAnyWhere, BlueprintReadWrite, Category = "Unit Info")
+	uint32 UnitID;
+
+	/** Name of the unit */
+	UPROPERTY(EditAnyWhere, BlueprintReadWrite, Category = "Unit Info")
 		FString Name;
 
 	/** Attacker or defender */
@@ -61,11 +65,11 @@ public:
 
 	virtual ABaseUnit* Spawn(UWorld* world, const FVector& vec, const FRotator rot) { return nullptr; }
 
-	virtual void AddLock();
-	virtual void RemoveLock();
 	virtual bool IsAlive();
 
 	virtual void TakeDamages(float damages, EElement element);
 
 	void SetSpeed(float speed);
+
+	static uint32 UnitStaticID;
 };
