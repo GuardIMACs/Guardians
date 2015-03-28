@@ -26,6 +26,8 @@ ATowerDefenseGameMode::ATowerDefenseGameMode(const class FObjectInitializer& PCI
 	// use our custom HUD class
 	HUDClass = ATowerDefenseHUD::StaticClass();
 
+	defeat = false; 
+
 	//Towers.Initialize(GetWorld());
 	//Monsters.Initialize(nullptr);
 	Units.GameMode = this;
@@ -91,4 +93,5 @@ void ATowerDefenseGameMode::NotifyTowerDestroyed()
 void ATowerDefenseGameMode::NotifyGeneratorDestroyed()
 {
 	UE_LOG(LogTemp, Warning, TEXT("generator destroyed!"));
+	defeat = true; 
 }

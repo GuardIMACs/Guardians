@@ -266,9 +266,9 @@ void ATowerDefenseCharacter::Tick(float DeltaSeconds)
 
 		float current = mode->Generator->CurrentLife; 
 		float max = mode->Generator->MaxLife;
-		if (mode->NotifyGeneratorDestroyed()) generator_destoyed
-
+		
 		P_shield = current / max; 
+		generator_destoyed = mode->defeat; 
 	}
 
 	if (Controller && Controller->IsLocalPlayerController()) // we check the controller becouse we dont want bots to grab the use object and we need a controller for the Getplayerviewpoint function
