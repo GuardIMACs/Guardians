@@ -31,6 +31,7 @@ ATowerDefenseCharacter::ATowerDefenseCharacter(const class FObjectInitializer& P
 	P_resourcesAvailable = 0;
 	Is_Tower = false; 
 	Is_Monster = false; 
+	generator_destoyed = false;
 	ViewedObject = ""; 
 
 	// Create a CameraComponent	
@@ -267,8 +268,9 @@ void ATowerDefenseCharacter::Tick(float DeltaSeconds)
 
 		float current = mode->Generator->CurrentLife; 
 		float max = mode->Generator->MaxLife;
-
+		
 		P_shield = current / max; 
+		generator_destoyed = mode->defeat; 
 	}
 
 	P_towersAvailable = Resources / 100 / 10.f;

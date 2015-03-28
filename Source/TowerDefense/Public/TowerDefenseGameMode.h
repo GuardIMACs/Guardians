@@ -26,6 +26,7 @@ class ATowerDefenseGameMode : public AGameMode
 	AGenerator* Generator;
 	TArray<ASpawnMonster*> Spawns;
 	CMonsterWaves Waves;
+	bool defeat;
 	//TowerManager Towers;
 	//MonsterManager Monsters;
 };
